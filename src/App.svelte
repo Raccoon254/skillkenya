@@ -3,22 +3,22 @@
         {
             title: "Programming",
             description: "Master web development, mobile apps & software engineering",
-            icon: "fa-solid fa-code"
+            icon: "gvtjlyjf"
         },
         {
             title: "Graphic Design",
             description: "Learn digital design, branding & visual communication",
-            icon: "fa-solid fa-palette"
+            icon: "jestaxpl"
         },
         {
             title: "Digital Marketing",
             description: "Excel in social media, SEO & content marketing",
-            icon: "fa-solid fa-chart-line"
+            icon: "jdgfsfzr"
         },
         {
-            title: "Video Production",
-            description: "Create compelling videos & visual effects",
-            icon: "fa-solid fa-video"
+            title: "Animation",
+            description: "Create compelling visual effects & motion graphics",
+            icon: "oajcrtsi"
         }
     ];
 </script>
@@ -71,7 +71,14 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
                     {#each skills as skill}
                         <div class="bg-gray-800/50 backdrop-blur rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
-                            <i class="{skill.icon} text-4xl mb-4 text-blue-400"></i>
+                            <lord-icon
+                                    src="https://cdn.lordicon.com/{skill.icon}.json"
+                                    trigger="loop"
+                                    state="roll"
+                                    delay="1000"
+                                    colors="primary:#ffffff,secondary:#8930e8"
+                                    style="width:50px;height:50px">
+                            </lord-icon>
                             <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
                             <p class="text-gray-400">{skill.description}</p>
                         </div>
