@@ -162,28 +162,28 @@
                 <h3 class="text-2xl font-bold text-center mb-8">Connect With Us</h3>
                 <div class="flex justify-center gap-8">
                     <!-- TikTok -->
-                    <a href="YOUR_TIKTOK_LINK"
+                    <a href="https://www.tiktok.com/@raccoon.254" target="_blank"
                        class="text-gray-400 hover:text-white transition-colors"
                        aria-label="TikTok">
                         <i class="fa-brands fa-tiktok text-2xl"></i>
                     </a>
 
                     <!-- Instagram -->
-                    <a href="YOUR_INSTAGRAM_LINK"
+                    <a href="https://www.instagram.com/raccoon.254/" target="_blank"
                        class="text-gray-400 hover:text-white transition-colors"
                        aria-label="Instagram">
                         <i class="fa-brands fa-instagram text-2xl"></i>
                     </a>
 
                     <!-- WhatsApp -->
-                    <a href="YOUR_WHATSAPP_LINK"
+                    <a href="https://wa.me/254758481320" target="_blank"
                        class="text-gray-400 hover:text-white transition-colors"
                        aria-label="WhatsApp">
                         <i class="fa-brands fa-whatsapp text-2xl"></i>
                     </a>
 
                     <!-- Email -->
-                    <a href="mailto:YOUR_EMAIL"
+                    <a href="mailto:tomsteve187@gmail.com" target="_blank"
                        class="text-gray-400 hover:text-white transition-colors"
                        aria-label="Email">
                         <i class="fa-solid fa-envelope text-2xl"></i>
