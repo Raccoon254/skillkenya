@@ -25,12 +25,14 @@
 
 <main class="">
     <div class="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+        <div class="fade-down bg-gradient-to-b z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute top-40"></div>
+        
         <!-- Perspective Grid Background -->
         <div class="absolute inset-0 overflow-hidden grid-background">
             <svg class="absolute opacity-45 w-full h-full" viewBox="0 300 1000 500" preserveAspectRatio="xMidYMid slice">
                 <!-- Horizontal Lines -->
                 {#each Array(15) as _, i}
-                    {@const y = 300 + i * 50}
+                    {@const y = 500 + i * 50}
                     <path
                             d="M0 {y} L1000 {y}"
                             class="grid-line"
@@ -39,7 +41,7 @@
 
                 <!-- Converging Lines -->
                 {#each Array(20) as _, i}
-                    {@const x = -400 + i * 100}
+                    {@const x = -600 + i * 100}
                     <path
                             d="M{x} 1000 L500 0"
                             class="grid-line"
@@ -50,7 +52,7 @@
 
 
         <!-- Main Content -->
-        <div class="relative z-10">
+        <div class="relative z-20">
             <!-- Hero Section -->
             <div class="container mx-auto px-4 pt-32 pb-20">
                 <h1 class="text-5xl md:text-7xl font-bold mb-6 text-center">
@@ -59,9 +61,34 @@
                 <p class="text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto mb-12">
                     Your gateway to professional skills. Coming soon with comprehensive online courses.
                 </p>
+                
+                <div>
+                    <div class="avatar-group -space-x-6 rtl:space-x-reverse">
+                        <div class="avatar">
+                            <div class="w-12">
+                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                            </div>
+                        </div>
+                        <div class="avatar">
+                            <div class="w-12">
+                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                            </div>
+                        </div>
+                        <div class="avatar">
+                            <div class="w-12">
+                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                            </div>
+                        </div>
+                        <div class="avatar placeholder">
+                            <div class="bg-neutral text-neutral-content w-12">
+                                <span>+99</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Coming Soon Badge -->
-                <div class="flex justify-center mb-20">
+                <div class="flex justify-center mb-32">
                     <button class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-2 rounded-full font-semibold">
                         Coming Soon
                     </button>
@@ -70,7 +97,7 @@
                 <!-- Skills Grid -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
                     {#each skills as skill}
-                        <div class="bg-gray-800/50 backdrop-blur rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+                        <div class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
                             <lord-icon
                                     src="https://cdn.lordicon.com/{skill.icon}.json"
                                     trigger="loop"
@@ -87,16 +114,16 @@
             </div>
         </div>
       <!-- Scroll down button -->
-        <div class="absolute bottom-0 left-0 right-0 flex justify-center mb-8 z-50">
-            <a href="#newsletter" class="text-blue-500 hover:text-blue-400 transition-colors" aria-label="Scroll down">
-              <i class="fa-solid fa-chevron-down text-4xl"></i>
+        <div class="absolute -bottom-8 opacity-45 left-0 right-0 flex justify-center mb-8 z-50">
+            <a href="#newsletter" class="text-blue-500 grid place-items-center relative hover:text-blue-400 h-14 w-8 rounded-full border-2 transition-colors" aria-label="Scroll down">
+              <div class="dot w-2 h-2 bg-blue-500 rounded-full mb-1 bounce top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
             </a>
         </div>
-      
+        <div class="fade-up bg-gradient-to-t z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute bottom-0"></div>
     </div>
   
     <!-- Newsletter Section -->
-    <div class="container mx-auto px-4 py-20">
+    <div id="newsletter" class="container mx-auto px-4 py-20">
         <div class="max-w-xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
             <p class="text-gray-400 mb-8">
@@ -132,7 +159,7 @@
     }
 
     .grid-background {
-        transform: perspective(1000px) rotateX(60deg) scale(1.6);
+        transform: perspective(600px) rotateX(60deg) scale(1.6);
         transform-origin: center center;
     }
 </style>
