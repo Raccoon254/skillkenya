@@ -62,25 +62,20 @@
                     Your gateway to professional skills. Coming soon with comprehensive online courses.
                 </p>
                 
-                <div>
-                    <div class="avatar-group -space-x-6 rtl:space-x-reverse">
+                <div class="w-full grid place-items-center mb-8">
+                    <div class="avatar-group mx-auto -space-x-6 rtl:space-x-reverse">
                         <div class="avatar">
                             <div class="w-12">
-                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                <img class="p-2" src="/logo-light.png" alt="steve tom"/>
                             </div>
                         </div>
                         <div class="avatar">
                             <div class="w-12">
-                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                <img src="/ken.HEIC" alt="steve tom"/>
                             </div>
                         </div>
-                        <div class="avatar">
-                            <div class="w-12">
-                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                            </div>
-                        </div>
-                        <div class="avatar placeholder">
-                            <div class="bg-neutral text-neutral-content w-12">
+                        <div class="avatar bg-gray-900 placeholder">
+                            <div class="bg-gray-900 text-neutral-content w-12">
                                 <span>+99</span>
                             </div>
                         </div>
@@ -121,6 +116,14 @@
         </div>
         <div class="fade-up bg-gradient-to-t z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute bottom-0"></div>
     </div>
+
+    <section>
+<!--        Made by kentom use logo-light.png here -->
+    </section>
+
+    <section>
+<!--        media section with logos and links to social media tiktok, instagram, whatsapp, email only -->
+    </section>
   
     <!-- Newsletter Section -->
     <div id="newsletter" class="container mx-auto px-4 py-20">
