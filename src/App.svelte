@@ -62,7 +62,7 @@
 
                 <!-- Coming Soon Badge -->
                 <div class="flex justify-center mb-20">
-                    <button class="bg-blue-500/20 text-blue-400 px-6 py-2 rounded-full font-semibold">
+                    <button class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-2 rounded-full font-semibold">
                         Coming Soon
                     </button>
                 </div>
