@@ -26,10 +26,11 @@
 <main class="">
     <div class="min-h-screen bg-gray-900 text-white relative overflow-hidden">
         <div class="fade-down bg-gradient-to-b z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute top-40"></div>
-        
+
         <!-- Perspective Grid Background -->
         <div class="absolute inset-0 overflow-hidden grid-background">
-            <svg class="absolute opacity-45 w-full h-full" viewBox="0 300 1000 500" preserveAspectRatio="xMidYMid slice">
+            <svg class="absolute opacity-45 w-full h-full" viewBox="0 300 1000 500"
+                 preserveAspectRatio="xMidYMid slice">
                 <!-- Horizontal Lines -->
                 {#each Array(15) as _, i}
                     {@const y = 500 + i * 50}
@@ -61,7 +62,7 @@
                 <p class="text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto mb-12">
                     Your gateway to professional skills. Coming soon with comprehensive online courses.
                 </p>
-                
+
                 <div class="w-full grid place-items-center mb-8">
                     <div class="avatar-group mx-auto -space-x-6 rtl:space-x-reverse">
                         <div class="avatar">
@@ -108,25 +109,32 @@
                 </div>
             </div>
         </div>
-      <!-- Scroll down button -->
+        <!-- Scroll down button -->
         <div class="absolute -bottom-8 opacity-45 left-0 right-0 flex justify-center mb-8 z-50">
-            <a href="#newsletter" class="text-blue-500 grid place-items-center relative hover:text-blue-400 h-14 w-8 rounded-full border-2 transition-colors" aria-label="Scroll down">
-              <div class="dot w-2 h-2 bg-blue-500 rounded-full mb-1 bounce top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+            <a href="#newsletter"
+               class="text-blue-500 grid place-items-center relative hover:text-blue-400 h-14 w-8 rounded-full border-2 transition-colors"
+               aria-label="Scroll down">
+                <div class="dot w-2 h-2 bg-blue-500 rounded-full mb-1 bounce top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
             </a>
         </div>
         <div class="fade-up bg-gradient-to-t z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute bottom-0"></div>
     </div>
+    
+    <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
+        <div class="container mx-auto px-4 flex items-center flex-col justify-center gap-4">
+            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span class="underline underline-offset-2">kenTom</span>&trade;</a> project
+            </div>
 
-    <section>
-<!--        Made by kentom use logo-light.png here -->
+            <a href="https://stevetom.vercel.app">
+                <div class="h-14 w-14 p-3 rounded-full ring-2 ring-offset-1 border-2">
+                    <img src="/logo-light.png" alt="KenTom logo" class=""/>
+                </div>
+            </a>
+        </div>
     </section>
-
-    <section>
-<!--        media section with logos and links to social media tiktok, instagram, whatsapp, email only -->
-    </section>
-  
+    
     <!-- Newsletter Section -->
-    <div id="newsletter" class="container mx-auto px-4 py-20">
+    <div id="newsletter" class="container mx-auto px-4 py-10">
         <div class="max-w-xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
             <p class="text-gray-400 mb-8">
@@ -147,6 +155,44 @@
             </form>
         </div>
     </div>
+
+    <section class="bg-gray-900 text-white py-16 relative">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto">
+                <h3 class="text-2xl font-bold text-center mb-8">Connect With Us</h3>
+                <div class="flex justify-center gap-8">
+                    <!-- TikTok -->
+                    <a href="YOUR_TIKTOK_LINK"
+                       class="text-gray-400 hover:text-white transition-colors"
+                       aria-label="TikTok">
+                        <i class="fa-brands fa-tiktok text-2xl"></i>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="YOUR_INSTAGRAM_LINK"
+                       class="text-gray-400 hover:text-white transition-colors"
+                       aria-label="Instagram">
+                        <i class="fa-brands fa-instagram text-2xl"></i>
+                    </a>
+
+                    <!-- WhatsApp -->
+                    <a href="YOUR_WHATSAPP_LINK"
+                       class="text-gray-400 hover:text-white transition-colors"
+                       aria-label="WhatsApp">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    </a>
+
+                    <!-- Email -->
+                    <a href="mailto:YOUR_EMAIL"
+                       class="text-gray-400 hover:text-white transition-colors"
+                       aria-label="Email">
+                        <i class="fa-solid fa-envelope text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
 </main>
 
 <style>
