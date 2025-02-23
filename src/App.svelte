@@ -91,22 +91,25 @@
                 </div>
 
                 <!-- Skills Grid -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
-                    {#each skills as skill}
-                        <div class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
-                            <lord-icon
-                                    src="https://cdn.lordicon.com/{skill.icon}.json"
-                                    trigger="loop"
-                                    state="roll"
-                                    delay="1000"
-                                    colors="primary:#ffffff,secondary:#8930e8"
-                                    style="width:50px;height:50px">
-                            </lord-icon>
-                            <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
-                            <p class="text-gray-400">{skill.description}</p>
-                        </div>
-                    {/each}
-                </div>
+                <section aria-label="Our Courses">
+                    <h2 class="sr-only">Our Courses</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
+                        {#each skills as skill}
+                            <div class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+                                <lord-icon
+                                        src="https://cdn.lordicon.com/{skill.icon}.json"
+                                        trigger="loop"
+                                        state="roll"
+                                        delay="1000"
+                                        colors="primary:#ffffff,secondary:#8930e8"
+                                        style="width:50px;height:50px">
+                                </lord-icon>
+                                <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
+                                <p class="text-gray-400">{skill.description}</p>
+                            </div>
+                        {/each}
+                    </div>
+                </section>
             </div>
         </div>
         <!-- Scroll down button -->
@@ -119,10 +122,11 @@
         </div>
         <div class="fade-up bg-gradient-to-t z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute bottom-0"></div>
     </div>
-    
+
     <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
         <div class="container mx-auto px-4 flex items-center flex-col justify-center gap-4">
-            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span class="underline underline-offset-2">kenTom</span>&trade;</a> project
+            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span
+                    class="underline underline-offset-2">kenTom</span>&trade;</a> project
             </div>
 
             <a href="https://stevetom.vercel.app">
@@ -132,11 +136,13 @@
             </a>
         </div>
     </section>
-    
+
     <!-- Newsletter Section -->
     <div id="newsletter" class="container mx-auto px-4 py-10">
         <div class="max-w-xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
+            <section aria-label="Newsletter">
+                <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
+            </section>
             <p class="text-gray-400 mb-8">
                 Be the first to know when we launch. Subscribe to our newsletter.
             </p>
@@ -192,7 +198,7 @@
             </div>
         </div>
     </section>
-    
+
 </main>
 
 <style>
