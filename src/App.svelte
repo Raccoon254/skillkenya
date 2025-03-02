@@ -319,7 +319,7 @@
     </div>
 
     <!-- Tech Stack Section -->
-    <div bind:this={featureSections[2]} class="bg-gray-950 py-20 opacity-0 translate-y-10 transition-all duration-700">
+    <div bind:this={featureSections[2]} class="bg-gray-900 py-20 opacity-0 translate-y-10 transition-all duration-700">
         <div class="container mx-auto bg-gray-900 px-4">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold mb-6 text-center">Our Technology Stack</h2>
