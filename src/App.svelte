@@ -3,9 +3,8 @@
     import CountdownTimer from "./components/CountdownTimer.svelte";
     import {onMount, onDestroy} from 'svelte';
 
-    // Calculate launch date (6 months from now)
-    const launchDate = new Date();
-    launchDate.setMonth(launchDate.getMonth() + 6);
+    // Calculate launch date
+    const launchDate = new Date(2025, 7, 1);
 
     // Course data
     const skills = [
