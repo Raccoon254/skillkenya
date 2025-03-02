@@ -66,7 +66,8 @@
         {name: "TailwindCSS", icon: "devicon-tailwindcss-original", color: "text-blue-400"},
         {name: "JavaScript", icon: "devicon-javascript-plain", color: "text-yellow-400"},
         {name: "Vite", icon: "devicon-vitejs-plain", color: "text-purple-400"},
-        {name: "Google Sheets API", icon: "devicon-googlecloud-plain", color: "text-green-400"}
+        {name: "Google Sheets API", icon: "devicon-googlecloud-plain", color: "text-green-400"},
+        {name: "Node.js", icon: "devicon-nodejs-line", color: "text-green-400"},
     ];
 
     // Beta testers data
@@ -328,7 +329,7 @@
                     learning experience.
                 </p>
 
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12">
+                <div class="grid grid-cols-2 md:grid-cols-6 gap-6 mb-12">
                     {#each techStack as tech}
                         <div class="flex flex-col items-center text-center p-4 transition-all duration-300 transform hover:scale-105">
                             <i class="{tech.icon} text-4xl mb-3 {tech.color}"></i>
