@@ -3,6 +3,7 @@
     import CountdownTimer from "./components/CountdownTimer.svelte";
     import {onMount, onDestroy} from 'svelte';
     import BetaProgram from "./components/BetaProgram.svelte";
+    import FAQ from './components/FAQ.svelte';
 
     // Calculate launch date
     const launchDate = new Date(2025, 7, 1);
@@ -371,7 +372,7 @@
     </div>
 
     <!-- Newsletter Section -->
-    <div id="newsletter" class="container mx-auto px-4 py-10">
+    <div id="newsletter" class="container mx-auto px-4 my-44 py-10">
         <div class="max-w-xl mx-auto text-center">
             <section aria-label="Newsletter">
                 <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
@@ -385,41 +386,8 @@
     </div>
 
     <!-- FAQ Section -->
-    <div bind:this={featureSections[3]}
-         class="container mx-auto px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
-
-            <div class="space-y-6">
-                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
-                    <h3 class="font-bold text-xl mb-2">How much will courses cost?</h3>
-                    <p class="text-gray-300">Our courses will be priced affordably to make quality education accessible.
-                        Free introductory courses will be available in each category, with premium courses ranging from
-                        KSh 5,000 to KSh 15,000 depending on complexity and duration.</p>
-                </div>
-
-                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
-                    <h3 class="font-bold text-xl mb-2">How will the courses be delivered?</h3>
-                    <p class="text-gray-300">Courses will be delivered through our custom-built online learning platform
-                        featuring video lessons, interactive exercises, downloadable resources, and live Q&A sessions
-                        with instructors.</p>
-                </div>
-
-                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
-                    <h3 class="font-bold text-xl mb-2">Will I receive a certificate?</h3>
-                    <p class="text-gray-300">Yes, all students who complete a course will receive a digital certificate
-                        of completion. For premium courses, you'll also receive a verifiable credential that you can
-                        share with employers.</p>
-                </div>
-
-                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
-                    <h3 class="font-bold text-xl mb-2">How can I become a beta tester?</h3>
-                    <p class="text-gray-300">Subscribe to our newsletter and complete the beta application form that
-                        will be sent to you. We'll select a diverse group of 50 students across all course categories
-                        based on enthusiasm, commitment, and learning goals.</p>
-                </div>
-            </div>
-        </div>
+    <div bind:this={featureSections[3]} class="bg-gray-950 px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
+        <FAQ/>
     </div>
 
     <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
