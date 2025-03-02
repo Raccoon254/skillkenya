@@ -25,7 +25,7 @@
 </script>
 
 <section
-        class="max-w-4xl mx-auto mb-24 py-8 my-10 rounded-2xl relative overflow-hidden"
+        class="max-w-4xl mx-auto px-4 mb-24 py-8 my-10 rounded-2xl relative overflow-hidden"
         in:fly={{ y: 50, duration: 800, easing: quintOut }}
         out:fade={{ duration: 300 }}
 >

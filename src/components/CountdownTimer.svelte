@@ -350,11 +350,11 @@
     @media (max-width: 640px) {
         .digit-container {
             height: 70px;
-            width: 70px;
+            width: 30px;
         }
 
         .digit {
-            font-size: 2.5rem;
+            font-size: 2.1rem;
         }
 
         .unit-container {

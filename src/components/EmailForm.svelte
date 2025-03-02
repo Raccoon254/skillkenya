@@ -52,7 +52,7 @@
             if (successTimeout) clearTimeout(successTimeout);
 
             // Set form state to success or duplicate
-            // Note: Since we're using no-cors, we actually can't distinguish
+            // Note: Since we're using no-56cors, we actually can't distinguish
             // between success and duplicate response from server
             formState = 'success';
 

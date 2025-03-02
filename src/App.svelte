@@ -135,7 +135,7 @@
     });
 </script>
 
-<main class="overflow-hidden">
+<main class="overflow-hidden bg-gray-900 text-white">
     <div class="min-h-screen bg-gray-900 text-white relative">
         <div class="fade-down bg-gradient-to-b z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute top-40"></div>
 
@@ -175,7 +175,7 @@
         <!-- Main Content -->
         <div class="relative z-20">
             <!-- Hero Section -->
-            <div class="container mx-auto px-4 pt-32">
+            <div class="container mx-auto bg-gray-900 px-4 pt-32">
                 <h1 class="text-5xl md:text-7xl font-bold mb-6 text-center transition-all duration-700 transform {titleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}">
                     Skill Kenya
                 </h1>
@@ -224,7 +224,7 @@
         </div>
     </div>
 </main>
-<main>
+<main class="bg-gray-900 text-white">
     <!-- Skills Grid -->
     <section aria-label="Our Courses">
         <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
@@ -247,8 +247,7 @@
 
                     <lord-icon
                             src="https://cdn.lordicon.com/{skill.icon}.json"
-                            trigger="hover"
-                            state="hover-roll"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#8930e8"
                             style="width:50px;height:50px">
                     </lord-icon>
@@ -277,7 +276,7 @@
 
     <!-- Free Courses Section -->
     <div bind:this={featureSections[1]}
-         class="container mx-auto px-4 py-20 opacity-0 translate-y-10 transition-all duration-700">
+         class="container mx-auto bg-gray-900 px-4 py-20 opacity-0 translate-y-10 transition-all duration-700">
         <div class="max-w-4xl mx-auto">
             <h2 class="text-3xl font-bold mb-6 text-center">Free Courses Available</h2>
             <p class="text-xl text-gray-300 text-center mb-12">
@@ -321,7 +320,7 @@
 
     <!-- Tech Stack Section -->
     <div bind:this={featureSections[2]} class="bg-gray-950 py-20 opacity-0 translate-y-10 transition-all duration-700">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto bg-gray-900 px-4">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold mb-6 text-center">Our Technology Stack</h2>
                 <p class="text-gray-300 text-center mb-12">
@@ -372,7 +371,7 @@
     </div>
 
     <!-- Newsletter Section -->
-    <div id="newsletter" class="container mx-auto px-4 my-44 py-10">
+    <div id="newsletter" class="container mx-auto bg-gray-900 px-4 my-44 py-10">
         <div class="max-w-xl mx-auto text-center">
             <section aria-label="Newsletter">
                 <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
@@ -391,7 +390,7 @@
     </div>
 
     <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
-        <div class="container mx-auto px-4 flex items-center flex-col justify-center gap-4">
+        <div class="container mx-auto bg-gray-900 px-4 flex items-center flex-col justify-center gap-4">
             <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span
                     class="underline underline-offset-2">kenTom</span>&trade;</a> project
             </div>
@@ -405,7 +404,7 @@
     </section>
 
     <section class="bg-gray-900 text-white py-16 relative">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto bg-gray-900 px-4">
             <div class="max-w-md mx-auto">
                 <h3 class="text-2xl font-bold text-center mb-8">Connect With Us</h3>
                 <div class="flex justify-center gap-8">
