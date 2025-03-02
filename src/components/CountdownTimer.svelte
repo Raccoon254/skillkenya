@@ -4,7 +4,6 @@
     import { tick } from 'svelte';
 
     // Props with defaults
-    export let launchDate = new Date();
     export let title = "Launching In";
     export let theme = "blue"; // options: blue, purple, green
     export let onComplete = () => {};
@@ -87,11 +86,11 @@
 
     async function updateCountdown() {
         const now = new Date();
-        const diff = launchDate - now;
+        const diff = new Date(2025, 6, 1) - now;
 
         if (diff <= 0) {
             clearInterval(interval);
-            countdown.set({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            await countdown.set({days: 0, hours: 0, minutes: 0, seconds: 0});
 
             if (!isCountdownComplete) {
                 isCountdownComplete = true;
