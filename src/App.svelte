@@ -134,7 +134,7 @@
 </script>
 
 <main>
-    <div class="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+    <div class="min-h-screen bg-gray-900 text-white relative">
         <div class="fade-down bg-gradient-to-b z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute top-40"></div>
 
         <!-- Floating particles background -->
@@ -260,56 +260,59 @@
                     </a>
                 </div>
             </div>
-
-            <!-- Skills Grid -->
-            <section aria-label="Our Courses">
-                <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
-                    {#each skills as skill, i}
-                        <div
-                                bind:this={skillCards[i]}
-                                class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 opacity-0 translate-y-8 relative overflow-hidden group"
-                                style="transition-delay: {i * 150}ms;"
-                        >
-                            <!-- Free course badge -->
-                            {#if skill.freeCourses > 0}
-                                <div class="absolute -right-10 -top-10 bg-green-500 w-20 h-20 rotate-45 transform group-hover:-right-8 group-hover:-top-8 transition-all duration-300">
-                                    <span class="absolute bottom-1 right-6 text-xs font-bold">{skill.freeCourses}
-                                        Free</span>
-                                </div>
-                            {/if}
-
-                            <lord-icon
-                                    src="https://cdn.lordicon.com/{skill.icon}.json"
-                                    trigger="hover"
-                                    state="hover-roll"
-                                    colors="primary:#ffffff,secondary:#8930e8"
-                                    style="width:50px;height:50px">
-                            </lord-icon>
-                            <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
-                            <p class="text-gray-400 mb-4">{skill.description}</p>
-
-                            <div class="mt-4 pt-4 border-t border-gray-700/50">
-                                <h4 class="text-sm font-semibold text-blue-400 mb-2">What you'll learn:</h4>
-                                <ul class="space-y-1">
-                                    {#each skill.features as feature}
-                                        <li class="text-sm text-gray-400 flex items-start">
-                                            <svg class="w-4 h-4 text-blue-500 mr-1 mt-0.5 flex-shrink-0" fill="none"
-                                                 stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                            {feature}
-                                        </li>
-                                    {/each}
-                                </ul>
-                            </div>
-                        </div>
-                    {/each}
-                </div>
-            </section>
         </div>
     </div>
+
+
+    <!-- Skills Grid -->
+    <section aria-label="Our Courses">
+        <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
+            {#each skills as skill, i}
+                <div
+                        bind:this={skillCards[i]}
+                        class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 cursor-pointer hover:border-blue-500/50 transition-all duration-500 opacity-0 translate-y-8 relative overflow-hidden group"
+                        style="transition-delay: {i * 150}ms;"
+                >
+                    <!-- Free course badge -->
+                    {#if skill.freeCourses > 0}
+                        <div class="absolute -right-20 -top-10 bg-green-500 w-40 h-20 rotate-45 transform group-hover:-right-[70px] group-hover:-top-8 transition-all duration-300">
+                                    <span class="absolute bottom-1 right-16 text-xs font-bold group-hover:scale-110 transition-all duration-300">
+                                        {skill.freeCourses}
+                                        Free
+                                    </span>
+                        </div>
+                    {/if}
+
+                    <lord-icon
+                            src="https://cdn.lordicon.com/{skill.icon}.json"
+                            trigger="hover"
+                            state="hover-roll"
+                            colors="primary:#ffffff,secondary:#8930e8"
+                            style="width:50px;height:50px">
+                    </lord-icon>
+                    <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
+                    <p class="text-gray-400 mb-4">{skill.description}</p>
+
+                    <div class="mt-4 pt-4 border-t border-gray-700/50">
+                        <h4 class="text-sm font-semibold text-blue-400 mb-2">What you'll learn:</h4>
+                        <ul class="space-y-1">
+                            {#each skill.features as feature}
+                                <li class="text-sm text-gray-400 flex items-start">
+                                    <svg class="w-4 h-4 text-blue-500 mr-1 mt-0.5 flex-shrink-0" fill="none"
+                                         stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    {feature}
+                                </li>
+                            {/each}
+                        </ul>
+                    </div>
+                </div>
+            {/each}
+        </div>
+    </section>
 
     <!-- Free Courses Section -->
     <div bind:this={featureSections[1]}
