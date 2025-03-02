@@ -1,4 +1,6 @@
 <script>
+    import EmailForm from "./components/EmailForm.svelte";
+
     const skills = [
         {
             title: "Programming",
@@ -146,19 +148,7 @@
             <p class="text-gray-400 mb-8">
                 Be the first to know when we launch. Subscribe to our newsletter.
             </p>
-            <form class="flex gap-4 max-w-md mx-auto">
-                <input
-                        type="email"
-                        placeholder="Enter your email"
-                        class="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500"
-                />
-                <button
-                        type="submit"
-                        class="px-6 py-2 bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
-                >
-                    Subscribe
-                </button>
-            </form>
+            <EmailForm />
         </div>
     </div>
 
