@@ -133,7 +133,7 @@
     });
 </script>
 
-<main>
+<main class="overflow-hidden">
     <div class="min-h-screen bg-gray-900 text-white relative">
         <div class="fade-down bg-gradient-to-b z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute top-40"></div>
 
@@ -173,7 +173,7 @@
         <!-- Main Content -->
         <div class="relative z-20">
             <!-- Hero Section -->
-            <div class="container mx-auto px-4 pt-32 pb-20">
+            <div class="container mx-auto px-4 pt-32">
                 <h1 class="text-5xl md:text-7xl font-bold mb-6 text-center transition-all duration-700 transform {titleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}">
                     Skill Kenya
                 </h1>
@@ -262,8 +262,8 @@
             </div>
         </div>
     </div>
-
-
+</main>
+<main>
     <!-- Skills Grid -->
     <section aria-label="Our Courses">
         <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
