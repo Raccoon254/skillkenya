@@ -1,7 +1,7 @@
 <script>
     import EmailForm from "./components/EmailForm.svelte";
     import CountdownTimer from "./components/CountdownTimer.svelte";
-    import { onMount, onDestroy } from 'svelte';
+    import {onMount, onDestroy} from 'svelte';
 
     // Calculate launch date (6 months from now)
     const launchDate = new Date();
@@ -61,11 +61,11 @@
 
     // Tech stack data
     const techStack = [
-        { name: "Svelte", icon: "devicon-svelte-plain", color: "text-orange-500" },
-        { name: "TailwindCSS", icon: "devicon-tailwindcss-original", color: "text-blue-400" },
-        { name: "JavaScript", icon: "devicon-javascript-plain", color: "text-yellow-400" },
-        { name: "Vite", icon: "devicon-vitejs-plain", color: "text-purple-400" },
-        { name: "Google Sheets API", icon: "devicon-googlecloud-plain", color: "text-green-400" }
+        {name: "Svelte", icon: "devicon-svelte-plain", color: "text-orange-500"},
+        {name: "TailwindCSS", icon: "devicon-tailwindcss-original", color: "text-blue-400"},
+        {name: "JavaScript", icon: "devicon-javascript-plain", color: "text-yellow-400"},
+        {name: "Vite", icon: "devicon-vitejs-plain", color: "text-purple-400"},
+        {name: "Google Sheets API", icon: "devicon-googlecloud-plain", color: "text-green-400"}
     ];
 
     // Beta testers data
@@ -95,7 +95,7 @@
                     entry.target.classList.add('animate-in');
                 }
             });
-        }, { threshold: 0.1 });
+        }, {threshold: 0.1});
 
         // Start title animations
         setTimeout(() => {
@@ -201,201 +201,211 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Countdown Timer Component -->
-                <div class="mb-16">
-                    <CountdownTimer launchDate={launchDate} theme="blue" />
-                </div>
-
-                <!-- Coming Soon Badge -->
-                <div class="flex justify-center mb-16 transition-all duration-700 delay-500 transform {subtitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}">
-                    <button class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-3 rounded-full font-semibold hover:bg-blue-500/30 transition-all duration-300 pulse-animation">
-                        Coming Soon
-                    </button>
-                </div>
-
-                <!-- Beta Program Announcement -->
-                <div bind:this={featureSections[0]} class="max-w-4xl mx-auto mb-24 p-8 rounded-2xl border border-purple-500/30 bg-purple-500/5 backdrop-blur-sm opacity-0 translate-y-10 transition-all duration-700">
-                    <h2 class="text-3xl font-bold mb-4 text-center text-purple-300">Join Our Beta Program</h2>
-                    <p class="text-gray-300 text-center mb-6">
-                        We're selecting {betaTestersInfo.total} students for our exclusive beta program.
-                        Approximately {betaTestersInfo.perSkill} students per course category will get early access to test our platform.
-                    </p>
-
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div class="bg-gray-800/50 p-6 rounded-xl">
-                            <h3 class="text-xl font-bold mb-3 text-purple-300">Beta Tester Benefits</h3>
-                            <ul class="space-y-2">
-                                {#each betaTestersInfo.benefits as benefit}
-                                    <li class="flex items-start">
-                                        <svg class="w-5 h-5 text-purple-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span>{benefit}</span>
-                                    </li>
-                                {/each}
-                            </ul>
-                        </div>
-
-                        <div class="bg-gray-800/50 p-6 rounded-xl">
-                            <h3 class="text-xl font-bold mb-3 text-purple-300">How to Apply</h3>
-                            <p class="mb-4">To be considered for the beta program:</p>
-                            <ol class="list-decimal list-inside space-y-2 ml-2">
-                                <li>Subscribe to our newsletter below</li>
-                                <li>Complete our beta application survey (sent via email)</li>
-                                <li>Demonstrate enthusiasm and commitment to learning</li>
-                                <li>Be available for the full course duration</li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="text-center">
-                        <a href="#newsletter" class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-300 font-semibold">
-                            Apply for Beta Access
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Skills Grid -->
-                <section aria-label="Our Courses">
-                    <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
-                        {#each skills as skill, i}
-                            <div
-                                    bind:this={skillCards[i]}
-                                    class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 opacity-0 translate-y-8 relative overflow-hidden group"
-                                    style="transition-delay: {i * 150}ms;"
-                            >
-                                <!-- Free course badge -->
-                                {#if skill.freeCourses > 0}
-                                    <div class="absolute -right-10 -top-10 bg-green-500 w-20 h-20 rotate-45 transform group-hover:-right-8 group-hover:-top-8 transition-all duration-300">
-                                        <span class="absolute bottom-1 right-6 text-xs font-bold">{skill.freeCourses} Free</span>
-                                    </div>
-                                {/if}
-
-                                <lord-icon
-                                        src="https://cdn.lordicon.com/{skill.icon}.json"
-                                        trigger="hover"
-                                        state="hover-roll"
-                                        colors="primary:#ffffff,secondary:#8930e8"
-                                        style="width:50px;height:50px">
-                                </lord-icon>
-                                <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
-                                <p class="text-gray-400 mb-4">{skill.description}</p>
-
-                                <div class="mt-4 pt-4 border-t border-gray-700/50">
-                                    <h4 class="text-sm font-semibold text-blue-400 mb-2">What you'll learn:</h4>
-                                    <ul class="space-y-1">
-                                        {#each skill.features as feature}
-                                            <li class="text-sm text-gray-400 flex items-start">
-                                                <svg class="w-4 h-4 text-blue-500 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                {feature}
-                                            </li>
-                                        {/each}
-                                    </ul>
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                </section>
             </div>
-        </div>
 
-        <!-- Free Courses Section -->
-        <div bind:this={featureSections[1]} class="container mx-auto px-4 py-20 opacity-0 translate-y-10 transition-all duration-700">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-6 text-center">Free Courses Available</h2>
-                <p class="text-xl text-gray-300 text-center mb-12">
-                    We believe in accessible education. That's why we're offering several free courses to get you started on your learning journey.
+            <!-- Countdown Timer Component -->
+            <div class="mb-16">
+                <CountdownTimer launchDate={launchDate} theme="blue"/>
+            </div>
+
+            <!-- Coming Soon Badge -->
+            <div class="flex justify-center mb-16 transition-all duration-700 delay-500 transform {subtitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}">
+                <button class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-3 rounded-full font-semibold hover:bg-blue-500/30 transition-all duration-300 pulse-animation">
+                    Coming Soon
+                </button>
+            </div>
+
+            <!-- Beta Program Announcement -->
+            <div bind:this={featureSections[0]}
+                 class="max-w-4xl mx-auto mb-24 p-8 rounded-2xl border border-purple-500/30 bg-purple-500/5 backdrop-blur-sm opacity-0 translate-y-10 transition-all duration-700">
+                <h2 class="text-3xl font-bold mb-4 text-center text-purple-300">Join Our Beta Program</h2>
+                <p class="text-gray-300 text-center mb-6">
+                    We're selecting {betaTestersInfo.total} students for our exclusive beta program.
+                    Approximately {betaTestersInfo.perSkill} students per course category will get early access to test
+                    our platform.
                 </p>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-bold text-xl">HTML & CSS Basics</h3>
-                            <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <p class="text-gray-400 mb-4">Learn the fundamentals of web development with HTML and CSS. Build your first responsive website from scratch.</p>
-                        <p class="text-sm text-gray-500">Duration: 4 weeks</p>
-                    </div>
-
-                    <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-bold text-xl">Digital Marketing Intro</h3>
-                            <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <p class="text-gray-400 mb-4">Master the basics of digital marketing, including social media strategy, content creation, and analytics.</p>
-                        <p class="text-sm text-gray-500">Duration: 3 weeks</p>
-                    </div>
-
-                    <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-bold text-xl">Design Fundamentals</h3>
-                            <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <p class="text-gray-400 mb-4">Explore the principles of graphic design, color theory, typography, and composition for digital projects.</p>
-                        <p class="text-sm text-gray-500">Duration: 3 weeks</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tech Stack Section -->
-        <div bind:this={featureSections[2]} class="bg-gray-950 py-20 opacity-0 translate-y-10 transition-all duration-700">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold mb-6 text-center">Our Technology Stack</h2>
-                    <p class="text-gray-300 text-center mb-12">
-                        We've built Skill Kenya using cutting-edge web technologies for a fast, responsive, and engaging learning experience.
-                    </p>
-
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12">
-                        {#each techStack as tech}
-                            <div class="flex flex-col items-center text-center p-4 transition-all duration-300 transform hover:scale-105">
-                                <i class="{tech.icon} text-4xl mb-3 {tech.color}"></i>
-                                <span class="font-semibold">{tech.name}</span>
-                            </div>
-                        {/each}
-                    </div>
-
-                    <div class="bg-gray-900/60 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
-                        <h3 class="font-bold text-xl mb-4">Why This Matters For Students</h3>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <span><strong class="text-blue-400">Lightning Fast Experience:</strong> Built with Svelte and Vite for optimal performance and responsiveness.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <span><strong class="text-blue-400">Modern Design:</strong> Beautiful UI with TailwindCSS for an intuitive learning experience.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <span><strong class="text-blue-400">Seamless Data Handling:</strong> Integration with Google Sheets API for smooth user registration and progress tracking.</span>
-                            </li>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-800/50 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-3 text-purple-300">Beta Tester Benefits</h3>
+                        <ul class="space-y-2">
+                            {#each betaTestersInfo.benefits as benefit}
+                                <li class="flex items-start">
+                                    <svg class="w-5 h-5 text-purple-400 mr-2 mt-1 flex-shrink-0" fill="none"
+                                         stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>{benefit}</span>
+                                </li>
+                            {/each}
                         </ul>
                     </div>
+
+                    <div class="bg-gray-800/50 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-3 text-purple-300">How to Apply</h3>
+                        <p class="mb-4">To be considered for the beta program:</p>
+                        <ol class="list-decimal list-inside space-y-2 ml-2">
+                            <li>Subscribe to our newsletter below</li>
+                            <li>Complete our beta application survey (sent via email)</li>
+                            <li>Demonstrate enthusiasm and commitment to learning</li>
+                            <li>Be available for the full course duration</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <a href="#newsletter"
+                       class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-300 font-semibold">
+                        Apply for Beta Access
+                    </a>
+                </div>
+            </div>
+
+            <!-- Skills Grid -->
+            <section aria-label="Our Courses">
+                <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
+                    {#each skills as skill, i}
+                        <div
+                                bind:this={skillCards[i]}
+                                class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 opacity-0 translate-y-8 relative overflow-hidden group"
+                                style="transition-delay: {i * 150}ms;"
+                        >
+                            <!-- Free course badge -->
+                            {#if skill.freeCourses > 0}
+                                <div class="absolute -right-10 -top-10 bg-green-500 w-20 h-20 rotate-45 transform group-hover:-right-8 group-hover:-top-8 transition-all duration-300">
+                                    <span class="absolute bottom-1 right-6 text-xs font-bold">{skill.freeCourses}
+                                        Free</span>
+                                </div>
+                            {/if}
+
+                            <lord-icon
+                                    src="https://cdn.lordicon.com/{skill.icon}.json"
+                                    trigger="hover"
+                                    state="hover-roll"
+                                    colors="primary:#ffffff,secondary:#8930e8"
+                                    style="width:50px;height:50px">
+                            </lord-icon>
+                            <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
+                            <p class="text-gray-400 mb-4">{skill.description}</p>
+
+                            <div class="mt-4 pt-4 border-t border-gray-700/50">
+                                <h4 class="text-sm font-semibold text-blue-400 mb-2">What you'll learn:</h4>
+                                <ul class="space-y-1">
+                                    {#each skill.features as feature}
+                                        <li class="text-sm text-gray-400 flex items-start">
+                                            <svg class="w-4 h-4 text-blue-500 mr-1 mt-0.5 flex-shrink-0" fill="none"
+                                                 stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                            {feature}
+                                        </li>
+                                    {/each}
+                                </ul>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Free Courses Section -->
+    <div bind:this={featureSections[1]}
+         class="container mx-auto px-4 py-20 opacity-0 translate-y-10 transition-all duration-700">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center">Free Courses Available</h2>
+            <p class="text-xl text-gray-300 text-center mb-12">
+                We believe in accessible education. That's why we're offering several free courses to get you started on
+                your learning journey.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-xl">HTML & CSS Basics</h3>
+                        <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Learn the fundamentals of web development with HTML and CSS. Build
+                        your first responsive website from scratch.</p>
+                    <p class="text-sm text-gray-500">Duration: 4 weeks</p>
+                </div>
+
+                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-xl">Digital Marketing Intro</h3>
+                        <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Master the basics of digital marketing, including social media
+                        strategy, content creation, and analytics.</p>
+                    <p class="text-sm text-gray-500">Duration: 3 weeks</p>
+                </div>
+
+                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-xl">Design Fundamentals</h3>
+                        <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Explore the principles of graphic design, color theory, typography,
+                        and composition for digital projects.</p>
+                    <p class="text-sm text-gray-500">Duration: 3 weeks</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Scroll down button -->
-        <div class="absolute -bottom-8 opacity-45 left-0 right-0 flex justify-center mb-8 z-50">
-            <a href="#newsletter"
-               class="text-blue-500 grid place-items-center relative hover:text-blue-400 h-14 w-8 rounded-full border-2 transition-colors"
-               aria-label="Scroll down">
-                <div class="dot w-2 h-2 bg-blue-500 rounded-full mb-1 bounce top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-            </a>
+    <!-- Tech Stack Section -->
+    <div bind:this={featureSections[2]} class="bg-gray-950 py-20 opacity-0 translate-y-10 transition-all duration-700">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">Our Technology Stack</h2>
+                <p class="text-gray-300 text-center mb-12">
+                    We've built Skill Kenya using cutting-edge web technologies for a fast, responsive, and engaging
+                    learning experience.
+                </p>
+
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12">
+                    {#each techStack as tech}
+                        <div class="flex flex-col items-center text-center p-4 transition-all duration-300 transform hover:scale-105">
+                            <i class="{tech.icon} text-4xl mb-3 {tech.color}"></i>
+                            <span class="font-semibold">{tech.name}</span>
+                        </div>
+                    {/each}
+                </div>
+
+                <div class="bg-gray-900/60 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
+                    <h3 class="font-bold text-xl mb-4">Why This Matters For Students</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span><strong class="text-blue-400">Lightning Fast Experience:</strong> Built with Svelte and Vite for optimal performance and responsiveness.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span><strong class="text-blue-400">Modern Design:</strong> Beautiful UI with TailwindCSS for an intuitive learning experience.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span><strong class="text-blue-400">Seamless Data Handling:</strong> Integration with Google Sheets API for smooth user registration and progress tracking.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="fade-up bg-gradient-to-t z-10 from-gray-900 via-gray-900 to-transparent min-h-64 w-full absolute bottom-0"></div>
     </div>
 
     <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
@@ -419,36 +429,46 @@
                 <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
             </section>
             <p class="text-gray-400 mb-8">
-                Be the first to know when we launch. Subscribe to our newsletter for early access and beta testing opportunities.
+                Be the first to know when we launch. Subscribe to our newsletter for early access and beta testing
+                opportunities.
             </p>
-            <EmailForm />
+            <EmailForm/>
         </div>
     </div>
 
     <!-- FAQ Section -->
-    <div bind:this={featureSections[3]} class="container mx-auto px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
+    <div bind:this={featureSections[3]}
+         class="container mx-auto px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
 
             <div class="space-y-6">
                 <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
                     <h3 class="font-bold text-xl mb-2">How much will courses cost?</h3>
-                    <p class="text-gray-300">Our courses will be priced affordably to make quality education accessible. Free introductory courses will be available in each category, with premium courses ranging from KSh 5,000 to KSh 15,000 depending on complexity and duration.</p>
+                    <p class="text-gray-300">Our courses will be priced affordably to make quality education accessible.
+                        Free introductory courses will be available in each category, with premium courses ranging from
+                        KSh 5,000 to KSh 15,000 depending on complexity and duration.</p>
                 </div>
 
                 <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
                     <h3 class="font-bold text-xl mb-2">How will the courses be delivered?</h3>
-                    <p class="text-gray-300">Courses will be delivered through our custom-built online learning platform featuring video lessons, interactive exercises, downloadable resources, and live Q&A sessions with instructors.</p>
+                    <p class="text-gray-300">Courses will be delivered through our custom-built online learning platform
+                        featuring video lessons, interactive exercises, downloadable resources, and live Q&A sessions
+                        with instructors.</p>
                 </div>
 
                 <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
                     <h3 class="font-bold text-xl mb-2">Will I receive a certificate?</h3>
-                    <p class="text-gray-300">Yes, all students who complete a course will receive a digital certificate of completion. For premium courses, you'll also receive a verifiable credential that you can share with employers.</p>
+                    <p class="text-gray-300">Yes, all students who complete a course will receive a digital certificate
+                        of completion. For premium courses, you'll also receive a verifiable credential that you can
+                        share with employers.</p>
                 </div>
 
                 <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
                     <h3 class="font-bold text-xl mb-2">How can I become a beta tester?</h3>
-                    <p class="text-gray-300">Subscribe to our newsletter and complete the beta application form that will be sent to you. We'll select a diverse group of 50 students across all course categories based on enthusiasm, commitment, and learning goals.</p>
+                    <p class="text-gray-300">Subscribe to our newsletter and complete the beta application form that
+                        will be sent to you. We'll select a diverse group of 50 students across all course categories
+                        based on enthusiasm, commitment, and learning goals.</p>
                 </div>
             </div>
         </div>

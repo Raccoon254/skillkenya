@@ -1,99 +1,154 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
     import { spring } from 'svelte/motion';
+    import { tick } from 'svelte';
 
     // Props with defaults
     export let launchDate = new Date();
     export let title = "Launching In";
     export let theme = "blue"; // options: blue, purple, green
+    export let onComplete = () => {};
 
-    // State for countdown values
-    let days = spring(0, { stiffness: 0.1, damping: 0.4 });
-    let hours = spring(0, { stiffness: 0.1, damping: 0.4 });
-    let minutes = spring(0, { stiffness: 0.1, damping: 0.4 });
-    let seconds = spring(0, { stiffness: 0.1, damping: 0.4 });
+    // Unified spring store with optimized config
+    const springConfig = {
+        stiffness: 0.1,
+        damping: 0.5,
+        precision: 0.1
+    };
 
-    // State for flipping animation
-    let prevDays = 0;
-    let prevHours = 0;
-    let prevMinutes = 0;
-    let prevSeconds = 0;
+    const countdown = spring({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+    }, springConfig);
+
+    // Animation states tracking
+    let animating = {
+        days: false,
+        hours: false,
+        minutes: false,
+        seconds: false
+    };
+
+    // Store previous values for exit animations
+    let prevValues = {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+    };
+
+    // Initial render animation states
+    let containerVisible = false;
+    let titleVisible = false;
+    let unitsVisible = false;
 
     let interval;
-    let visible = false;
+    let isCountdownComplete = false;
 
-    // Theme color maps
+    // Theme color maps (glow removed)
     const themeColors = {
         blue: {
-            text: "text-blue-400",
-            border: "border-blue-500/50",
-            bg: "bg-blue-500/10",
-            glow: "shadow-blue-500/20"
+            text: "text-blue-500",
+            accent: "text-blue-400"
         },
         purple: {
-            text: "text-purple-400",
-            border: "border-purple-500/50",
-            bg: "bg-purple-500/10",
-            glow: "shadow-purple-500/20"
+            text: "text-purple-500",
+            accent: "text-purple-400"
         },
         green: {
-            text: "text-green-400",
-            border: "border-green-500/50",
-            bg: "bg-green-500/10",
-            glow: "shadow-green-500/20"
+            text: "text-green-500",
+            accent: "text-green-400"
         }
     };
 
     // Get current theme
     $: colors = themeColors[theme] || themeColors.blue;
 
-    function updateCountdown() {
+    // Animation controller
+    function animateValue(type) {
+        if (animating[type]) return Promise.resolve();
+
+        animating[type] = true;
+
+        return new Promise(resolve => {
+            const timer = setTimeout(() => {
+                animating[type] = false;
+                resolve();
+            }, 600);
+
+            return () => {
+                clearTimeout(timer);
+                animating[type] = false;
+            };
+        });
+    }
+
+    async function updateCountdown() {
         const now = new Date();
         const diff = launchDate - now;
 
         if (diff <= 0) {
-            // Handle launch time reached
             clearInterval(interval);
-            $days = 0;
-            $hours = 0;
-            $minutes = 0;
-            $seconds = 0;
+            countdown.set({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+            if (!isCountdownComplete) {
+                isCountdownComplete = true;
+                onComplete();
+            }
             return;
         }
 
-        // Store previous values
-        prevDays = Math.floor($days);
-        prevHours = Math.floor($hours);
-        prevMinutes = Math.floor($minutes);
-        prevSeconds = Math.floor($seconds);
+        const newValues = {
+            days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+            hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+            seconds: Math.floor((diff % (1000 * 60)) / 1000)
+        };
 
-        // Calculate new values
-        const newDays = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const newHours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const newMinutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const newSeconds = Math.floor((diff % (1000 * 60)) / 1000);
+        const animationPromises = [];
 
-        // Update spring values
-        days.set(newDays);
-        hours.set(newHours);
-        minutes.set(newMinutes);
-        seconds.set(newSeconds);
+        Object.keys(newValues).forEach(unit => {
+            if (Math.floor($countdown[unit]) !== newValues[unit]) {
+                prevValues[unit] = Math.floor($countdown[unit]);
+                animationPromises.push(animateValue(unit));
+            }
+        });
+
+        countdown.set(newValues);
+
+        if (animationPromises.length > 0) {
+            await Promise.all(animationPromises);
+            await tick();
+        }
+    }
+
+    function runInitialAnimation() {
+        containerVisible = true;
+
+        const titleTimer = setTimeout(() => {
+            titleVisible = true;
+        }, 300);
+
+        const unitsTimer = setTimeout(() => {
+            unitsVisible = true;
+        }, 500);
+
+        return () => {
+            clearTimeout(titleTimer);
+            clearTimeout(unitsTimer);
+        };
     }
 
     onMount(() => {
-        // Initial update
         updateCountdown();
-
-        // Update every second
+        const cleanupAnimation = runInitialAnimation();
         interval = setInterval(updateCountdown, 1000);
-
-        // Animate entrance
-        setTimeout(() => {
-            visible = true;
-        }, 100);
 
         return () => {
             clearInterval(interval);
+            cleanupAnimation();
         };
     });
 
@@ -101,132 +156,217 @@
         if (interval) clearInterval(interval);
     });
 
-    // Helper to determine if a unit has changed
-    $: daysChanged = Math.floor(prevDays) !== Math.floor($days);
-    $: hoursChanged = Math.floor(prevHours) !== Math.floor($hours);
-    $: minutesChanged = Math.floor(prevMinutes) !== Math.floor($minutes);
-    $: secondsChanged = Math.floor(prevSeconds) !== Math.floor($seconds);
+    function padNumber(num) {
+        return num.toString().padStart(2, '0');
+    }
 </script>
 
-<div class="countdown-container transition-all duration-1000 transform {visible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}" aria-label="Countdown timer">
-    <div class="bg-gray-800/60 backdrop-blur-md p-6 rounded-xl border {colors.border} shadow-lg {colors.glow}">
-        <p class="{colors.text} text-center mb-4 font-semibold text-lg">{title}</p>
+<div class="countdown-container" aria-label="Countdown timer" class:container-visible={containerVisible}>
+    <div class="p-6">
+        {#if title}
+            <h2 class="title {colors.accent} text-center mb-8 font-bold text-xl tracking-wider"
+                class:title-visible={titleVisible}>
+                {title}
+            </h2>
+        {/if}
 
-        <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+        <div class="flex flex-wrap justify-center gap-6 md:gap-10">
             <!-- Days -->
-            <div class="unit-container">
-                <div class="flip-card {daysChanged ? 'flip' : ''}">
-                    <div class="digit relative">
-                        <span class="absolute inset-0 flex items-center justify-center">{Math.floor($days)}</span>
+            <div class="unit-container" class:unit-visible={unitsVisible} style="transition-delay: 100ms;">
+                <div class="digit-container">
+                    {#if animating.days}
+                        <div class="digit previous slide-out {colors.text}">
+                            {Math.floor(prevValues.days)}
+                        </div>
+                    {/if}
+                    <div class="digit current {animating.days ? 'slide-in' : ''} {colors.text}">
+                        {Math.floor($countdown.days)}
                     </div>
                 </div>
-                <span class="unit-label {colors.text}">DAYS</span>
+                <span class="unit-label {colors.accent}">DAYS</span>
             </div>
 
             <!-- Hours -->
-            <div class="unit-container">
-                <div class="flip-card {hoursChanged ? 'flip' : ''}">
-                    <div class="digit relative">
-                        <span class="absolute inset-0 flex items-center justify-center">{Math.floor($hours).toString().padStart(2, '0')}</span>
+            <div class="unit-container" class:unit-visible={unitsVisible} style="transition-delay: 200ms;">
+                <div class="digit-container">
+                    {#if animating.hours}
+                        <div class="digit previous slide-out {colors.text}">
+                            {padNumber(prevValues.hours)}
+                        </div>
+                    {/if}
+                    <div class="digit current {animating.hours ? 'slide-in' : ''} {colors.text}">
+                        {padNumber(Math.floor($countdown.hours))}
                     </div>
                 </div>
-                <span class="unit-label {colors.text}">HOURS</span>
+                <span class="unit-label {colors.accent}">HOURS</span>
             </div>
 
             <!-- Minutes -->
-            <div class="unit-container">
-                <div class="flip-card {minutesChanged ? 'flip' : ''}">
-                    <div class="digit relative">
-                        <span class="absolute inset-0 flex items-center justify-center">{Math.floor($minutes).toString().padStart(2, '0')}</span>
+            <div class="unit-container" class:unit-visible={unitsVisible} style="transition-delay: 300ms;">
+                <div class="digit-container">
+                    {#if animating.minutes}
+                        <div class="digit previous slide-out {colors.text}">
+                            {padNumber(prevValues.minutes)}
+                        </div>
+                    {/if}
+                    <div class="digit current {animating.minutes ? 'slide-in' : ''} {colors.text}">
+                        {padNumber(Math.floor($countdown.minutes))}
                     </div>
                 </div>
-                <span class="unit-label {colors.text}">MINUTES</span>
+                <span class="unit-label {colors.accent}">MINUTES</span>
             </div>
 
             <!-- Seconds -->
-            <div class="unit-container">
-                <div class="flip-card {secondsChanged ? 'flip' : ''}">
-                    <div class="digit relative">
-                        <span class="absolute inset-0 flex items-center justify-center">{Math.floor($seconds).toString().padStart(2, '0')}</span>
+            <div class="unit-container" class:unit-visible={unitsVisible} style="transition-delay: 400ms;">
+                <div class="digit-container">
+                    {#if animating.seconds}
+                        <div class="digit previous slide-out {colors.text}">
+                            {padNumber(prevValues.seconds)}
+                        </div>
+                    {/if}
+                    <div class="digit current {animating.seconds ? 'slide-in' : ''} {colors.text}">
+                        {padNumber(Math.floor($countdown.seconds))}
                     </div>
                 </div>
-                <span class="unit-label {colors.text}">SECONDS</span>
+                <span class="unit-label {colors.accent}">SECONDS</span>
             </div>
         </div>
     </div>
 </div>
 
 <style>
+    /* Container animations */
     .countdown-container {
         width: 100%;
         max-width: 600px;
         margin: 0 auto;
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, opacity;
     }
 
+    .container-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    /* Title animations */
+    .title {
+        opacity: 0;
+        transform: translateY(-15px);
+        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, opacity;
+    }
+
+    .title-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Unit container animations */
     .unit-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0.5rem;
-        position: relative;
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, opacity;
     }
 
-    .flip-card {
-        perspective: 600px;
+    .unit-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    /* Digit container and animations */
+    .digit-container {
         position: relative;
-        width: 60px;
-        height: 70px;
+        height: 80px;
+        width: 90px;
+        overflow: visible;
     }
 
     .digit {
-        font-size: 2.5rem;
-        font-weight: 700;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(30, 41, 59, 0.8);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        transform-style: preserve-3d;
-        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-size: 3.5rem;
+        font-weight: 700;
+    }
+
+    .slide-in {
+        animation: slide-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .slide-out {
+        animation: slide-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes slide-in {
+        from {
+            opacity: 0;
+            scale: 0.2;
+            transform: translateY(-100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slide-out {
+        from {
+            opacity: 1;
+            scale: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            scale: 0.4;
+            transform: translateY(100%);
+        }
     }
 
     .unit-label {
         font-size: 0.7rem;
         font-weight: 600;
-        margin-top: 0.5rem;
-        letter-spacing: 1px;
-    }
-
-    /* Flip animation */
-    .flip-card.flip .digit {
-        animation: flip 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
-    }
-
-    @keyframes flip {
-        0% {
-            transform: rotateX(0);
-        }
-        50% {
-            transform: rotateX(90deg);
-        }
-        100% {
-            transform: rotateX(0);
-        }
+        margin-top: 0.75rem;
+        letter-spacing: 2px;
+        opacity: 0.9;
     }
 
     /* Responsive adjustments */
     @media (max-width: 640px) {
-        .flip-card {
-            width: 50px;
-            height: 60px;
+        .digit-container {
+            height: 70px;
+            width: 70px;
         }
 
         .digit {
-            font-size: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .unit-container {
+            padding: 0 5px;
+        }
+    }
+
+    /* Hover effect for desktop only */
+    @media (hover: hover) {
+        .digit:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
         }
     }
 </style>
