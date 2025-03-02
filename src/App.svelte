@@ -2,6 +2,7 @@
     import EmailForm from "./components/EmailForm.svelte";
     import CountdownTimer from "./components/CountdownTimer.svelte";
     import {onMount, onDestroy} from 'svelte';
+    import BetaProgram from "./components/BetaProgram.svelte";
 
     // Calculate launch date
     const launchDate = new Date(2025, 7, 1);
@@ -69,8 +70,8 @@
 
     // Beta testers data
     const betaTestersInfo = {
-        total: 50,
-        perSkill: Math.floor(50 / skills.length),
+        total: 20,
+        perSkill: Math.floor(20 / skills.length),
         benefits: [
             "Early access to all course content",
             "One-on-one mentorship sessions",
@@ -215,51 +216,7 @@
             </div>
 
             <!-- Beta Program Announcement -->
-            <div bind:this={featureSections[0]}
-                 class="max-w-4xl mx-auto mb-24 p-8 rounded-2xl border border-purple-500/30 bg-purple-500/5 backdrop-blur-sm opacity-0 translate-y-10 transition-all duration-700">
-                <h2 class="text-3xl font-bold mb-4 text-center text-purple-300">Join Our Beta Program</h2>
-                <p class="text-gray-300 text-center mb-6">
-                    We're selecting {betaTestersInfo.total} students for our exclusive beta program.
-                    Approximately {betaTestersInfo.perSkill} students per course category will get early access to test
-                    our platform.
-                </p>
-
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-gray-800/50 p-6 rounded-xl">
-                        <h3 class="text-xl font-bold mb-3 text-purple-300">Beta Tester Benefits</h3>
-                        <ul class="space-y-2">
-                            {#each betaTestersInfo.benefits as benefit}
-                                <li class="flex items-start">
-                                    <svg class="w-5 h-5 text-purple-400 mr-2 mt-1 flex-shrink-0" fill="none"
-                                         stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span>{benefit}</span>
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-
-                    <div class="bg-gray-800/50 p-6 rounded-xl">
-                        <h3 class="text-xl font-bold mb-3 text-purple-300">How to Apply</h3>
-                        <p class="mb-4">To be considered for the beta program:</p>
-                        <ol class="list-decimal list-inside space-y-2 ml-2">
-                            <li>Subscribe to our newsletter below</li>
-                            <li>Complete our beta application survey (sent via email)</li>
-                            <li>Demonstrate enthusiasm and commitment to learning</li>
-                            <li>Be available for the full course duration</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <a href="#newsletter"
-                       class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-300 font-semibold">
-                        Apply for Beta Access
-                    </a>
-                </div>
-            </div>
+            <BetaProgram {betaTestersInfo} bind:this={featureSections[0]} />
         </div>
     </div>
 </main>
