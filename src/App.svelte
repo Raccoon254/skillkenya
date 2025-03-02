@@ -1,62 +1,93 @@
 <script>
     import EmailForm from "./components/EmailForm.svelte";
-    import { onMount } from 'svelte';
+    import CountdownTimer from "./components/CountdownTimer.svelte";
+    import { onMount, onDestroy } from 'svelte';
 
+    // Calculate launch date (6 months from now)
+    const launchDate = new Date();
+    launchDate.setMonth(launchDate.getMonth() + 6);
+
+    // Course data
     const skills = [
         {
             title: "Programming",
             description: "Master web development, mobile apps & software engineering",
-            icon: "gvtjlyjf"
+            icon: "gvtjlyjf",
+            features: [
+                "Full-stack web development",
+                "Mobile app development",
+                "Software architecture",
+                "Cloud deployment"
+            ],
+            freeCourses: 2
         },
         {
             title: "Graphic Design",
             description: "Learn digital design, branding & visual communication",
-            icon: "jestaxpl"
+            icon: "jestaxpl",
+            features: [
+                "Brand identity design",
+                "UI/UX fundamentals",
+                "Digital illustration",
+                "Print & packaging"
+            ],
+            freeCourses: 1
         },
         {
             title: "Digital Marketing",
             description: "Excel in social media, SEO & content marketing",
-            icon: "jdgfsfzr"
+            icon: "jdgfsfzr",
+            features: [
+                "Social media strategy",
+                "Search engine optimization",
+                "Content marketing",
+                "Analytics & reporting"
+            ],
+            freeCourses: 2
         },
         {
             title: "Animation",
             description: "Create compelling visual effects & motion graphics",
-            icon: "oajcrtsi"
+            icon: "oajcrtsi",
+            features: [
+                "2D animation fundamentals",
+                "Character animation",
+                "Motion graphics",
+                "Video effects"
+            ],
+            freeCourses: 1
         }
     ];
 
-    // Timer calculation
-    const launchDate = new Date();
-    launchDate.setMonth(launchDate.getMonth() + 6); // 6 months from now
+    // Tech stack data
+    const techStack = [
+        { name: "Svelte", icon: "fa-brands fa-svelte", color: "text-orange-500" },
+        { name: "TailwindCSS", icon: "fa-brands fa-css3-alt", color: "text-blue-400" },
+        { name: "JavaScript", icon: "fa-brands fa-js", color: "text-yellow-400" },
+        { name: "Vite", icon: "fa-solid fa-bolt", color: "text-purple-400" },
+        { name: "Google Sheets API", icon: "fa-solid fa-table", color: "text-green-400" }
+    ];
 
-    let days = 0;
-    let hours = 0;
-    let minutes = 0;
-    let seconds = 0;
+    // Beta testers data
+    const betaTestersInfo = {
+        total: 50,
+        perSkill: Math.floor(50 / skills.length),
+        benefits: [
+            "Early access to all course content",
+            "One-on-one mentorship sessions",
+            "Certificate of completion",
+            "Opportunity to join as a teaching assistant"
+        ]
+    };
 
+    // Animation variables
     let observer;
     let skillCards = [];
+    let featureSections = [];
     let titleVisible = false;
     let subtitleVisible = false;
-    let badgeVisible = false;
-
-    function updateCountdown() {
-        const now = new Date();
-        const diff = launchDate - now;
-
-        days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    }
 
     onMount(() => {
-        // Initial update
-        updateCountdown();
-
-        // Update every second
-        const timer = setInterval(updateCountdown, 1000);
-
         // Setup intersection observer for animations
         observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -66,32 +97,40 @@
             });
         }, { threshold: 0.1 });
 
-        // Observe title elements with a delay
+        // Start title animations
         setTimeout(() => {
             titleVisible = true;
             setTimeout(() => {
                 subtitleVisible = true;
-                setTimeout(() => {
-                    badgeVisible = true;
-                }, 500);
             }, 400);
         }, 300);
 
-        // Observe skill cards
+        // Observe all elements that need animations
         skillCards.forEach((card, index) => {
             if (card) {
                 setTimeout(() => {
                     observer.observe(card);
-                }, 100 * index); // Stagger the animations
+                }, 100 * index);
+            }
+        });
+
+        featureSections.forEach((section, index) => {
+            if (section) {
+                observer.observe(section);
             }
         });
 
         return () => {
-            clearInterval(timer);
             if (observer) {
                 observer.disconnect();
             }
         };
+    });
+
+    onDestroy(() => {
+        if (observer) {
+            observer.disconnect();
+        }
     });
 </script>
 
@@ -140,7 +179,7 @@
                     Skill Kenya
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto mb-12 transition-all duration-700 delay-300 transform {subtitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}">
-                    Your gateway to professional skills. Coming soon with comprehensive online courses.
+                    Your gateway to professional skills. Empowering Kenyans with industry-ready expertise.
                 </p>
 
                 <div class="w-full grid place-items-center mb-8">
@@ -163,48 +202,77 @@
                     </div>
                 </div>
 
-                <!-- Countdown Timer -->
-                <div class="flex justify-center mb-16 transition-all duration-700 transform {badgeVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}">
-                    <div class="bg-gray-800/40 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50">
-                        <p class="text-blue-400 text-center mb-2 font-semibold">Launching In</p>
-                        <div class="flex space-x-4 text-center">
-                            <div class="flex flex-col">
-                                <span class="text-3xl font-bold">{days}</span>
-                                <span class="text-xs text-gray-400">DAYS</span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-3xl font-bold">{hours}</span>
-                                <span class="text-xs text-gray-400">HOURS</span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-3xl font-bold">{minutes}</span>
-                                <span class="text-xs text-gray-400">MINUTES</span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-3xl font-bold">{seconds}</span>
-                                <span class="text-xs text-gray-400">SECONDS</span>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Countdown Timer Component -->
+                <div class="mb-16">
+                    <CountdownTimer launchDate={launchDate} theme="blue" />
                 </div>
 
                 <!-- Coming Soon Badge -->
-                <div class="flex justify-center mb-32 transition-all duration-700 delay-500 transform {badgeVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}">
-                    <button class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-2 rounded-full font-semibold hover:bg-blue-500/30 transition-all duration-300 pulse-animation">
+                <div class="flex justify-center mb-16 transition-all duration-700 delay-500 transform {subtitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}">
+                    <button class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-3 rounded-full font-semibold hover:bg-blue-500/30 transition-all duration-300 pulse-animation">
                         Coming Soon
                     </button>
                 </div>
 
+                <!-- Beta Program Announcement -->
+                <div bind:this={featureSections[0]} class="max-w-4xl mx-auto mb-24 p-8 rounded-2xl border border-purple-500/30 bg-purple-500/5 backdrop-blur-sm opacity-0 translate-y-10 transition-all duration-700">
+                    <h2 class="text-3xl font-bold mb-4 text-center text-purple-300">Join Our Beta Program</h2>
+                    <p class="text-gray-300 text-center mb-6">
+                        We're selecting {betaTestersInfo.total} students for our exclusive beta program.
+                        Approximately {betaTestersInfo.perSkill} students per course category will get early access to test our platform.
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-800/50 p-6 rounded-xl">
+                            <h3 class="text-xl font-bold mb-3 text-purple-300">Beta Tester Benefits</h3>
+                            <ul class="space-y-2">
+                                {#each betaTestersInfo.benefits as benefit}
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-purple-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>{benefit}</span>
+                                    </li>
+                                {/each}
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-800/50 p-6 rounded-xl">
+                            <h3 class="text-xl font-bold mb-3 text-purple-300">How to Apply</h3>
+                            <p class="mb-4">To be considered for the beta program:</p>
+                            <ol class="list-decimal list-inside space-y-2 ml-2">
+                                <li>Subscribe to our newsletter below</li>
+                                <li>Complete our beta application survey (sent via email)</li>
+                                <li>Demonstrate enthusiasm and commitment to learning</li>
+                                <li>Be available for the full course duration</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="#newsletter" class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-300 font-semibold">
+                            Apply for Beta Access
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Skills Grid -->
                 <section aria-label="Our Courses">
-                    <h2 class="sr-only">Our Courses</h2>
+                    <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
                     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
                         {#each skills as skill, i}
                             <div
                                     bind:this={skillCards[i]}
-                                    class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 opacity-0 translate-y-8"
+                                    class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 opacity-0 translate-y-8 relative overflow-hidden group"
                                     style="transition-delay: {i * 150}ms;"
                             >
+                                <!-- Free course badge -->
+                                {#if skill.freeCourses > 0}
+                                    <div class="absolute -right-10 -top-10 bg-green-500 w-20 h-20 rotate-45 transform group-hover:-right-8 group-hover:-top-8 transition-all duration-300">
+                                        <span class="absolute bottom-1 right-6 text-xs font-bold">{skill.freeCourses} Free</span>
+                                    </div>
+                                {/if}
+
                                 <lord-icon
                                         src="https://cdn.lordicon.com/{skill.icon}.json"
                                         trigger="hover"
@@ -213,13 +281,112 @@
                                         style="width:50px;height:50px">
                                 </lord-icon>
                                 <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
-                                <p class="text-gray-400">{skill.description}</p>
+                                <p class="text-gray-400 mb-4">{skill.description}</p>
+
+                                <div class="mt-4 pt-4 border-t border-gray-700/50">
+                                    <h4 class="text-sm font-semibold text-blue-400 mb-2">What you'll learn:</h4>
+                                    <ul class="space-y-1">
+                                        {#each skill.features as feature}
+                                            <li class="text-sm text-gray-400 flex items-start">
+                                                <svg class="w-4 h-4 text-blue-500 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                {feature}
+                                            </li>
+                                        {/each}
+                                    </ul>
+                                </div>
                             </div>
                         {/each}
                     </div>
                 </section>
             </div>
         </div>
+
+        <!-- Free Courses Section -->
+        <div bind:this={featureSections[1]} class="container mx-auto px-4 py-20 opacity-0 translate-y-10 transition-all duration-700">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">Free Courses Available</h2>
+                <p class="text-xl text-gray-300 text-center mb-12">
+                    We believe in accessible education. That's why we're offering several free courses to get you started on your learning journey.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-bold text-xl">HTML & CSS Basics</h3>
+                            <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Learn the fundamentals of web development with HTML and CSS. Build your first responsive website from scratch.</p>
+                        <p class="text-sm text-gray-500">Duration: 4 weeks</p>
+                    </div>
+
+                    <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-bold text-xl">Digital Marketing Intro</h3>
+                            <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Master the basics of digital marketing, including social media strategy, content creation, and analytics.</p>
+                        <p class="text-sm text-gray-500">Duration: 3 weeks</p>
+                    </div>
+
+                    <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-bold text-xl">Design Fundamentals</h3>
+                            <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Explore the principles of graphic design, color theory, typography, and composition for digital projects.</p>
+                        <p class="text-sm text-gray-500">Duration: 3 weeks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack Section -->
+        <div bind:this={featureSections[2]} class="bg-gray-950 py-20 opacity-0 translate-y-10 transition-all duration-700">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold mb-6 text-center">Our Technology Stack</h2>
+                    <p class="text-gray-300 text-center mb-12">
+                        We've built Skill Kenya using cutting-edge web technologies for a fast, responsive, and engaging learning experience.
+                    </p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12">
+                        {#each techStack as tech}
+                            <div class="flex flex-col items-center text-center p-4 transition-all duration-300 transform hover:scale-105">
+                                <i class="{tech.icon} text-4xl mb-3 {tech.color}"></i>
+                                <span class="font-semibold">{tech.name}</span>
+                            </div>
+                        {/each}
+                    </div>
+
+                    <div class="bg-gray-900/60 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
+                        <h3 class="font-bold text-xl mb-4">Why This Matters For Students</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span><strong class="text-blue-400">Lightning Fast Experience:</strong> Built with Svelte and Vite for optimal performance and responsiveness.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span><strong class="text-blue-400">Modern Design:</strong> Beautiful UI with TailwindCSS for an intuitive learning experience.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span><strong class="text-blue-400">Seamless Data Handling:</strong> Integration with Google Sheets API for smooth user registration and progress tracking.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Scroll down button -->
         <div class="absolute -bottom-8 opacity-45 left-0 right-0 flex justify-center mb-8 z-50">
             <a href="#newsletter"
@@ -252,9 +419,38 @@
                 <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
             </section>
             <p class="text-gray-400 mb-8">
-                Be the first to know when we launch. Subscribe to our newsletter for early access.
+                Be the first to know when we launch. Subscribe to our newsletter for early access and beta testing opportunities.
             </p>
             <EmailForm />
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div bind:this={featureSections[3]} class="container mx-auto px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+
+            <div class="space-y-6">
+                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
+                    <h3 class="font-bold text-xl mb-2">How much will courses cost?</h3>
+                    <p class="text-gray-300">Our courses will be priced affordably to make quality education accessible. Free introductory courses will be available in each category, with premium courses ranging from KSh 5,000 to KSh 15,000 depending on complexity and duration.</p>
+                </div>
+
+                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
+                    <h3 class="font-bold text-xl mb-2">How will the courses be delivered?</h3>
+                    <p class="text-gray-300">Courses will be delivered through our custom-built online learning platform featuring video lessons, interactive exercises, downloadable resources, and live Q&A sessions with instructors.</p>
+                </div>
+
+                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
+                    <h3 class="font-bold text-xl mb-2">Will I receive a certificate?</h3>
+                    <p class="text-gray-300">Yes, all students who complete a course will receive a digital certificate of completion. For premium courses, you'll also receive a verifiable credential that you can share with employers.</p>
+                </div>
+
+                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
+                    <h3 class="font-bold text-xl mb-2">How can I become a beta tester?</h3>
+                    <p class="text-gray-300">Subscribe to our newsletter and complete the beta application form that will be sent to you. We'll select a diverse group of 50 students across all course categories based on enthusiasm, commitment, and learning goals.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -349,7 +545,7 @@
         }
     }
 
-    /* Animation for skills cards */
+    /* Animation for skills cards and feature sections */
     .animate-in {
         opacity: 1 !important;
         transform: translateY(0) !important;
