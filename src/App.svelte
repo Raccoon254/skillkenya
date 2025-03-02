@@ -61,11 +61,11 @@
 
     // Tech stack data
     const techStack = [
-        { name: "Svelte", icon: "fa-brands fa-svelte", color: "text-orange-500" },
-        { name: "TailwindCSS", icon: "fa-brands fa-css3-alt", color: "text-blue-400" },
-        { name: "JavaScript", icon: "fa-brands fa-js", color: "text-yellow-400" },
-        { name: "Vite", icon: "fa-solid fa-bolt", color: "text-purple-400" },
-        { name: "Google Sheets API", icon: "fa-solid fa-table", color: "text-green-400" }
+        { name: "Svelte", icon: "devicon-svelte-plain", color: "text-orange-500" },
+        { name: "TailwindCSS", icon: "devicon-tailwindcss-original", color: "text-blue-400" },
+        { name: "JavaScript", icon: "devicon-javascript-plain", color: "text-yellow-400" },
+        { name: "Vite", icon: "devicon-vitejs-plain", color: "text-purple-400" },
+        { name: "Google Sheets API", icon: "devicon-googlecloud-plain", color: "text-green-400" }
     ];
 
     // Beta testers data
