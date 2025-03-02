@@ -25,10 +25,9 @@
 </script>
 
 <section
-        class="max-w-4xl mx-auto mb-24 p-8 my-10 rounded-2xl relative overflow-hidden"
+        class="max-w-4xl mx-auto mb-24 py-8 my-10 rounded-2xl relative overflow-hidden"
         in:fly={{ y: 50, duration: 800, easing: quintOut }}
         out:fade={{ duration: 300 }}
-        style="background-image: url('https://source.unsplash.com/1600x900/?coding');"
 >
     <!-- Header with Icon -->
     <div class="flex justify-center items-center mb-6">
@@ -40,7 +39,7 @@
                 class="mr-3"
         ></lord-icon>
         <h2 class="text-3xl md:text-4xl font-bold text-center text-purple-200">
-            Join Our Beta Program
+            Join Our Beta
         </h2>
     </div>
 
@@ -56,13 +55,11 @@
     <div class="grid md:grid-cols-2 gap-8 mb-8">
         <!-- Benefits Card -->
         <div
-                class="bg-gray-800/60 p-6 rounded-xl border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 shadow-md"
+                class="bg-gray-800/10 p-6 rounded-xl border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 shadow-md"
                 in:fly={{ x: -50, duration: 700, delay: 300, easing: quintOut }}
         >
             <div class="flex items-center mb-4">
-                <svg class="w-6 h-6 text-purple-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
+                <i class="fas fa-gift text-purple-400 mr-3"></i>
                 <h3 class="text-xl font-bold text-purple-300">Beta Tester Benefits</h3>
             </div>
             <ul class="space-y-3">
@@ -82,17 +79,15 @@
 
         <!-- How to Apply Card -->
         <div
-                class="bg-gray-800/60 p-6 rounded-xl border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 shadow-md"
+                class="bg-gray-800/10 p-6 rounded-xl border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 shadow-md"
                 in:fly={{ x: 50, duration: 700, delay: 300, easing: quintOut }}
         >
             <div class="flex items-center mb-4">
-                <svg class="w-6 h-6 text-purple-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3-3 3 3m0 6l-3 3-3-3"></path>
-                </svg>
+                <i class="fas fa-file-signature text-purple-400 mr-3"></i>
                 <h3 class="text-xl font-bold text-purple-300">How to Apply</h3>
             </div>
             <p class="text-gray-300 mb-4">To be considered for the beta program:</p>
-            <ol class="list-decimal list-inside space-y-3 text-gray-300">
+            <ol class="list-decimal text-start space-y-3 text-gray-300">
                 {#each ["Subscribe to our newsletter below", "Complete our beta application survey (sent via email)", "Demonstrate enthusiasm and commitment to learning", "Be available for the full course duration"] as step, i}
                     <li in:fade={{ duration: 500, delay: 400 + i * 100 }}>{step}</li>
                 {/each}
@@ -104,7 +99,7 @@
     <div class="text-center">
         <a
                 href="#newsletter"
-                class="inline-block px-8 py-4 bg-purple-600 hover:bg-purple-700 rounded-full font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+                class="inline-block px-8 py-4 rounded-full border border-white ring-2 ring-purple-500 font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
                 in:scale={{ duration: 600, delay: 600, easing: quintOut }}
         >
             Apply for Beta Access
@@ -132,7 +127,6 @@
 
     /* Subtle glow effect on hover */
     a:hover {
-        box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
         color: #f9f9f9;
     }
 </style>

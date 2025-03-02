@@ -70,8 +70,8 @@
 
     // Beta testers data
     const betaTestersInfo = {
-        total: 20,
-        perSkill: Math.floor(20 / skills.length),
+        total: 50,
+        perSkill: Math.floor(50 / skills.length),
         benefits: [
             "Early access to all course content",
             "One-on-one mentorship sessions",
@@ -216,7 +216,10 @@
             </div>
 
             <!-- Beta Program Announcement -->
-            <BetaProgram {betaTestersInfo} bind:this={featureSections[0]} />
+            <div bind:this={featureSections[0]}
+                 class="">
+                <BetaProgram {betaTestersInfo} bind:this={featureSections[0]} />
+            </div>
         </div>
     </div>
 </main>
@@ -367,20 +370,6 @@
         </div>
     </div>
 
-    <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
-        <div class="container mx-auto px-4 flex items-center flex-col justify-center gap-4">
-            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span
-                    class="underline underline-offset-2">kenTom</span>&trade;</a> project
-            </div>
-
-            <a href="https://stevetom.vercel.app" class="hover:rotate-12 transition-all duration-300">
-                <div class="h-14 w-14 p-3 rounded-full ring-2 ring-offset-1 border-2">
-                    <img src="/logo-light.png" alt="KenTom logo" class=""/>
-                </div>
-            </a>
-        </div>
-    </section>
-
     <!-- Newsletter Section -->
     <div id="newsletter" class="container mx-auto px-4 py-10">
         <div class="max-w-xl mx-auto text-center">
@@ -432,6 +421,20 @@
             </div>
         </div>
     </div>
+
+    <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
+        <div class="container mx-auto px-4 flex items-center flex-col justify-center gap-4">
+            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span
+                    class="underline underline-offset-2">kenTom</span>&trade;</a> project
+            </div>
+
+            <a href="https://stevetom.vercel.app" class="hover:rotate-12 transition-all duration-300">
+                <div class="h-14 w-14 p-3 rounded-full ring-2 ring-offset-1 border-2">
+                    <img src="/logo-light.png" alt="KenTom logo" class=""/>
+                </div>
+            </a>
+        </div>
+    </section>
 
     <section class="bg-gray-900 text-white py-16 relative">
         <div class="container mx-auto px-4">
