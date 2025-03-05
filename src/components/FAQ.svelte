@@ -1,7 +1,7 @@
 <script>
-    import { fade, fly, slide } from 'svelte/transition';
-    import { quintOut } from 'svelte/easing';
-    import { onMount } from 'svelte';
+    import {slide} from 'svelte/transition';
+    import {quintOut} from 'svelte/easing';
+    import {onMount} from 'svelte';
 
     // FAQ data as an array of objects
     const faqs = [
@@ -42,33 +42,34 @@
 <div>
     <section class="max-w-3xl mx-auto">
         <div class="space-y-4">
-        <h2 class="text-3xl font-bold mb-8 text-center text-white">Frequently Asked Questions</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-white">Frequently Asked Questions</h2>
 
-        <div class="space-y-4">
-            {#each faqs as faq, index}
-                <div
-                        class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 cursor-pointer transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg"
-                        on:click={() => toggle(index)}
-                        on:keypress={(e) => e.key === 'Enter' && toggle(index)}
-                        role="button"
-                        tabindex="0"
-                        aria-expanded={openStates[index]}
-                        aria-label={`Toggle ${faq.question}`}
-                >
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-lg text-purple-300">{faq.question}</h3>
-                        <i class="fas {openStates[index] ? 'fa-minus' : 'fa-plus'} text-purple-400"></i>
+            <div class="space-y-4">
+                {#each faqs as faq, index}
+                    <div
+                            class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 cursor-pointer transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg"
+                            on:click={() => toggle(index)}
+                            on:keypress={(e) => e.key === 'Enter' && toggle(index)}
+                            role="button"
+                            tabindex="0"
+                            aria-expanded={openStates[index]}
+                            aria-label={`Toggle ${faq.question}`}
+                    >
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-purple-300">{faq.question}</h3>
+                            <i class="fas {openStates[index] ? 'fa-minus' : 'fa-plus'} text-purple-400"></i>
+                        </div>
+                        {#if openStates[index]}
+                            <p
+                                    class="text-gray-300 mt-3"
+                                    transition:slide={{ duration: 300, easing: quintOut }}
+                            >
+                                {faq.answer}
+                            </p>
+                        {/if}
                     </div>
-                    {#if openStates[index]}
-                        <p
-                                class="text-gray-300 mt-3"
-                                transition:slide={{ duration: 300, easing: quintOut }}
-                        >
-                            {faq.answer}
-                        </p>
-                    {/if}
-                </div>
-            {/each}
+                {/each}
+            </div>
         </div>
     </section>
 </div>
@@ -87,9 +88,5 @@
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-    }
-
-    .shadow-lg {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
 </style>
