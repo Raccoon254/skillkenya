@@ -87,7 +87,7 @@
                 <h3 class="text-xl font-bold text-purple-300">How to Apply</h3>
             </div>
             <p class="text-gray-300 mb-4">To be considered for the beta program:</p>
-            <ol class="list-decimal text-start space-y-3 text-gray-300">
+            <ol class="list-decimal text-start space-y-3 ml-3 text-gray-300">
                 {#each ["Subscribe to our newsletter below", "Complete our beta application survey (sent via email)", "Demonstrate enthusiasm and commitment to learning", "Be available for the full course duration"] as step, i}
                     <li in:fade={{ duration: 500, delay: 400 + i * 100 }}>{step}</li>
                 {/each}
