@@ -123,7 +123,7 @@
 
     {#if formState === 'success'}
         <div class="text-green-400 mt-4 text-center fade-in-animation">
-            <p class="flex items-center justify-center">
+            <p class="flex flex-col md:flex-row items-center justify-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
