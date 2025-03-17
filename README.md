@@ -22,6 +22,7 @@ Skill Kenya is an online learning platform built with Svelte and TailwindCSS. It
 ## Installation
 ### Prerequisites
 Ensure you have **Node.js** installed on your system.
+You can get it from [here](https://nodejs.org/).
 
 ### Setup
 1. Clone the repository:
