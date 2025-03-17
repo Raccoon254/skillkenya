@@ -94,17 +94,6 @@
             </ol>
         </div>
     </div>
-
-    <!-- Call to Action Button -->
-    <div class="text-center">
-        <a
-                href="#newsletter"
-                class="inline-block px-8 py-4 rounded-full border border-white ring-2 ring-purple-500 font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
-                in:scale={{ duration: 600, delay: 600, easing: quintOut }}
-        >
-            Apply for Beta Access
-        </a>
-    </div>
 </section>
 
 <style>

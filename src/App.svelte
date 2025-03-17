@@ -4,6 +4,7 @@
     import {onMount, onDestroy} from 'svelte';
     import BetaProgram from "./components/BetaProgram.svelte";
     import FAQ from './components/FAQ.svelte';
+    import ComparisonSection from './components/ComparisonSection.svelte';
 
     // Calculate launch date
     const launchDate = new Date(2025, 7, 1);
@@ -225,6 +226,9 @@
         </div>
     </div>
 </main>
+<section>
+    <ComparisonSection/>
+</section>
 <main class="bg-gray-900 text-white">
     <!-- Skills Grid -->
     <section aria-label="Our Courses">
