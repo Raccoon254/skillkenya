@@ -23,7 +23,7 @@
     });
 </script>
 
-<section class="py-24 overflow-hidden">
+<section class="py-12 mb-32 overflow-hidden">
     <div class="container mx-auto px-4">
         <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
             <!-- Left Card - Without SkillKenya -->
