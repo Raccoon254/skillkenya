@@ -73,8 +73,8 @@
 
     // Beta testers data
     const betaTestersInfo = {
-        total: 50,
-        perSkill: Math.floor(50 / skills.length),
+        total: 20,
+        perSkill: Math.floor(20 / skills.length),
         benefits: [
             "Early access to all course content",
             "One-on-one mentorship sessions",
