@@ -212,21 +212,26 @@
             </div>
 
             <!-- Coming Soon Badge -->
-            <div class="flex justify-center mb-16 transition-all duration-700 delay-500 transform {subtitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}">
+            <div class="flex justify-center mb-16 transition-all gap-4 duration-700 delay-500 transform {subtitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}">
                 <button class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-3 rounded-full font-semibold hover:bg-blue-500/30 transition-all duration-300 pulse-animation">
                     Coming Soon
                 </button>
+                <a data-tip="Join Our Whatsapp Group" target="_blank" href="https://chat.whatsapp.com/DF40YyhA1ZJ14wFjkpXq1K" class="bg-blue-500/20 tooltip ring-2 ring-blue-500 text-blue-400 md:px-6 px-3 py-3 rounded-full font-semibold flex items-center justify-center md:gap-2 hover:bg-blue-500/30 transition-all duration-300 pulse-animation">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/1024px-WhatsApp.svg.png?20220228223904" alt="Whatsapp Logo" class="w-6 h-6 inline-block"/>
+                    <div class="hidden md:block">
+                        Join our whatsapp group
+                    </div>
+                </a>
             </div>
 
             <!-- Beta Program Announcement -->
-            <div bind:this={featureSections[0]}
-                 class="">
+            <div bind:this={featureSections[0]}>
                 <BetaProgram {betaTestersInfo} bind:this={featureSections[0]} />
             </div>
         </div>
     </div>
 </main>
-<section>
+<section class="mt-2">
     <ComparisonSection/>
 </section>
 <main class="bg-gray-900 text-white">
@@ -324,7 +329,7 @@
     </div>
 
     <!-- Tech Stack Section -->
-    <div bind:this={featureSections[2]} class="bg-gray-900 py-20 opacity-0 translate-y-10 transition-all duration-700">
+    <div bind:this={featureSections[2]} class="bg-gray-900 py-10 opacity-0 translate-y-10 transition-all duration-700">
         <div class="container mx-auto bg-gray-900 px-4">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold mb-6 text-center">Our Technology Stack</h2>
@@ -351,7 +356,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span><strong class="text-blue-400">Lightning Fast Experience:</strong> Built with Svelte and Vite for optimal performance and responsiveness.</span>
+                            <span class="text-start"><strong class="text-blue-400">Lightning Fast Experience:</strong> Built with Svelte and Vite for optimal performance and responsiveness.</span>
                         </li>
                         <li class="flex items-start">
                             <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
@@ -359,7 +364,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span><strong class="text-blue-400">Modern Design:</strong> Beautiful UI with TailwindCSS for an intuitive learning experience.</span>
+                            <span class="text-start"><strong class="text-blue-400">Modern Design:</strong> Beautiful UI with TailwindCSS for an intuitive learning experience.</span>
                         </li>
                         <li class="flex items-start">
                             <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
@@ -367,7 +372,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span><strong class="text-blue-400">Seamless Data Handling:</strong> Integration with Google Sheets API for smooth user registration and progress tracking.</span>
+                            <span class="text-start"><strong class="text-blue-400">Seamless Data Handling:</strong> Integration with Google Sheets API for smooth user registration and progress tracking.</span>
                         </li>
                     </ul>
                 </div>
@@ -376,7 +381,7 @@
     </div>
 
     <!-- Newsletter Section -->
-    <div id="newsletter" class="container mx-auto bg-gray-900 px-4 my-44 py-10">
+    <div id="newsletter" class="container mx-auto bg-gray-900 px-4 mb-24 my-8 py-10">
         <div class="max-w-xl mx-auto text-center">
             <section aria-label="Newsletter">
                 <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
@@ -394,17 +399,16 @@
         <FAQ/>
     </div>
 
-    <section class="bg-gray-900 min-h-60 center text-white py-12 mt-8 relative">
+    <section class="bg-gray-900 min-h-60 center text-white py-8 mt-8 relative">
         <div class="container mx-auto bg-gray-900 px-4 flex items-center flex-col justify-center gap-4">
-            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span
-                    class="underline underline-offset-2">kenTom</span>&trade;</a> project
-            </div>
-
             <a href="https://stevetom.vercel.app" class="hover:rotate-12 transition-all duration-300">
                 <div class="h-14 w-14 p-3 rounded-full ring-2 ring-offset-1 border-2">
                     <img src="/logo-light.png" alt="KenTom logo" class=""/>
                 </div>
             </a>
+            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span
+                    class="underline underline-offset-2">kenTom</span>&trade;</a> project
+            </div>
         </div>
     </section>
 
@@ -414,7 +418,7 @@
                 <h3 class="text-2xl font-bold text-center mb-8">Connect With Us</h3>
                 <div class="flex justify-center gap-8">
                     <!-- TikTok -->
-                    <a href="https://www.tiktok.com/@raccoon.254" target="_blank"
+                    <a href="https://www.tiktok.com/@skillkenya" target="_blank"
                        class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
                        aria-label="TikTok">
                         <i class="fa-brands fa-tiktok text-2xl"></i>
@@ -427,18 +431,18 @@
                         <i class="fa-brands fa-instagram text-2xl"></i>
                     </a>
 
+                    <!-- Twitter -->
+                    <a href="https://x.com/skill_kenya" target="_blank"
+                       class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
+                       aria-label="Twitter">
+                        <i class="fa-brands fa-twitter text-2xl"></i>
+                    </a>
+
                     <!-- WhatsApp -->
-                    <a href="https://wa.me/254758481320" target="_blank"
+                    <a href="https://chat.whatsapp.com/DF40YyhA1ZJ14wFjkpXq1K" target="_blank"
                        class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
                        aria-label="WhatsApp">
                         <i class="fa-brands fa-whatsapp text-2xl"></i>
-                    </a>
-
-                    <!-- Email -->
-                    <a href="mailto:tomsteve187@gmail.com" target="_blank"
-                       class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
-                       aria-label="Email">
-                        <i class="fa-solid fa-envelope text-2xl"></i>
                     </a>
                 </div>
             </div>

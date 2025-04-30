@@ -7,7 +7,7 @@
     const faqs = [
         {
             question: "How much will courses cost?",
-            answer: "Our courses will be priced affordably to make quality education accessible. Free introductory courses will be available in each category, with premium courses ranging from KSh 5,000 to KSh 15,000 depending on complexity and duration."
+            answer: "Our courses will be priced affordably to make quality education accessible. Free introductory courses will be available in each category, with premium courses ranging from KSh 500 to KSh 10,000 depending on complexity and duration."
         },
         {
             question: "How will the courses be delivered?",
@@ -61,7 +61,7 @@
                         </div>
                         {#if openStates[index]}
                             <p
-                                    class="text-gray-300 mt-3"
+                                    class="text-start text-gray-300 mt-3"
                                     transition:slide={{ duration: 300, easing: quintOut }}
                             >
                                 {faq.answer}

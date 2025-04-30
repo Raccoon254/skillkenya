@@ -37,7 +37,7 @@
                     Endless scattered tutorials. Navigating outdated lessons. Lost amidst overwhelming coding content
                 </p>
 
-                <div class="relative h-72 transition-all duration-700 transform {componentsVisible ? 'opacity-100' : 'opacity-0'}">
+                <div class="relative py-4 md:h-72 transition-all duration-700 transform {componentsVisible ? 'opacity-100' : 'opacity-0'}">
                     <img src="/chaotic_learning_without_skillkenya.png" alt="Image of chaotic learning experience without SkillKenya" />
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     Streamlined, structured learning. Dive into current, curated content. Master coding with clarity and confidence at your own pace.
                 </p>
 
-                <div class="relative h-72 transition-all duration-700 transform {componentsVisible ? 'opacity-100' : 'opacity-0'}">
+                <div class="relative py-4 md:h-72 transition-all duration-700 transform {componentsVisible ? 'opacity-100' : 'opacity-0'}">
                     <img src="/how_skillkenya_streamlines_learning.png" alt="Image of SkillKenya platform learning experience" />
                 </div>
             </div>
