@@ -4,7 +4,7 @@
     import { tick } from 'svelte';
 
     // Props with defaults
-    export let launchDate = new Date(2025, 5, 1); // June is month 5 (0-indexed)
+    export let launchDate = new Date(2025, 7, 1); // June is month 5 (0-indexed)
     export let title = "Launching In";
     export let theme = "blue"; // options: blue, purple, green
     export let onComplete = () => {};
