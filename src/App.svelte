@@ -6,8 +6,8 @@
     import FAQ from './components/FAQ.svelte';
     import ComparisonSection from './components/ComparisonSection.svelte';
 
-    // Calculate launch date
-    const launchDate = new Date(2025, 7, 1);
+    // Calculate launch date - Updated to November 2026
+    const launchDate = new Date(2026, 10, 1); // November 1, 2026 (month is 0-indexed)
 
     // Course data
     const skills = [
@@ -207,8 +207,56 @@
             </div>
 
             <!-- Countdown Timer Component -->
-            <div class="mb-16">
-                <CountdownTimer launchDate={launchDate} theme="blue"/>
+            <div class="mb-8">
+                <CountdownTimer launchDate={launchDate} title="Launching Later 2026" theme="blue"/>
+            </div>
+
+            <!-- Founder's Message / Apology Section -->
+            <div class="container mx-auto px-4 mb-16 max-w-3xl">
+                <div class="bg-gray-800/40 backdrop-blur-sm p-8 rounded-xl border border-yellow-500/30 shadow-lg">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold text-yellow-400">A Message From Our Founder</h3>
+                    </div>
+                    <div class="space-y-4 text-gray-300">
+                        <p class="leading-relaxed">
+                            Dear future learners,
+                        </p>
+                        <p class="leading-relaxed">
+                            I sincerely apologize for the delay in launching Skill Kenya. I know many of you have been
+                            eagerly waiting, and I deeply appreciate your patience and continued interest.
+                        </p>
+                        <p class="leading-relaxed">
+                            Creating quality courses that truly make a difference in your learning journey is a process
+                            that takes time. We're not just putting together random content – we're crafting comprehensive,
+                            industry-relevant courses with practical projects, expert instruction, and real-world applications
+                            that will genuinely prepare you for the job market.
+                        </p>
+                        <p class="leading-relaxed">
+                            We're now targeting a launch between <strong class="text-blue-400">August and November 2026</strong>.
+                            This extended timeline ensures we deliver the high-quality education platform you deserve, not just
+                            something rushed to meet a deadline.
+                        </p>
+                        <p class="leading-relaxed">
+                            Thank you for your understanding and continued support. Your future is worth the wait.
+                        </p>
+                        <div class="pt-4 border-t border-gray-700/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <p class="font-semibold text-white text-lg">Steve</p>
+                                <p class="text-sm text-gray-400">Founder, Skill Kenya</p>
+                            </div>
+                            <a href="https://wa.me/254758481320" target="_blank"
+                               class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-green-500/50">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                                </svg>
+                                Contact Me on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Coming Soon Badge -->
