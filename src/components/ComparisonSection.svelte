@@ -21,6 +21,20 @@
             }, animationDelay);
         }, animationDelay);
     });
+
+    // Scroll to waitlist function
+    function scrollToWaitlist() {
+        const waitlistSection = document.querySelector('#waitlist-section');
+        if (waitlistSection) {
+            waitlistSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest'
+            });
+        } else {
+            console.error('ComparisonSection: Waitlist section not found!');
+        }
+    }
 </script>
 
 <section class="py-12 mb-32 overflow-hidden">
@@ -61,9 +75,12 @@
 
         <!-- Call to Action -->
         <div class="mt-12 text-center transition-all duration-700 transform {componentsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}">
-            <a href="#newsletter" class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-3 rounded-full font-semibold hover:bg-blue-500/30 transition-all duration-300 pulse-animation">
-                Join our Beta Program
-            </a>
+            <button
+                on:click={scrollToWaitlist}
+                class="bg-blue-500/20 ring-2 ring-blue-500 text-blue-400 px-6 py-3 rounded-full font-semibold hover:bg-blue-500/30 transition-all duration-300 pulse-animation cursor-pointer"
+            >
+                Join the Waitlist
+            </button>
         </div>
     </div>
 </section>

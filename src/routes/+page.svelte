@@ -23,12 +23,24 @@
         MoonStar
     } from 'lucide-svelte';
 
-    // Smooth scroll function
-    function scrollToWaitlist() {
+    // Smooth scroll function - available globally
+    export function scrollToWaitlist() {
         const waitlistSection = document.querySelector('#waitlist-section');
+        console.log('Scrolling to waitlist section:', waitlistSection);
         if (waitlistSection) {
-            waitlistSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            waitlistSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest'
+            });
+        } else {
+            console.error('Waitlist section not found!');
         }
+    }
+
+    // Make it available on window object for any component to use
+    if (typeof window !== 'undefined') {
+        window.scrollToWaitlist = scrollToWaitlist;
     }
 
     // Tech stack data
@@ -369,7 +381,7 @@
 <!--            <EmailForm/>-->
 <!--        </div>-->
 <!--    </div>-->
-    <div class="relative pt-28 bg-[#0B0F19] text-white overflow-hidden min-h-screen selection:bg-blue-500/30">
+    <div id="waitlist-section" class="relative pt-28 bg-[#0B0F19] text-white overflow-hidden min-h-screen selection:bg-blue-500/30">
 
             <div class="absolute inset-0 z-0 pointer-events-none">
                 <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-700/10 blur-[120px] rounded-full opacity-40 mix-blend-screen animate-pulse-slow"></div>

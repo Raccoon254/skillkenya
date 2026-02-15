@@ -16,13 +16,10 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     // Use inline styles to ensure they override everything
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    entry.target.style.transition = 'opacity 1000ms ease-out, transform 1000ms ease-out';
-
-                    // Also add classes as fallback
-                    entry.target.classList.add('animate-in');
-                    entry.target.classList.add('animate-reveal');
+                    const element = entry.target as HTMLElement;
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                    element.style.transition = 'opacity 1000ms ease-out, transform 1000ms ease-out';
 
                     observer.unobserve(entry.target); // Only animate once
                 }
@@ -51,7 +48,23 @@
     });
 
     function scrollToWaitlist() {
-        document.querySelector('#waitlist-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const waitlistSection = document.querySelector('#waitlist-section');
+        console.log('HeroSection: Scrolling to waitlist section:', waitlistSection);
+        if (waitlistSection) {
+            waitlistSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest'
+            });
+        } else {
+            console.error('HeroSection: Waitlist section not found!');
+            // Fallback: try to scroll to any form on the page
+            const form = document.querySelector('form');
+            if (form) {
+                console.log('HeroSection: Fallback - scrolling to form:', form);
+                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
     }
 </script>
 
@@ -120,9 +133,9 @@
 
             <div class="flex flex-col items-center gap-4 transform transition-all duration-700 delay-500 {visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}">
                 <div class="flex -space-x-4">
-                    <img class="w-12 h-12 rounded-full border-2 border-white object-cover grayscale hover:grayscale-0 transition-all z-10" src="/user.png" alt="User" />
-                    <img class="w-12 h-12 rounded-full border-2 border-white object-cover grayscale hover:grayscale-0 transition-all z-20" src="/kentom.png" alt="User" />
-                    <div class="w-12 h-12 rounded-full border-2 border-white bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-xs font-bold text-gray-400 z-30">
+                    <img class="w-12 h-12 rounded-full border-2 border-blue-800 cursor-pointer hover:scale-105 transition-all duration-300 object-cover grayscale hover:grayscale-0 z-10" src="/user.png" alt="User" />
+                    <img class="w-12 h-12 rounded-full border-2 border-blue-800 cursor-pointer hover:scale-105 transition-all duration-300 object-cover grayscale hover:grayscale-0 z-20" src="/kentom.png" alt="User" />
+                    <div class="w-12 h-12 rounded-full border-2 border-blue-800 cursor-pointer hover:scale-105 transition-all duration-300 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-xs font-bold text-gray-400 z-30">
                         +231
                     </div>
                 </div>
