@@ -23,7 +23,8 @@ export const POST: RequestHandler = async ({ request }) => {
 			return json(
 				{
 					error: 'This email is already on the waitlist',
-					alreadyOnWaitlist: true
+					alreadyOnWaitlist: true,
+					isOG: existing.isOG
 				},
 				{ status: 400 }
 			);
