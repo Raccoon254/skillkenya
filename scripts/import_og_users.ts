@@ -1,8 +1,11 @@
 import 'dotenv/config'; 
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+// @ts-ignore
+import XLSX from "xlsx";
+// @ts-ignore
 import pg from 'pg';
-import XLSX from 'xlsx';
+// @ts-ignore
 import path from 'path';
 
 const connectionString = process.env.DATABASE_URL;
