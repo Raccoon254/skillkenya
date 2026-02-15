@@ -125,7 +125,7 @@
             <div class="relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
 
-                <div class="relative backdrop-blur-xl p-4 rounded-2xl overflow-hidden">
+                <div class="relative p-4 rounded-2xl">
 
                     <Quote class="absolute top-10 left-10 w-32 h-32 text-white/5 rotate-180 pointer-events-none" />
 
