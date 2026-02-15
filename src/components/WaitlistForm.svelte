@@ -11,7 +11,7 @@
 	let loading = false;
 	let error = '';
 	let codeTimer = 0;
-	let timerInterval: number;
+	let timerInterval: ReturnType<typeof setInterval>;
 	let inputRefs: HTMLInputElement[] = [];
 
 	// --- Visual Logic for Icons & Progress ---
@@ -189,10 +189,10 @@
 	});
 </script>
 
-<div class="w-full max-w-md mx-auto  relative min-h-[750px] mt-20 flex flex-col items-center p-4">
+<div class="w-full max-w-md mx-auto  relative min-h-[550px] mt-20 flex flex-col items-center p-4">
 	<!-- Circular Progress Indicator -->
 	<div class="relative w-32 h-32 mb-8 flex-shrink-0">
-		<svg class="w-full h-full transform -rotate-90 drop-shadow-2xl">
+		<svg class="w-full h-full transform -rotate-90 drop-shadow-2xl {loading ? 'animate-spin-slow' : ''}">
 			<circle cx="50%" cy="50%" r={radius} fill="none" stroke="#1f2937" stroke-width="6" />
 			<circle
 				cx="50%"
@@ -202,15 +202,15 @@
 				stroke="currentColor"
 				stroke-width="6"
 				stroke-linecap="round"
-				stroke-dasharray={circumference}
-				stroke-dashoffset={dashOffset}
-				class="transition-all duration-700 ease-out {stepConfig.color}"
+				stroke-dasharray={loading ? '60 314' : circumference}
+				stroke-dashoffset={loading ? 0 : dashOffset}
+				class="transition-all duration-700 ease-out {stepConfig.color} {loading ? 'animate-dash' : ''}"
 			/>
 		</svg>
 
 		<div class="absolute inset-0 flex items-center justify-center">
 			{#key currentStep}
-				<div class="w-14 h-14 {stepConfig.color} transition-all duration-500 animate-icon-pop">
+				<div class="w-14 h-14 {stepConfig.color} transition-all duration-500 animate-icon-pop {loading ? 'animate-pulse' : ''}">
 					<svg
 						viewBox="0 0 24 24"
 						fill="none"
@@ -247,7 +247,7 @@
 						type="email"
 						bind:value={email}
 						on:keypress={(e) => e.key === 'Enter' && requestCode()}
-						placeholder="you@example.com"
+						placeholder="username@gmail.com"
 						class="w-full px-4 py-4 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-lg text-center"
 						disabled={loading}
 					/>
@@ -350,7 +350,7 @@
 					type="text"
 					bind:value={name}
 					on:keypress={(e) => e.key === 'Enter' && (currentStep = 'phone')}
-					placeholder="John Doe"
+					placeholder="Ken Tom"
 					class="w-full px-4 py-4 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-center text-lg"
 				/>
 				<div class="flex gap-3">
@@ -457,7 +457,7 @@
 			<div class="text-center space-y-6">
 				<h3 class="text-3xl font-bold text-white">Already Registered</h3>
 				<p class="text-gray-400">The email <strong class="text-white">{email}</strong> is already on the list.</p>
-				<button on:click={resetForm} class="text-amber-400 hover:text-amber-300 font-medium">
+				<button on:click={resetForm} class="text-amber-400 hover:text-amber-300 border border-amber-500/30 focus:ring-1 ring-offset-2 ring-offset-gray-800  font-medium">
 					Try different email
 				</button>
 			</div>
@@ -479,7 +479,40 @@
 			opacity: 1;
 		}
 	}
+
+	@keyframes spin-slow {
+		from {
+			transform: rotate(-90deg);
+		}
+		to {
+			transform: rotate(270deg);
+		}
+	}
+
+	@keyframes dash {
+		0% {
+			stroke-dasharray: 1 314;
+			stroke-dashoffset: 0;
+		}
+		50% {
+			stroke-dasharray: 157 314;
+			stroke-dashoffset: -78;
+		}
+		100% {
+			stroke-dasharray: 1 314;
+			stroke-dashoffset: -314;
+		}
+	}
+
 	.animate-icon-pop {
 		animation: icon-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+	}
+
+	.animate-spin-slow {
+		animation: spin-slow 2s linear infinite;
+	}
+
+	.animate-dash {
+		animation: dash 2s ease-in-out infinite;
 	}
 </style>

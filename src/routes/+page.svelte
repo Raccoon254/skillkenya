@@ -6,7 +6,30 @@
     import FAQ from '$components/FAQ.svelte';
     import ComparisonSection from '$components/ComparisonSection.svelte';
     import WaitlistForm from "$components/WaitlistForm.svelte";
-    import {Code, Megaphone, Palette, Clock, Users as UsersIcon, CheckCircle2} from 'lucide-svelte';
+    import {
+        Code,
+        Megaphone,
+        Palette,
+        Clock,
+        Users as UsersIcon,
+        CheckCircle2,
+        Zap,
+        Sparkles,
+        Database,
+        Star, MoonStar, Eclipse,
+        ArrowDown,
+        Rocket,
+        ChevronDown,
+        MessageCircle as MessageCircleIcon
+    } from 'lucide-svelte';
+
+    // Smooth scroll function
+    function scrollToWaitlist() {
+        const waitlistSection = document.querySelector('#waitlist-section');
+        if (waitlistSection) {
+            waitlistSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 
     // Calculate launch date - Updated to November 2026
     const launchDate = new Date(2026, 10, 1); // November 1, 2026 (month is 0-indexed)
@@ -356,94 +379,238 @@
     <!-- Free Courses Section -->
     <div bind:this={featureSections[1]}
          class="container mx-auto bg-gray-900 px-4 py-20 opacity-0 translate-y-10 transition-all duration-700">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-6 text-center">Free Courses Available</h2>
-            <p class="text-xl text-gray-300 text-center mb-12">
-                We believe in accessible education. That's why we're offering several free courses to get you started on
-                your learning journey.
-            </p>
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 bg-green-500/10 px-4 py-2 rounded-full border border-green-500/30 mb-6">
+                    <span class="text-green-400 font-semibold text-sm uppercase tracking-wider">100% Free</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-400 via-emerald-400 to-green-400 bg-clip-text text-transparent">
+                    Start Learning for Free
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    We believe in accessible education. Get started with our premium introductory courses at absolutely no cost.
+                </p>
+            </div>
 
+            <!-- Courses Grid -->
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-bold text-xl">HTML & CSS Basics</h3>
-                        <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                <!-- HTML & CSS Course -->
+                <div class="group bg-gray-800/40 backdrop-blur-sm p-8 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300 hover:-translate-y-2">
+                    <!-- Icon & Badge -->
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-all">
+                            <Code class="w-7 h-7 text-green-400" />
+                        </div>
+                        <span class="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Free</span>
                     </div>
-                    <p class="text-gray-400 mb-4">Learn the fundamentals of web development with HTML and CSS. Build
-                        your first responsive website from scratch.</p>
-                    <p class="text-sm text-gray-500">Duration: 4 weeks</p>
+
+                    <!-- Content -->
+                    <h3 class="font-bold text-2xl text-white mb-3 group-hover:text-green-300 transition-colors">HTML & CSS Basics</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Learn the fundamentals of web development. Build your first responsive website from scratch with modern best practices.
+                    </p>
+
+                    <!-- Features -->
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <Clock class="w-4 h-4 text-green-400" />
+                            <span>4 weeks • Self-paced</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <UsersIcon class="w-4 h-4 text-green-400" />
+                            <span>Beginner friendly</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <CheckCircle2 class="w-4 h-4 text-green-400" />
+                            <span>Certificate included</span>
+                        </div>
+                    </div>
+
+                    <!-- What You'll Learn -->
+                    <div class="pt-6 border-t border-gray-700/50">
+                        <p class="text-xs font-semibold text-green-400 mb-2 uppercase tracking-wider">You'll Learn</p>
+                        <ul class="space-y-1 text-sm text-gray-400">
+                            <li>• HTML structure & semantics</li>
+                            <li>• CSS styling & layouts</li>
+                            <li>• Responsive design</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-bold text-xl">Digital Marketing Intro</h3>
-                        <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                <!-- Digital Marketing Course -->
+                <div class="group bg-gray-800/40 backdrop-blur-sm p-8 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300 hover:-translate-y-2">
+                    <!-- Icon & Badge -->
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-all">
+                            <Megaphone class="w-7 h-7 text-green-400" />
+                        </div>
+                        <span class="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Free</span>
                     </div>
-                    <p class="text-gray-400 mb-4">Master the basics of digital marketing, including social media
-                        strategy, content creation, and analytics.</p>
-                    <p class="text-sm text-gray-500">Duration: 3 weeks</p>
+
+                    <!-- Content -->
+                    <h3 class="font-bold text-2xl text-white mb-3 group-hover:text-green-300 transition-colors">Digital Marketing Intro</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Master the basics of digital marketing. Learn social media strategy, content creation, and data-driven analytics.
+                    </p>
+
+                    <!-- Features -->
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <Clock class="w-4 h-4 text-green-400" />
+                            <span>3 weeks • Self-paced</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <UsersIcon class="w-4 h-4 text-green-400" />
+                            <span>Beginner friendly</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <CheckCircle2 class="w-4 h-4 text-green-400" />
+                            <span>Certificate included</span>
+                        </div>
+                    </div>
+
+                    <!-- What You'll Learn -->
+                    <div class="pt-6 border-t border-gray-700/50">
+                        <p class="text-xs font-semibold text-green-400 mb-2 uppercase tracking-wider">You'll Learn</p>
+                        <ul class="space-y-1 text-sm text-gray-400">
+                            <li>• Social media marketing</li>
+                            <li>• Content strategy</li>
+                            <li>• Analytics & reporting</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="bg-gray-800/40 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-bold text-xl">Design Fundamentals</h3>
-                        <span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded">FREE</span>
+                <!-- Design Fundamentals Course -->
+                <div class="group bg-gray-800/40 backdrop-blur-sm p-8 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300 hover:-translate-y-2">
+                    <!-- Icon & Badge -->
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-all">
+                            <Palette class="w-7 h-7 text-green-400" />
+                        </div>
+                        <span class="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Free</span>
                     </div>
-                    <p class="text-gray-400 mb-4">Explore the principles of graphic design, color theory, typography,
-                        and composition for digital projects.</p>
-                    <p class="text-sm text-gray-500">Duration: 3 weeks</p>
+
+                    <!-- Content -->
+                    <h3 class="font-bold text-2xl text-white mb-3 group-hover:text-green-300 transition-colors">Design Fundamentals</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Explore the principles of graphic design. Master color theory, typography, and composition for digital projects.
+                    </p>
+
+                    <!-- Features -->
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <Clock class="w-4 h-4 text-green-400" />
+                            <span>3 weeks • Self-paced</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <UsersIcon class="w-4 h-4 text-green-400" />
+                            <span>Beginner friendly</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400">
+                            <CheckCircle2 class="w-4 h-4 text-green-400" />
+                            <span>Certificate included</span>
+                        </div>
+                    </div>
+
+                    <!-- What You'll Learn -->
+                    <div class="pt-6 border-t border-gray-700/50">
+                        <p class="text-xs font-semibold text-green-400 mb-2 uppercase tracking-wider">You'll Learn</p>
+                        <ul class="space-y-1 text-sm text-gray-400">
+                            <li>• Color theory basics</li>
+                            <li>• Typography principles</li>
+                            <li>• Visual composition</li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="text-center mt-12">
+                <p class="text-gray-400 text-lg">
+                    More free courses coming soon!
+                    <span class="text-green-400 font-semibold">Join the waitlist to be notified.</span>
+                </p>
             </div>
         </div>
     </div>
 
     <!-- Tech Stack Section -->
-    <div bind:this={featureSections[2]} class="bg-gray-900 py-10 opacity-0 translate-y-10 transition-all duration-700">
-        <div class="container mx-auto bg-gray-900 px-4">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-6 text-center">Our Technology Stack</h2>
-                <p class="text-gray-300 text-center mb-12">
-                    We've built Skill Kenya using cutting-edge web technologies for a fast, responsive, and engaging
-                    learning experience.
-                </p>
+    <div bind:this={featureSections[2]} class="bg-gray-950 kentom py-20 opacity-0 translate-y-10 transition-all duration-700">
+        <div class="container mx-auto  px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Header -->
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center gap-2 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/30 mb-6">
+                        <Eclipse class="w-4 h-4 text-blue-400" />
+                        <span class="text-blue-400 font-semibold text-sm uppercase tracking-wider">Built with Modern Tech</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                        Our Technology Stack
+                    </h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                        Powered by cutting-edge web technologies for a lightning-fast, responsive, and engaging learning experience
+                    </p>
+                </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-6 gap-6 mb-12">
+                <!-- Tech Stack Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-16">
                     {#each techStack as tech}
-                        <div class="flex flex-col items-center text-center p-4 transition-all duration-300 transform hover:scale-105">
-                            <i class="{tech.icon} text-4xl mb-3 {tech.color}"></i>
-                            <span class="font-semibold">{tech.name}</span>
+                        <div class="group backdrop-blur-sm border border-gray-50/5 p-6 rounded-2xl hover:border-blue-500/50 transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center">
+                            <div class="w-16 h-16 rounded-lg flex items-center justify-center mb-4 transition-all">
+                                <i class="{tech.icon} text-5xl {tech.color} group-hover:scale-110 transition-transform"></i>
+                            </div>
+                            <span class="font-semibold text-white group-hover:text-blue-300 text-nowrap overflow-ellipsis text-ellipsis transition-colors">{tech.name}</span>
                         </div>
                     {/each}
                 </div>
 
-                <div class="bg-gray-900/60 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50">
-                    <h3 class="font-bold text-xl mb-4">Why This Matters For Students</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-start"><strong class="text-blue-400">Lightning Fast Experience:</strong> Built with Svelte and Vite for optimal performance and responsiveness.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-start"><strong class="text-blue-400">Modern Design:</strong> Beautiful UI with TailwindCSS for an intuitive learning experience.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-start"><strong class="text-blue-400">Seamless Data Handling:</strong> Integration with Google Sheets API for smooth user registration and progress tracking.</span>
-                        </li>
-                    </ul>
+                <!-- Benefits Cards -->
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Lightning Fast -->
+                    <div class="bg-gray-800/5 backdrop-blur-xs p-6 rounded-xl border border-gray-700/10 hover:border-blue-500/50 transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                                <Zap class="w-6 h-6 text-blue-400" />
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-blue-300 mb-2">Lightning Fast</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">
+                                    Built with Svelte and Vite for optimal performance and instant page loads
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modern Design -->
+                    <div class="bg-gray-800/5 backdrop-blur-xs p-6 rounded-xl border border-gray-700/10 hover:border-purple-500/50 transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                                <MoonStar class="w-6 h-6 text-purple-400" />
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-purple-300 mb-2">Beautiful Design</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">
+                                    Stunning UI with TailwindCSS for an intuitive and enjoyable learning experience
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reliable Data -->
+                    <div class="bg-gray-800/5 backdrop-blur-xs p-6 rounded-xl border border-gray-700/10 hover:border-green-500/50 transition-all duration-300">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                                <Database class="w-6 h-6 text-green-400" />
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-green-300 mb-2">Reliable Data</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">
+                                    Secure database integration for smooth progress tracking and data management
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
