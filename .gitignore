@@ -27,3 +27,5 @@ dist-ssr
 .env.*.local
 
 /src/generated/prisma
+.svelte-kit
+

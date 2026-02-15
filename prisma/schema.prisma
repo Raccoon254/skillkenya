@@ -1,0 +1,93 @@
+// This is your Prisma models file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model WaitlistEntry {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  phone         String?
+  isOG          Boolean  @default(false) // Original users from Excel
+  verified      Boolean  @default(false)
+  verificationCode String?
+  verificationCodeExpiry DateTime?
+  source        String?  @default("website")
+  metadata      Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  notifications Notification[]
+  emailLogs     EmailLog[]
+
+  @@index([email])
+  @@index([isOG])
+  @@index([verified])
+  @@index([createdAt])
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  waitlistId  String
+  type        NotificationType
+  title       String
+  message     String
+  link        String?
+  metadata    Json?
+  emailSent   Boolean  @default(false)
+  emailSentAt DateTime?
+  read        Boolean  @default(false)
+  readAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  waitlistEntry WaitlistEntry @relation(fields: [waitlistId], references: [id], onDelete: Cascade)
+
+  @@index([waitlistId])
+  @@index([type])
+  @@index([emailSent])
+  @@index([read])
+}
+
+model EmailLog {
+  id          String   @id @default(cuid())
+  waitlistId  String?
+  to          String
+  from        String
+  subject     String
+  template    String?
+  status      EmailStatus @default(PENDING)
+  messageId   String?
+  error       String?
+  metadata    Json?
+  sentAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  waitlistEntry WaitlistEntry? @relation(fields: [waitlistId], references: [id], onDelete: SetNull)
+
+  @@index([waitlistId])
+  @@index([status])
+  @@index([to])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  WELCOME
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+  WAITLIST_JOINED
+  WAITLIST_APPROVED
+  GENERAL
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+  BOUNCED
+}

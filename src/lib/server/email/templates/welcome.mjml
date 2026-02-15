@@ -1,0 +1,124 @@
+<mjml>
+  <mj-head>
+    <mj-title>Welcome to SkillKenya!</mj-title>
+    <mj-preview>Welcome to SkillKenya - You're on the waitlist!</mj-preview>
+    <mj-font name="Figtree" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="'Figtree', 'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" color="#374151" line-height="24px" />
+      <mj-section padding="0px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f9fafb">
+    <!-- Header -->
+    <mj-section padding="30px 20px" background-color="#111827">
+      <mj-column>
+        <mj-image
+          src="{{baseUrl}}/logo-light.png"
+          alt="SkillKenya"
+          width="60px"
+          align="center"
+          padding="0"
+        />
+      </mj-column>
+    </mj-section>
+
+    <!-- Hero -->
+    <mj-section padding="40px 20px" background-color="#3b82f6">
+      <mj-column>
+        <mj-text align="center" color="#ffffff" font-size="32px" font-weight="700" padding="0 0 12px 0">
+          Welcome to SkillKenya! 🎓
+        </mj-text>
+        <mj-text align="center" color="#dbeafe" font-size="16px" line-height="24px">
+          You're officially on the waitlist!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Greeting -->
+    <mj-section padding="32px 20px 24px" background-color="#ffffff">
+      <mj-column>
+        <mj-text padding="0" color="#111827" font-size="18px" font-weight="600">
+          Hi {{userName}},
+        </mj-text>
+        <mj-text padding="16px 0 0 0" color="#374151" line-height="26px">
+          Thank you for joining the SkillKenya waitlist! We're thrilled to have you as part of our learning community. You'll be among the first to know when we launch.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- What's Next Card -->
+    <mj-section padding="0 20px 32px" background-color="#ffffff">
+      <mj-column background-color="#dbeafe" border="1px solid #3b82f6" border-radius="8px">
+        <mj-text padding="24px 24px 20px 24px" color="#1e3a8a" font-size="18px" font-weight="700">
+          🚀 What's Next?
+        </mj-text>
+        <mj-text padding="0 24px 12px 24px" color="#1e40af" font-size="15px" line-height="24px">
+          ✨ Stay tuned for launch updates
+        </mj-text>
+        <mj-text padding="0 24px 12px 24px" color="#1e40af" font-size="15px" line-height="24px">
+          👥 Join our WhatsApp community
+        </mj-text>
+        <mj-text padding="0 24px 12px 24px" color="#1e40af" font-size="15px" line-height="24px">
+          📚 Get early access to courses
+        </mj-text>
+        <mj-text padding="0 24px 24px 24px" color="#1e40af" font-size="15px" line-height="24px">
+          🏆 Exclusive beta tester benefits
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- CTA -->
+    <mj-section padding="0 20px 40px" background-color="#ffffff">
+      <mj-column>
+        <mj-button
+          background-color="#3b82f6"
+          color="#ffffff"
+          font-size="16px"
+          font-weight="600"
+          border-radius="8px"
+          padding="14px 32px"
+          href="https://chat.whatsapp.com/DF40YyhA1ZJ14wFjkpXq1K"
+        >
+          Join WhatsApp Community
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- Launch Info -->
+    <mj-section padding="32px 20px" background-color="#f3f4f6">
+      <mj-column>
+        <mj-text align="center" color="#111827" font-size="16px" font-weight="600" padding="0 0 8px 0">
+          Expected Launch: August - November 2026
+        </mj-text>
+        <mj-text align="center" color="#6b7280" font-size="14px" line-height="22px">
+          We're crafting comprehensive courses with practical projects and real-world applications. Quality takes time!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Support -->
+    <mj-section padding="32px 20px" background-color="#3b82f6">
+      <mj-column>
+        <mj-text align="center" color="#ffffff" font-size="16px" font-weight="600" padding="0 0 8px 0">
+          Need Help?
+        </mj-text>
+        <mj-text align="center" color="#dbeafe" font-size="14px" line-height="22px">
+          Visit our <a href="{{baseUrl}}/help" style="color: #ffffff; text-decoration: underline;">Help Center</a> or reply to this email
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section padding="32px 20px" background-color="#f9fafb">
+      <mj-column>
+        <mj-text align="center" color="#9ca3af" font-size="13px" line-height="20px" padding="0 0 8px 0">
+          © {{year}} SkillKenya. All rights reserved.
+        </mj-text>
+        <mj-text align="center" color="#9ca3af" font-size="13px" line-height="20px">
+          <a href="{{baseUrl}}" style="color: #3b82f6; text-decoration: none;">www.skillkenya.com</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

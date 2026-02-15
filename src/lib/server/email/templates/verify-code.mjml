@@ -1,0 +1,95 @@
+<mjml>
+  <mj-head>
+    <mj-title>Verify Your Email - SkillKenya</mj-title>
+    <mj-preview>Your verification code: {{verificationCode}}</mj-preview>
+    <mj-font name="Figtree" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="'Figtree', 'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" color="#374151" line-height="24px" />
+      <mj-section padding="0px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f9fafb">
+    <!-- Header -->
+    <mj-section padding="30px 20px" background-color="#111827">
+      <mj-column>
+        <mj-image
+          src="{{baseUrl}}/logo-light.png"
+          alt="SkillKenya"
+          width="60px"
+          align="center"
+          padding="0"
+        />
+      </mj-column>
+    </mj-section>
+
+    <!-- Hero -->
+    <mj-section padding="40px 20px" background-color="#3b82f6">
+      <mj-column>
+        <mj-text align="center" color="#ffffff" font-size="32px" font-weight="700" padding="0 0 12px 0">
+          Verify Your Email 🔐
+        </mj-text>
+        <mj-text align="center" color="#dbeafe" font-size="16px" line-height="24px">
+          You're one step away from joining the waitlist
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Greeting -->
+    <mj-section padding="32px 20px 24px" background-color="#ffffff">
+      <mj-column>
+        <mj-text padding="0" color="#111827" font-size="18px" font-weight="600">
+          Hi there,
+        </mj-text>
+        <mj-text padding="16px 0 0 0" color="#374151" line-height="26px">
+          Thank you for your interest in SkillKenya! To complete your waitlist registration, please use the verification code below:
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Verification Code Card -->
+    <mj-section padding="0 20px 32px" background-color="#ffffff">
+      <mj-column background-color="#dbeafe" border="2px solid #3b82f6" border-radius="8px">
+        <mj-text align="center" padding="24px" color="#1e3a8a" font-size="14px" font-weight="600" text-transform="uppercase" letter-spacing="1px">
+          Your Verification Code
+        </mj-text>
+        <mj-text align="center" padding="0 24px 32px 24px" color="#1e40af" font-size="48px" font-weight="700" letter-spacing="8px" font-family="monospace">
+          {{verificationCode}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Instructions -->
+    <mj-section padding="0 20px 40px" background-color="#ffffff">
+      <mj-column>
+        <mj-text padding="0" color="#374151" line-height="24px">
+          This code will expire in <strong>10 minutes</strong>. If you didn't request this code, you can safely ignore this email.
+        </mj:text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Support -->
+    <mj-section padding="32px 20px" background-color="#3b82f6">
+      <mj-column>
+        <mj-text align="center" color="#ffffff" font-size="16px" font-weight="600" padding="0 0 8px 0">
+          Need Help?
+        </mj-text>
+        <mj-text align="center" color="#dbeafe" font-size="14px" line-height="22px">
+          Visit our <a href="{{baseUrl}}/help" style="color: #ffffff; text-decoration: underline;">Help Center</a> or reply to this email
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section padding="32px 20px" background-color="#f9fafb">
+      <mj-column>
+        <mj-text align="center" color="#9ca3af" font-size="13px" line-height="20px" padding="0 0 8px 0">
+          © {{year}} SkillKenya. All rights reserved.
+        </mj-text>
+        <mj-text align="center" color="#9ca3af" font-size="13px" line-height="20px">
+          <a href="{{baseUrl}}" style="color: #3b82f6; text-decoration: none;">www.skillkenya.com</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
