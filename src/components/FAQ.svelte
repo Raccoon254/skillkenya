@@ -2,7 +2,19 @@
     import {slide} from 'svelte/transition';
     import {quintOut} from 'svelte/easing';
     import {onMount} from 'svelte';
-    import {Plus, Minus, DollarSign, Video, Award, Sparkles, Calendar, Users, Globe, MessageCircle} from 'lucide-svelte';
+    import {
+        Plus,
+        Minus,
+        DollarSign,
+        Video,
+        Award,
+        Sparkles,
+        Calendar,
+        Users,
+        Globe,
+        MessageCircle,
+        Star, ShieldCheck, Coins
+    } from 'lucide-svelte';
 
     // FAQ data as an array of objects
     const faqs = [
@@ -14,22 +26,22 @@
         {
             question: "How much will courses cost?",
             answer: "We believe in accessible education. Free introductory courses will be available in each category. Premium courses will range from KSh 500 to KSh 10,000 depending on complexity and duration. Beta testers get 100% free access!",
-            icon: DollarSign
+            icon: Coins
         },
         {
             question: "What makes SkillKenya different?",
             answer: "We focus on practical, job-ready skills tailored for the Kenyan market. Our courses feature real-world projects, one-on-one mentorship, and connections to local employers. We're built by Kenyans, for Kenyans.",
-            icon: Sparkles
+            icon: Star
         },
         {
             question: "How will courses be delivered?",
-            answer: "Through our custom-built platform featuring HD video lessons, interactive coding exercises, downloadable resources, live Q&A sessions with instructors, and a supportive community forum for peer learning.",
+            answer: "Through our custom-built platform featuring live lessons, interactive coding exercises, downloadable resources, live Q&A sessions with instructors, and a supportive community forum for peer learning.",
             icon: Video
         },
         {
             question: "Will I receive a certificate?",
             answer: "Yes! All students who complete a course receive a digital certificate of completion. Premium course certificates are verifiable credentials you can share with employers on LinkedIn and your portfolio.",
-            icon: Award
+            icon: ShieldCheck
         },
         {
             question: "How can I become a beta tester?",
@@ -72,11 +84,11 @@
                 <p class="text-gray-400 text-lg">Everything you need to know about SkillKenya</p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex flex-wrap gap-4">
                 {#each faqs as faq, index}
                     {@const IconComponent = faq.icon}
                     <div
-                            class="bg-gray-800/50 backdrop-blur-sm p-5 rounded-xl border border-gray-700/50 cursor-pointer transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:-translate-y-1 group"
+                            class="bg-gray-800/50 backdrop-blur-sm p-5 w-full md:w-[49%] rounded-xl border border-gray-700/50 cursor-pointer transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:-translate-y-1 group"
                             on:click={() => toggle(index)}
                             on:keypress={(e) => e.key === 'Enter' && toggle(index)}
                             role="button"
@@ -85,14 +97,25 @@
                             aria-label={`Toggle ${faq.question}`}
                     >
                         <div class="flex justify-between items-start gap-3">
-                            <div class="flex items-start gap-3 flex-1">
-                                <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-purple-500/20 transition-all">
-                                    <IconComponent class="w-5 h-5 text-purple-400" />
+                            <div class="flex items-start flex-col flex-1">
+                                <div class="flex items-center  justify-between w-full gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-purple-500/20 transition-all">
+                                            <IconComponent class="w-5 h-5 text-purple-400" />
+                                        </div>
+                                        <div class="flex items-center h-10 gap-2">
+                                            <h3 class="font-bold text-base text-purple-300">{faq.question}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0 mt-1">
+                                        {#if openStates[index]}
+                                            <Minus class="w-5 h-5 text-purple-400 transition-transform" />
+                                        {:else}
+                                            <Plus class="w-5 h-5 text-purple-400 transition-transform" />
+                                        {/if}
+                                    </div>
                                 </div>
                                 <div class="flex-1">
-                                    <div class="flex items-center h-10 gap-2">
-                                        <h3 class="font-bold text-base text-purple-300 mb-1">{faq.question}</h3>
-                                    </div>
                                     {#if openStates[index]}
                                         <p
                                                 class="text-start text-gray-400 text-sm leading-relaxed mt-3"
@@ -102,13 +125,6 @@
                                         </p>
                                     {/if}
                                 </div>
-                            </div>
-                            <div class="flex-shrink-0 mt-1">
-                                {#if openStates[index]}
-                                    <Minus class="w-5 h-5 text-purple-400 transition-transform" />
-                                {:else}
-                                    <Plus class="w-5 h-5 text-purple-400 transition-transform" />
-                                {/if}
                             </div>
                         </div>
                     </div>

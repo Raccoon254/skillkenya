@@ -6,6 +6,7 @@
     import FAQ from '$components/FAQ.svelte';
     import ComparisonSection from '$components/ComparisonSection.svelte';
     import WaitlistForm from "$components/WaitlistForm.svelte";
+    import {Code, Megaphone, Palette, Clock, Users as UsersIcon, CheckCircle2} from 'lucide-svelte';
 
     // Calculate launch date - Updated to November 2026
     const launchDate = new Date(2026, 10, 1); // November 1, 2026 (month is 0-indexed)
@@ -468,22 +469,9 @@
     </div>
 
     <!-- FAQ Section -->
-    <div bind:this={featureSections[3]} class="bg-gray-950 px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
+    <div bind:this={featureSections[3]} class="bg-gray-950 kentom px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
         <FAQ/>
     </div>
-
-    <section class="bg-gray-900 min-h-60 center text-white py-8 mt-8 relative">
-        <div class="container mx-auto bg-gray-900 px-4 flex items-center flex-col justify-center gap-4">
-            <a href="https://stevetom.vercel.app" class="hover:rotate-12 transition-all duration-300">
-                <div class="h-14 w-14 p-3 rounded-full ring-2 ring-offset-1 border-2">
-                    <img src="/logo-light.png" alt="KenTom logo" class=""/>
-                </div>
-            </a>
-            <div class="text-gray-400">A <a class="font-semibold" href="https://stevetom.vercel.app"><span
-                    class="underline underline-offset-2">kenTom</span>&trade;</a> project
-            </div>
-        </div>
-    </section>
 
     <section class="bg-gray-900 text-white py-20 relative">
         <div class="container mx-auto bg-gray-900 px-4">
@@ -568,6 +556,57 @@
         </div>
     </section>
 
+    <section class="kentom bg-gray-950 text-white py-16 mt-8 relative">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto">
+                <div class="rounded-2xl p-8 md:p-12">
+                    <div class="flex flex-col items-center text-center gap-6">
+                        <!-- Logo -->
+                        <a href="https://stevetom.vercel.app"
+                           target="_blank"
+                           class="group relative"
+                           aria-label="Visit kenTom Portfolio">
+                            <div class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+                            <div class="relative h-20 w-20 p-4 rounded-full bg-gray-800/50 border-2 border-gray-700/50 group-hover:border-purple-500/50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12">
+                                <img src="/logo-light.png" alt="KenTom logo" class="w-full h-full object-contain"/>
+                            </div>
+                        </a>
+
+                        <!-- Text Content -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-center gap-2 text-sm text-gray-500 uppercase tracking-wider">
+                                <div class="h-px w-8 bg-gradient-to-r from-transparent to-gray-600"></div>
+                                <span>Crafted By</span>
+                                <div class="h-px w-8 bg-gradient-to-l from-transparent to-gray-600"></div>
+                            </div>
+
+                            <a href="https://stevetom.vercel.app"
+                               target="_blank"
+                               class="group inline-block">
+                                <h3 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-300 group-hover:via-blue-300 group-hover:to-purple-300 transition-all duration-300">
+                                    kenTom<span class="text-lg align-super">™</span>
+                                </h3>
+                            </a>
+
+                            <p class="text-gray-400 max-w-md text-sm leading-relaxed">
+                                Building digital solutions that empower education and innovation across Kenya
+                            </p>
+
+                            <!-- Link -->
+                            <a href="https://stevetom.vercel.app"
+                               target="_blank"
+                               class="inline-flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300 transition-colors group mt-2">
+                                <span>Visit Portfolio</span>
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
 <style>
@@ -683,5 +722,29 @@
         50% {
             opacity: 0.7;
         }
+    }
+
+    .kentom{
+        /*    grid dots*/
+        position: relative;
+        overflow: hidden;
+    }
+
+    .kentom::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(106, 106, 253, 0.3) 1px, transparent 1px);
+        background-size: 40px 40px;
+        transform: rotate(40deg) translate(-400px, -400px);
+        z-index: 0;
+        pointer-events: none;
+        height: 1800px;
+        filter: blur(1px);
+    }
+
+    .kentom > * {
+        position: relative;
+        z-index: 1;
     }
 </style>
