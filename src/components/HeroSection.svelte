@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ArrowRight, ChevronDown, MessageCircle, Quote } from "lucide-svelte";
+    import { ArrowRight, Quote } from "lucide-svelte";
     import CountdownTimer from "$components/CountdownTimer.svelte";
     import { onDestroy, onMount } from "svelte";
 
@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <div class="mt-24 mb-32 reveal-on-scroll transition-all duration-1000">
+        <div class="mt-24 mb-32">
             <div class="text-center mb-8">
                 <h2 class="text-2xl font-semibold text-white">Launching Late 2026</h2>
                 <div class="h-1 w-20 bg-blue-500/50 mx-auto mt-4 rounded-full"></div>
@@ -121,7 +121,7 @@
             <CountdownTimer launchDate={launchDate} theme="blue"/>
         </div>
 
-        <div class="container mx-auto max-w-5xl reveal-on-scroll transition-all duration-1000 delay-200">
+        <div class="container mx-auto max-w-5xl px-4">
             <div class="relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
 

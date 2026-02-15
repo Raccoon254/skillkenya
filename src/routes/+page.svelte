@@ -1,6 +1,5 @@
 <script>
-    import CountdownTimer from "$components/CountdownTimer.svelte";
-    import {onMount, onDestroy} from 'svelte';
+    import {onMount} from 'svelte';
     import BetaProgram from "$components/BetaProgram.svelte";
     import FAQ from '$components/FAQ.svelte';
     import ComparisonSection from '$components/ComparisonSection.svelte';
@@ -17,8 +16,6 @@
         CheckCircle2,
         Zap,
         Database,
-        ArrowDown,
-        ChevronDown,
         Eclipse,
         MoonStar
     } from 'lucide-svelte';
@@ -39,9 +36,11 @@
     }
 
     // Make it available on window object for any component to use
-    if (typeof window !== 'undefined') {
-        window.scrollToWaitlist = scrollToWaitlist;
-    }
+    onMount(() => {
+        if (typeof window !== 'undefined') {
+            window.scrollToWaitlist = scrollToWaitlist;
+        }
+    });
 
     // Tech stack data
     const techStack = [
@@ -52,59 +51,6 @@
         {name: "Google Sheets API", icon: "devicon-googlecloud-plain", color: "text-green-400"},
         {name: "Node.js", icon: "devicon-nodejs-line", color: "text-green-400"},
     ];
-
-    // Animation variables
-    let observer;
-    let skillCards = [];
-    let featureSections = [];
-    let titleVisible = false;
-    let subtitleVisible = false;
-
-    onMount(() => {
-        // Setup intersection observer for animations
-        observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
-            });
-        }, {threshold: 0.1});
-
-        // Start title animations
-        setTimeout(() => {
-            titleVisible = true;
-            setTimeout(() => {
-                subtitleVisible = true;
-            }, 400);
-        }, 300);
-
-        // Observe all elements that need animations
-        skillCards.forEach((card, index) => {
-            if (card) {
-                setTimeout(() => {
-                    observer.observe(card);
-                }, 100 * index);
-            }
-        });
-
-        featureSections.forEach((section, index) => {
-            if (section) {
-                observer.observe(section);
-            }
-        });
-
-        return () => {
-            if (observer) {
-                observer.disconnect();
-            }
-        };
-    });
-
-    onDestroy(() => {
-        if (observer) {
-            observer.disconnect();
-        }
-    });
 </script>
 
 <section>
@@ -113,8 +59,8 @@
 
 <section>
     <!-- Beta Program Announcement -->
-    <div bind:this={featureSections[0]}>
-        <BetaProgram bind:this={featureSections[0]} />
+    <div>
+        <BetaProgram />
     </div>
 </section>
 
@@ -129,8 +75,7 @@
    </div>
 
     <!-- Free Courses Section -->
-    <div bind:this={featureSections[1]}
-         class="container mx-auto bg-gray-900 px-4 py-20 opacity-0 translate-y-10 transition-all duration-700">
+    <div class="container mx-auto bg-gray-900 px-4 py-20">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-16">
@@ -293,7 +238,7 @@
     </div>
 
     <!-- Tech Stack Section -->
-    <div bind:this={featureSections[2]} class="bg-gray-950 kentom py-20 opacity-0 translate-y-10 transition-all duration-700">
+    <div class="bg-gray-950 kentom py-20">
         <div class="container mx-auto  px-4">
             <div class="max-w-6xl mx-auto">
                 <!-- Header -->
@@ -406,7 +351,7 @@
     </div>
 
     <!-- FAQ Section -->
-    <div bind:this={featureSections[3]} class="bg-gray-950 kentom px-4 py-16 opacity-0 translate-y-10 transition-all duration-700">
+    <div class="bg-gray-950 kentom px-4 py-16">
         <FAQ/>
     </div>
 
