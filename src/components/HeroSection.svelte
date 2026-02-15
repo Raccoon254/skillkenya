@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { ArrowRight, ChevronDown, MessageCircle, Quote } from "lucide-svelte";
     import CountdownTimer from "$components/CountdownTimer.svelte";
     import { onDestroy, onMount } from "svelte";
@@ -11,37 +11,6 @@
     onMount(() => {
         // Trigger entrance animations
         setTimeout(() => visible = true, 100);
-
-        observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Use inline styles to ensure they override everything
-                    const element = entry.target as HTMLElement;
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                    element.style.transition = 'opacity 1000ms ease-out, transform 1000ms ease-out';
-
-                    observer.unobserve(entry.target); // Only animate once
-                }
-            });
-        }, {
-            threshold: 0.05,  // Much lower threshold - trigger as soon as 5% is visible
-            rootMargin: '0px 0px -20px 0px'  // Reduced margin for earlier triggering
-        });
-
-        // Wait a bit for DOM to be ready
-        setTimeout(() => {
-            const elements = document.querySelectorAll('.reveal-on-scroll');
-            elements.forEach((el) => {
-                // Set initial state with inline styles to ensure visibility control
-                const element = el as HTMLElement;
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(32px)';
-                element.style.transition = 'opacity 1000ms ease-out, transform 1000ms ease-out';
-
-                observer.observe(el);
-            });
-        }, 100);
     });
 
     onDestroy(() => {

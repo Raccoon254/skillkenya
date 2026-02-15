@@ -281,7 +281,12 @@
             <div class="text-center mt-12">
                 <p class="text-gray-400 text-lg">
                     More free courses coming soon!
-                    <span class="text-green-400 font-semibold">Join the waitlist to be notified.</span>
+                    <button
+                        on:click={scrollToWaitlist}
+                        class="text-green-400 font-semibold hover:text-green-300 transition-colors cursor-pointer underline underline-offset-2 hover:underline-offset-4"
+                    >
+                        Join the waitlist to be notified.
+                    </button>
                 </p>
             </div>
         </div>
