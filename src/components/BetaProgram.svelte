@@ -1,199 +1,164 @@
 <script>
-    import {fade, fly, scale} from 'svelte/transition';
-    import {quintOut} from 'svelte/easing';
-    import {onMount} from 'svelte';
-
-    // Lucide Icons
+    import { fly, scale } from 'svelte/transition';
+    import { quintOut } from 'svelte/easing';
+    import { onMount } from 'svelte';
     import {
-        Sparkles,
-        CheckCircle2,
-        Users,
-        GraduationCap,
-        Award,
-        UserPlus,
-        FileCheck,
-        Heart,
-        Calendar,
-        Info, Star
+        Sparkles, Users, GraduationCap, Award,
+        UserPlus, FileCheck, Heart, Calendar,
+        CheckCircle2, Zap
     } from 'lucide-svelte';
 
-    // Props to make the component reusable
+    // Props
     export let betaTestersInfo = {
         total: 10,
         perSkill: 4,
         benefits: [
-            "Early access to all course content",
-            "One-on-one mentorship sessions",
-            "Certificate of completion",
-            "Opportunity to join as a teaching assistant"
+            { title: "Early Access", desc: "Full access to beta content before public launch.", icon: Zap },
+            { title: "1-on-1 Mentorship", desc: "Direct guidance from industry experts.", icon: Users },
+            { title: "Certification", desc: "Official badge of completion for your CV.", icon: Award },
+            { title: "Teaching Role", desc: "Opportunity to become a paid TA.", icon: GraduationCap }
         ]
     };
 
-    // State for animation control
     let visible = false;
 
+    // Trigger animations on mount
     onMount(() => {
-        visible = true;
+        // Set a timeout fallback to ensure visibility
+        setTimeout(() => {
+            visible = true;
+        }, 1000);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    visible = true;
+                    observer.disconnect();
+                }
+            });
+        }, {
+            threshold: 0.1,  // Lower threshold for earlier triggering
+            rootMargin: '0px 0px -50px 0px'  // Trigger when element is 50px into viewport
+        });
+
+        const section = document.querySelector('#beta-section');
+        if (section) {
+            observer.observe(section);
+        } else {
+            // Fallback if section not found
+            setTimeout(() => visible = true, 500);
+        }
     });
 
-    const benefitIcons = [GraduationCap, Users, Award, UserPlus];
-
-    const applicationSteps = [
-        {
-            number: "01",
-            title: "Join the Waitlist",
-            description: "Fill out the waitlist form below to get started",
-            icon: CheckCircle2
-        },
-        {
-            number: "02",
-            title: "Complete Survey",
-            description: "Fill out our beta application survey sent via email",
-            icon: FileCheck
-        },
-        {
-            number: "03",
-            title: "Show Commitment",
-            description: "Demonstrate enthusiasm and dedication to learning",
-            icon: Heart
-        },
-        {
-            number: "04",
-            title: "Stay Available",
-            description: "Be available for the full course duration",
-            icon: Calendar
-        }
+    const steps = [
+        { num: "01", title: "Join Waitlist", desc: "Complete the form above", icon: UserPlus },
+        { num: "02", title: "The Survey", desc: "Check email for application", icon: FileCheck },
+        { num: "03", title: "Interview", desc: "Brief culture-fit chat", icon: Heart },
+        { num: "04", title: "Onboarding", desc: "Get your exclusive access", icon: CheckCircle2 }
     ];
 </script>
 
-<section
-        class="max-w-6xl mx-auto px-4 py-12 my-10 relative overflow-hidden"
-        in:fly={{ y: 50, duration: 800, easing: quintOut }}
-        out:fade={{ duration: 300 }}
->
-    <!-- Header Section -->
-    <div class="text-center mb-12">
-        <div class="inline-flex items-center justify-center mb-4">
-            <div class="flex items-center gap-2 bg-purple-500/10 px-4 py-2 rounded-full border border-purple-500/30">
-                <Star class="w-5 h-5 text-purple-400" />
-                <span class="text-purple-300 font-semibold text-sm uppercase tracking-wider">Limited Spots</span>
-            </div>
-        </div>
+<section id="beta-section" class="relative py-24 overflow-hidden">
 
-        <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            Join Our Beta Program
-        </h2>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-purple-900/20 blur-[120px] rounded-full opacity-50 pointer-events-none"></div>
 
-        <p class="text-gray-300 text-lg max-w-3xl mx-auto mb-6">
-            We're selecting <span class="text-purple-400 font-bold text-xl">{betaTestersInfo.total}</span> students for our exclusive beta program.
-            Get early access and help shape the future of SkillKenya.
-        </p>
+    <div class="container mx-auto px-4 relative z-10">
 
-        <!-- Stats Bar -->
-        <div class="flex flex-wrap justify-center gap-6 mt-8">
-            <div class="text-center">
-                <div class="text-3xl font-bold text-purple-400">{betaTestersInfo.total}</div>
-                <div class="text-sm text-gray-400 uppercase tracking-wide">Total Spots</div>
-            </div>
-            <div class="w-px bg-gray-700"></div>
-            <div class="text-center">
-                <div class="text-3xl font-bold text-purple-400">{betaTestersInfo.perSkill}</div>
-                <div class="text-sm text-gray-400 uppercase tracking-wide">Per Course</div>
-            </div>
-            <div class="w-px bg-gray-700"></div>
-            <div class="text-center">
-                <div class="text-3xl font-bold text-purple-400">100%</div>
-                <div class="text-sm text-gray-400 uppercase tracking-wide">Free Access</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Benefits Section -->
-    <div class="mb-16">
-        <h3 class="text-2xl font-bold text-center mb-8 text-purple-200">What You'll Get</h3>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {#each betaTestersInfo.benefits as benefit, i}
-                {@const IconComponent = benefitIcons[i]}
-                <div
-                        class="bg-gray-800/10 p-6 rounded-xl border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 transform hover:-translate-y-1 group"
-                        in:scale={{ duration: 500, delay: 200 + i * 100, start: 0.9, easing: quintOut }}
-                >
-                    <div class="flex flex-col items-center text-center h-full">
-                        <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-all">
-                            <IconComponent class="w-6 h-6 text-purple-400" />
-                        </div>
-                        <p class="text-gray-300 leading-relaxed">{benefit}</p>
-                    </div>
+        <div class="text-center max-w-3xl mx-auto mb-20">
+            {#if visible}
+                <div in:fly={{ y: 20, duration: 800 }} class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-sm font-semibold uppercase tracking-wider mb-6">
+                    <Sparkles class="w-4 h-4 text-purple-400 animate-pulse" />
+                    <span>Beta Program Access</span>
                 </div>
+
+                <h2 in:fly={{ y: 20, duration: 800, delay: 100 }} class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    Help Shape the <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Future</span>
+                </h2>
+
+                <p in:fly={{ y: 20, duration: 800, delay: 200 }} class="text-lg text-gray-400 leading-relaxed">
+                    We are looking for <span class="text-white font-bold">{betaTestersInfo.total} founding students</span> to test our platform.
+                    In exchange for your feedback, you get lifetime benefits and direct access to the founding team.
+                </p>
+            {/if}
+        </div>
+
+        {#if visible}
+            <div in:scale={{ duration: 600, delay: 300, start: 0.95, easing: quintOut }}
+                 class="grid grid-cols-1 md:grid-cols-3 gap-1 max-w-4xl mx-auto bg-gray-800/50 rounded-2xl p-1 border border-gray-700/50 mb-24 backdrop-blur-md">
+
+                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-800/50 transition-colors">
+                    <div class="text-4xl font-bold text-white mb-1 group-hover:scale-110 transition-transform duration-300">{betaTestersInfo.total}</div>
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Total Spots</div>
+                </div>
+
+                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-800/50 transition-colors">
+                    <div class="text-4xl font-bold text-purple-400 mb-1 group-hover:scale-110 transition-transform duration-300">100%</div>
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Tuition Off</div>
+                </div>
+
+                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-800/50 transition-colors">
+                    <div class="text-4xl font-bold text-blue-400 mb-1 group-hover:scale-110 transition-transform duration-300">Lifetime</div>
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Access Granted</div>
+                </div>
+            </div>
+        {/if}
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+            {#each betaTestersInfo.benefits as item, i}
+                {#if visible}
+                    <div in:fly={{ y: 30, delay: 400 + (i * 100), duration: 800 }}
+                         class="group relative bg-gray-900/40 border border-gray-800 p-8 rounded-2xl hover:border-purple-500/30 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+
+                        <div class="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div class="relative w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-purple-500/20 group-hover:text-purple-400 transition-colors">
+                            <svelte:component this={item.icon} class="w-6 h-6 text-gray-400 group-hover:text-purple-300" />
+                        </div>
+
+                        <h3 class="relative text-lg font-semibold text-white mb-2">{item.title}</h3>
+                        <p class="relative text-sm text-gray-500 group-hover:text-gray-400 transition-colors">
+                            {item.desc}
+                        </p>
+                    </div>
+                {/if}
             {/each}
         </div>
-    </div>
 
-    <!-- Application Steps -->
-    <div>
-        <h3 class="text-2xl font-bold text-center mb-8 text-purple-200">How to Apply</h3>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {#each applicationSteps as step, i}
-                {@const IconComponent = step.icon}
-                <div
-                        class="relative bg-gray-800/10 p-6 rounded-xl border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 group"
-                        in:fly={{ y: 30, duration: 600, delay: 300 + i * 150, easing: quintOut }}
-                >
-                    <!-- Step Number Badge -->
-                    <div class="absolute -top-4 -right-4 w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-bold text-white shadow-lg group-hover:scale-110 transition-transform">
-                        {step.number}
-                    </div>
+        <div class="max-w-5xl mx-auto">
+            <h3 class="text-2xl font-bold text-center text-white mb-12">Application Process</h3>
 
-                    <!-- Icon -->
-                    <div class="mb-4">
-                        <div class="w-14 h-14 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-all">
-                            <IconComponent class="w-7 h-7 text-purple-400" />
-                        </div>
-                    </div>
+            <div class="relative">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-800 -translate-y-1/2 z-0"></div>
 
-                    <!-- Content -->
-                    <h4 class="text-lg font-bold text-purple-300 mb-2">{step.title}</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">{step.description}</p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    {#each steps as step, i}
+                        {#if visible}
+                            <div in:scale={{ delay: 600 + (i * 150), duration: 500, start: 0.8 }}
+                                 class="relative z-10 flex flex-col items-center text-center group">
+
+                                <div class="w-16 h-16 rounded-full bg-[#0B0F19] border-4 border-gray-800 flex items-center justify-center mb-6 group-hover:border-purple-500 transition-colors duration-300 shadow-xl">
+                                    <svelte:component this={step.icon} class="w-6 h-6 text-gray-400 group-hover:text-purple-400" />
+                                </div>
+
+                                <div class="absolute top-0 right-[calc(50%-40px)] w-6 h-6 rounded-full bg-gray-700 text-[10px] font-bold text-white flex items-center justify-center border border-gray-900 group-hover:bg-purple-500 transition-colors">
+                                    {step.num}
+                                </div>
+
+                                <h4 class="text-white font-semibold mb-1">{step.title}</h4>
+                                <p class="text-sm text-gray-500 px-4">{step.desc}</p>
+                            </div>
+                        {/if}
+                    {/each}
                 </div>
-            {/each}
+            </div>
         </div>
-    </div>
 
-    <!-- Call to Action -->
-    <div class="mt-12 text-center">
-        <div class="inline-flex items-center gap-2 text-sm text-gray-400">
-            <Info class="w-5 h-5 text-purple-400" />
-            <span>Applications are reviewed on a rolling basis. Apply early to secure your spot!</span>
+        <div class="mt-20 text-center">
+            <div class="inline-flex items-center gap-3 px-6 py-3 bg-purple-900/20 border border-purple-500/20 rounded-lg text-purple-200 text-sm">
+                <Calendar class="w-4 h-4" />
+                <span>Rolling admissions until spots are filled.</span>
+            </div>
         </div>
+
     </div>
 </section>
-
-<style>
-    section {
-        position: relative;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .gradient-text {
-        background: linear-gradient(135deg, #e4c9ff 0%, #ffffff 50%, #c4b5fd 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        animation: gradient-shift 3s ease infinite;
-        background-size: 200% 200%;
-    }
-
-    @keyframes gradient-shift {
-        0%, 100% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-    }
-
-    /* Hover effects */
-    a:hover {
-        color: #f9f9f9;
-    }
-</style>

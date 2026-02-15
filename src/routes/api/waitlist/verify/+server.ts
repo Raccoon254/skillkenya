@@ -84,7 +84,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		if (error instanceof z.ZodError) {
 			return json(
-				{ error: error.errors[0].message },
+				{ error: error.issues[0].message },
 				{ status: 400 }
 			);
 		}
