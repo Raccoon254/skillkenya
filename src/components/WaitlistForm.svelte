@@ -1,77 +1,74 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fly, fade, scale } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
 
-	type Step = 'email' | 'name' | 'phone' | 'code' | 'success' | 'already-exists';
+	type Step = 'email' | 'code' | 'name' | 'phone' | 'success' | 'already-exists';
 
 	let currentStep: Step = 'email';
 	let email = '';
 	let name = '';
 	let phone = '';
-	let code = '';
+	let code = ['', '', '', '', '', ''];
 	let loading = false;
 	let error = '';
 	let codeTimer = 0;
 	let timerInterval: number;
+	let inputRefs: HTMLInputElement[] = [];
 
-	// Email validation
+	// --- Visual Logic for Icons & Progress ---
+	const radius = 50;
+	const circumference = 2 * Math.PI * radius;
+
+	// Map steps to visual data
+	$: stepConfig = {
+		email: {
+			percent: 25,
+			color: 'text-blue-500',
+			icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
+		},
+		code: {
+			percent: 50,
+			color: 'text-purple-500',
+			icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
+		},
+		name: {
+			percent: 75,
+			color: 'text-indigo-500',
+			icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
+		},
+		phone: {
+			percent: 95,
+			color: 'text-pink-500',
+			icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z'
+		},
+		success: {
+			percent: 100,
+			color: 'text-emerald-500',
+			icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+		},
+		'already-exists': {
+			percent: 100,
+			color: 'text-amber-500',
+			icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+		}
+	}[currentStep];
+
+	$: dashOffset = circumference - (stepConfig.percent / 100) * circumference;
+
+	// --- Form Logic with Real API ---
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	$: emailValid = emailRegex.test(email);
-	$: codeValid = code.length === 6;
+	$: codeString = code.join('');
+	$: codeValid = codeString.length === 6 && !codeString.includes('');
 
-	// Navigate to next step
-	async function nextStep() {
-		error = '';
-
-		if (currentStep === 'email') {
-			if (!emailValid) {
-				error = 'Please enter a valid email address';
-				return;
-			}
-			loading = true;
-			await requestCode();
-			loading = false;
-		} else if (currentStep === 'name') {
-			currentStep = 'phone';
-		} else if (currentStep === 'phone') {
-			currentStep = 'code';
-		} else if (currentStep === 'code') {
-			if (!codeValid) {
-				error = 'Please enter the 6-digit code';
-				return;
-			}
-			loading = true;
-			await verifyAndJoin();
-			loading = false;
-		}
-	}
-
-	// Go back to previous step
-	function prevStep() {
-		error = '';
-		if (currentStep === 'name') {
-			currentStep = 'email';
-		} else if (currentStep === 'phone') {
-			currentStep = 'name';
-		} else if (currentStep === 'code') {
-			currentStep = 'phone';
-		}
-	}
-
-	// Skip optional step
-	function skipStep() {
-		if (currentStep === 'name') {
-			name = '';
-			currentStep = 'phone';
-		} else if (currentStep === 'phone') {
-			phone = '';
-			currentStep = 'code';
-		}
-	}
-
-	// Request verification code
 	async function requestCode() {
+		if (!emailValid) {
+			error = 'Please enter a valid email address';
+			return;
+		}
+
+		loading = true;
+		error = '';
+
 		try {
 			const response = await fetch('/api/waitlist/request-code', {
 				method: 'POST',
@@ -88,23 +85,33 @@
 					throw new Error(data.error || 'Failed to send verification code');
 				}
 			} else {
-				currentStep = 'name';
+				currentStep = 'code';
 				startTimer();
+				setTimeout(() => inputRefs[0]?.focus(), 100);
 			}
 		} catch (err: any) {
 			error = err.message || 'An error occurred. Please try again.';
+		} finally {
+			loading = false;
 		}
 	}
 
-	// Verify code and join waitlist
-	async function verifyAndJoin() {
+	function continueFromCode() {
+		error = '';
+		currentStep = 'name';
+	}
+
+	async function submitForm() {
+		loading = true;
+		error = '';
+
 		try {
 			const response = await fetch('/api/waitlist/verify', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					email,
-					code,
+					code: codeString,
 					name: name.trim() || undefined,
 					phone: phone.trim() || undefined
 				})
@@ -113,383 +120,366 @@
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.error || 'Failed to verify code');
+				// Go back to code step if verification fails
+				currentStep = 'code';
+				code = ['', '', '', '', '', ''];
+				error = data.error || 'Failed to verify code';
+				setTimeout(() => inputRefs[0]?.focus(), 100);
+			} else {
+				currentStep = 'success';
+				clearInterval(timerInterval);
 			}
-
-			currentStep = 'success';
-			clearInterval(timerInterval);
 		} catch (err: any) {
+			currentStep = 'code';
+			code = ['', '', '', '', '', ''];
 			error = err.message || 'An error occurred. Please try again.';
+			setTimeout(() => inputRefs[0]?.focus(), 100);
+		} finally {
+			loading = false;
 		}
 	}
 
-	// Timer for code expiry
+	function handleCodeInput(index: number, value: string) {
+		if (value && !/^\d$/.test(value)) return;
+		code[index] = value;
+		if (value && index < 5) inputRefs[index + 1]?.focus();
+	}
+
+	function handleCodeKeyDown(index: number, e: KeyboardEvent) {
+		if (e.key === 'Backspace') {
+			if (!code[index] && index > 0) inputRefs[index - 1]?.focus();
+			else code[index] = '';
+		} else if (e.key === 'ArrowLeft' && index > 0) inputRefs[index - 1]?.focus();
+		else if (e.key === 'ArrowRight' && index < 5) inputRefs[index + 1]?.focus();
+	}
+
+	function handleCodePaste(e: ClipboardEvent) {
+		e.preventDefault();
+		const pastedData = e.clipboardData?.getData('text/plain').trim() || '';
+		if (!/^\d+$/.test(pastedData)) return;
+		const digits = pastedData.slice(0, 6).split('');
+		digits.forEach((digit, i) => {
+			if (i < 6) code[i] = digit;
+		});
+		inputRefs[Math.min(digits.length, 5)]?.focus();
+	}
+
 	function startTimer() {
-		codeTimer = 600; // 10 minutes in seconds
+		codeTimer = 600;
 		timerInterval = setInterval(() => {
 			codeTimer--;
-			if (codeTimer <= 0) {
-				clearInterval(timerInterval);
-			}
+			if (codeTimer <= 0) clearInterval(timerInterval);
 		}, 1000);
 	}
 
-	// Format timer display
 	$: timerDisplay = `${Math.floor(codeTimer / 60)}:${(codeTimer % 60).toString().padStart(2, '0')}`;
 
-	// Reset form
 	function resetForm() {
 		currentStep = 'email';
 		email = '';
 		name = '';
 		phone = '';
-		code = '';
+		code = ['', '', '', '', '', ''];
 		error = '';
 		clearInterval(timerInterval);
 	}
 
-	// Handle enter key
-	function handleKeyPress(e: KeyboardEvent) {
-		if (e.key === 'Enter' && !loading) {
-			nextStep();
-		}
-	}
-
-	onMount(() => {
-		return () => {
-			if (timerInterval) clearInterval(timerInterval);
-		};
+	onMount(() => () => {
+		if (timerInterval) clearInterval(timerInterval);
 	});
 </script>
 
-<div class="w-full max-w-md mx-auto relative">
-	<!-- Progress Indicator -->
-	{#if currentStep !== 'success' && currentStep !== 'already-exists'}
-		<div class="mb-8">
-			<div class="flex justify-between mb-2">
-				<span class="text-xs text-gray-400">
-					{currentStep === 'email' ? 'Step 1 of 4' : ''}
-					{currentStep === 'name' ? 'Step 2 of 4' : ''}
-					{currentStep === 'phone' ? 'Step 3 of 4' : ''}
-					{currentStep === 'code' ? 'Step 4 of 4' : ''}
-				</span>
-			</div>
-			<div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-				<div
-					class="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out"
-					style="width: {currentStep === 'email' ? '25%' : currentStep === 'name' ? '50%' : currentStep === 'phone' ? '75%' : '100%'}"
-				></div>
-			</div>
-		</div>
-	{/if}
+<div class="w-full max-w-md mx-auto  relative min-h-[750px] mt-20 flex flex-col items-center p-4">
+	<!-- Circular Progress Indicator -->
+	<div class="relative w-32 h-32 mb-8 flex-shrink-0">
+		<svg class="w-full h-full transform -rotate-90 drop-shadow-2xl">
+			<circle cx="50%" cy="50%" r={radius} fill="none" stroke="#1f2937" stroke-width="6" />
+			<circle
+				cx="50%"
+				cy="50%"
+				r={radius}
+				fill="none"
+				stroke="currentColor"
+				stroke-width="6"
+				stroke-linecap="round"
+				stroke-dasharray={circumference}
+				stroke-dashoffset={dashOffset}
+				class="transition-all duration-700 ease-out {stepConfig.color}"
+			/>
+		</svg>
 
-	<div class="relative min-h-[400px]">
-		<!-- Email Step -->
-		{#if currentStep === 'email'}
-			<div
-				in:fly={{ x: 20, duration: 400, easing: cubicOut }}
-				out:fly={{ x: -20, duration: 300, easing: cubicOut }}
-				class="space-y-6"
-			>
-				<div class="text-center mb-8">
-					<h3 class="text-2xl font-bold text-white mb-2">Join the Waitlist</h3>
-					<p class="text-gray-400">Enter your email to get started</p>
+		<div class="absolute inset-0 flex items-center justify-center">
+			{#key currentStep}
+				<div class="w-14 h-14 {stepConfig.color} transition-all duration-500 animate-icon-pop">
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d={stepConfig.icon} />
+					</svg>
 				</div>
+			{/key}
+		</div>
+	</div>
 
+	<!-- Form Steps -->
+	<div class="relative w-full">
+		<!-- Email Step -->
+		<div
+			class="transition-all duration-500 absolute w-full"
+			style="
+				opacity: {currentStep === 'email' ? '1' : '0'};
+				transform: {currentStep === 'email' ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)'};
+				pointer-events: {currentStep === 'email' ? 'auto' : 'none'}
+			"
+		>
+			<div class="space-y-6">
+				<div class="text-center">
+					<h3 class="text-3xl font-bold text-white mb-2">Join the Waitlist</h3>
+					<p class="text-gray-400">Be the first to experience SkillKenya.</p>
+				</div>
 				<div>
-					<label for="email" class="block text-sm font-medium text-gray-300 mb-2">
-						Email Address *
-					</label>
 					<input
-						id="email"
 						type="email"
 						bind:value={email}
-						on:keypress={handleKeyPress}
+						on:keypress={(e) => e.key === 'Enter' && requestCode()}
 						placeholder="you@example.com"
-						class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+						class="w-full px-4 py-4 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-lg text-center"
 						disabled={loading}
-						autofocus
 					/>
 				</div>
-
-				{#if error}
-					<div
-						in:scale={{ duration: 200 }}
-						class="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg text-sm"
-					>
-						{error}
-					</div>
+				{#if error && currentStep === 'email'}
+					<div class="text-red-400 text-sm text-center bg-red-500/10 py-2 rounded-lg">{error}</div>
 				{/if}
-
 				<button
-					on:click={nextStep}
+					on:click={requestCode}
 					disabled={!emailValid || loading}
-					class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 flex items-center justify-center gap-2"
+					class="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/20"
 				>
-					{#if loading}
-						<div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-						<span>Sending code...</span>
-					{:else}
-						<span>Continue</span>
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-						</svg>
-					{/if}
+					{loading ? 'Sending...' : 'Continue'}
 				</button>
 			</div>
-		{/if}
-
-		<!-- Name Step -->
-		{#if currentStep === 'name'}
-			<div
-				in:fly={{ x: 20, duration: 400, easing: cubicOut }}
-				out:fly={{ x: -20, duration: 300, easing: cubicOut }}
-				class="space-y-6"
-			>
-				<div class="text-center mb-8">
-					<h3 class="text-2xl font-bold text-white mb-2">What's your name?</h3>
-					<p class="text-gray-400">Help us personalize your experience</p>
-				</div>
-
-				<div>
-					<label for="name" class="block text-sm font-medium text-gray-300 mb-2">
-						Full Name (Optional)
-					</label>
-					<input
-						id="name"
-						type="text"
-						bind:value={name}
-						on:keypress={handleKeyPress}
-						placeholder="John Doe"
-						class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-						autofocus
-					/>
-				</div>
-
-				<div class="flex gap-3">
-					<button
-						on:click={prevStep}
-						class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all"
-					>
-						Back
-					</button>
-					<button
-						on:click={nextStep}
-						class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
-					>
-						<span>Continue</span>
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-						</svg>
-					</button>
-				</div>
-
-				<button
-					on:click={skipStep}
-					class="w-full text-gray-400 hover:text-gray-300 text-sm transition-colors"
-				>
-					Skip this step
-				</button>
-			</div>
-		{/if}
-
-		<!-- Phone Step -->
-		{#if currentStep === 'phone'}
-			<div
-				in:fly={{ x: 20, duration: 400, easing: cubicOut }}
-				out:fly={{ x: -20, duration: 300, easing: cubicOut }}
-				class="space-y-6"
-			>
-				<div class="text-center mb-8">
-					<h3 class="text-2xl font-bold text-white mb-2">Phone Number</h3>
-					<p class="text-gray-400">We'll never spam or share your number</p>
-				</div>
-
-				<div>
-					<label for="phone" class="block text-sm font-medium text-gray-300 mb-2">
-						Phone Number (Optional)
-					</label>
-					<input
-						id="phone"
-						type="tel"
-						bind:value={phone}
-						on:keypress={handleKeyPress}
-						placeholder="+254 700 000 000"
-						class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-						autofocus
-					/>
-				</div>
-
-				<div class="flex gap-3">
-					<button
-						on:click={prevStep}
-						class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all"
-					>
-						Back
-					</button>
-					<button
-						on:click={nextStep}
-						class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
-					>
-						<span>Continue</span>
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-						</svg>
-					</button>
-				</div>
-
-				<button
-					on:click={skipStep}
-					class="w-full text-gray-400 hover:text-gray-300 text-sm transition-colors"
-				>
-					Skip this step
-				</button>
-			</div>
-		{/if}
+		</div>
 
 		<!-- Code Step -->
-		{#if currentStep === 'code'}
-			<div
-				in:fly={{ x: 20, duration: 400, easing: cubicOut }}
-				out:fly={{ x: -20, duration: 300, easing: cubicOut }}
-				class="space-y-6"
-			>
-				<div class="text-center mb-8">
-					<h3 class="text-2xl font-bold text-white mb-2">Check your email</h3>
+		<div
+			class="transition-all duration-500 absolute w-full"
+			style="
+				opacity: {currentStep === 'code' ? '1' : '0'};
+				transform: {currentStep === 'code' ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)'};
+				pointer-events: {currentStep === 'code' ? 'auto' : 'none'}
+			"
+		>
+			<div class="space-y-6 text-center">
+				<div>
+					<h3 class="text-2xl font-bold text-white mb-2">Verify Email</h3>
 					<p class="text-gray-400 text-sm">
-						We sent a 6-digit code to <strong class="text-white">{email}</strong>
+						Code sent to <span class="text-white font-medium">{email}</span>
 					</p>
 					{#if codeTimer > 0}
-						<p class="text-blue-400 text-sm mt-2">Code expires in {timerDisplay}</p>
+						<p class="text-purple-400 text-xs mt-1">Expires in {timerDisplay}</p>
 					{/if}
 				</div>
 
-				<div>
-					<label for="code" class="block text-sm font-medium text-gray-300 mb-2">
-						Verification Code
-					</label>
-					<input
-						id="code"
-						type="text"
-						bind:value={code}
-						on:keypress={handleKeyPress}
-						maxlength="6"
-						placeholder="000000"
-						class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white text-center text-2xl font-mono tracking-widest placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-						disabled={loading}
-						autofocus
-					/>
+				<div class="flex gap-2 justify-center">
+					{#each Array(6) as _, index}
+						<input
+							bind:this={inputRefs[index]}
+							type="text"
+							inputmode="numeric"
+							maxlength="1"
+							value={code[index]}
+							on:input={(e) => handleCodeInput(index, e.currentTarget.value)}
+							on:keydown={(e) => handleCodeKeyDown(index, e)}
+							on:paste={handleCodePaste}
+							on:focus={(e) => e.currentTarget.select()}
+							disabled={loading}
+							class="w-12 h-14 text-center text-2xl font-bold bg-gray-800/50 border-2 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white transition-all {error && currentStep === 'code'
+								? 'border-red-500'
+								: code[index]
+								? 'border-purple-500'
+								: 'border-gray-700'} {loading ? 'opacity-50 cursor-not-allowed' : ''}"
+							aria-label="Digit {index + 1}"
+						/>
+					{/each}
 				</div>
 
-				{#if error}
-					<div
-						in:scale={{ duration: 200 }}
-						class="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg text-sm"
-					>
-						{error}
-					</div>
+				{#if error && currentStep === 'code'}
+					<div class="text-red-400 text-sm bg-red-500/10 py-2 rounded-lg">{error}</div>
 				{/if}
 
+				<button
+					on:click={continueFromCode}
+					class="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-900/20 transition-all"
+				>
+					Continue
+				</button>
+
+				<button
+					on:click={() => {
+						currentStep = 'email';
+						code = ['', '', '', '', '', ''];
+						error = '';
+					}}
+					class="text-sm text-gray-500 border border-blue-500 focus:ring-1 ring-offset-2 ring-offset-gray-800 hover:text-gray-300"
+				>
+					Change email address
+				</button>
+			</div>
+		</div>
+
+		<!-- Name Step -->
+		<div
+			class="transition-all duration-500 absolute w-full"
+			style="
+				opacity: {currentStep === 'name' ? '1' : '0'};
+				transform: {currentStep === 'name' ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)'};
+				pointer-events: {currentStep === 'name' ? 'auto' : 'none'}
+			"
+		>
+			<div class="space-y-6">
+				<div class="text-center">
+					<h3 class="text-2xl font-bold text-white mb-2">Who are you?</h3>
+					<p class="text-gray-400">What should we call you?</p>
+				</div>
+				<input
+					type="text"
+					bind:value={name}
+					on:keypress={(e) => e.key === 'Enter' && (currentStep = 'phone')}
+					placeholder="John Doe"
+					class="w-full px-4 py-4 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-center text-lg"
+				/>
 				<div class="flex gap-3">
 					<button
-						on:click={prevStep}
-						disabled={loading}
-						class="px-6 py-3 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all"
+						on:click={() => (currentStep = 'code')}
+						class="px-6 py-4 rounded-xl text-gray-400  border border-blue-500/30 focus:ring-1 ring-offset-2 ring-offset-gray-800 hover:bg-gray-800 transition-all"
 					>
 						Back
 					</button>
 					<button
-						on:click={nextStep}
-						disabled={!codeValid || loading}
-						class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:scale-100 flex items-center justify-center gap-2"
+						on:click={() => (currentStep = 'phone')}
+						class="flex-1 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold rounded-xl shadow-lg transition-all"
 					>
-						{#if loading}
-							<div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-							<span>Verifying...</span>
-						{:else}
-							<span>Join Waitlist</span>
-							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-							</svg>
-						{/if}
+						Next
 					</button>
 				</div>
-
-				{#if codeTimer <= 0}
-					<button
-						on:click={() => {
-							currentStep = 'email';
-							error = '';
-						}}
-						class="w-full text-blue-400 hover:text-blue-300 text-sm transition-colors"
-					>
-						Request new code
-					</button>
-				{/if}
+				<button
+					on:click={() => {
+						name = '';
+						currentStep = 'phone';
+					}}
+					class="w-full text-sm  border border-blue-500/30 focus:ring-1 ring-offset-2 ring-offset-gray-800 text-gray-500 hover:text-gray-300"
+				>
+					Skip
+				</button>
 			</div>
-		{/if}
+		</div>
+
+		<!-- Phone Step -->
+		<div
+			class="transition-all duration-500 absolute w-full"
+			style="
+				opacity: {currentStep === 'phone' ? '1' : '0'};
+				transform: {currentStep === 'phone' ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)'};
+				pointer-events: {currentStep === 'phone' ? 'auto' : 'none'}
+			"
+		>
+			<div class="space-y-6">
+				<div class="text-center">
+					<h3 class="text-2xl font-bold text-white mb-2">Stay in the loop</h3>
+					<p class="text-gray-400">Add a phone number (Optional)</p>
+				</div>
+				<input
+					type="tel"
+					bind:value={phone}
+					on:keypress={(e) => e.key === 'Enter' && submitForm()}
+					placeholder="+254 700 000 000"
+					class="w-full px-4 py-4 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 transition-all text-center text-lg"
+				/>
+				<div class="flex gap-3">
+					<button
+						on:click={() => (currentStep = 'name')}
+						class="px-6 py-4 border border-blue-500/30 focus:ring-1 ring-offset-2 ring-offset-gray-800  rounded-xl text-gray-400 hover:bg-gray-800 transition-all"
+					>
+						Back
+					</button>
+					<button
+						on:click={submitForm}
+						disabled={loading}
+						class="flex-1 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-pink-500 hover:to-rose-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg transition-all"
+					>
+						{loading ? 'Finalizing...' : 'Finish'}
+					</button>
+				</div>
+				<button
+					on:click={() => {
+						phone = '';
+						submitForm();
+					}}
+					class="w-full border border-blue-500/30 focus:ring-1 ring-offset-2 ring-offset-gray-800  text-sm text-gray-500 hover:text-gray-300"
+				>
+					Skip
+				</button>
+			</div>
+		</div>
 
 		<!-- Success State -->
-		{#if currentStep === 'success'}
-			<div
-				in:scale={{ duration: 500, easing: cubicOut }}
-				class="text-center space-y-6 py-8"
-			>
-				<div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center animate-bounce-once">
-					<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-					</svg>
-				</div>
-				<div>
-					<h3 class="text-2xl font-bold text-white mb-2">You're on the waitlist! 🎉</h3>
-					<p class="text-gray-400">
-						Check your email for a welcome message with next steps.
-					</p>
-				</div>
-				<button
-					on:click={resetForm}
-					class="text-blue-400 hover:text-blue-300 transition-colors"
-				>
-					Add another email
+		<div
+			class="transition-all duration-500 absolute w-full"
+			style="
+				opacity: {currentStep === 'success' ? '1' : '0'};
+				transform: {currentStep === 'success' ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)'};
+				pointer-events: {currentStep === 'success' ? 'auto' : 'none'}
+			"
+		>
+			<div class="text-center space-y-6">
+				<h3 class="text-3xl font-bold text-white">You're in! 🎉</h3>
+				<p class="text-gray-400">Check your inbox for a welcome message.</p>
+				<button on:click={resetForm} class="text-emerald-400 hover:text-emerald-300 font-medium">
+					Register another
 				</button>
 			</div>
-		{/if}
+		</div>
 
 		<!-- Already Exists State -->
-		{#if currentStep === 'already-exists'}
-			<div
-				in:scale={{ duration: 500, easing: cubicOut }}
-				class="text-center space-y-6 py-8"
-			>
-				<div class="w-20 h-20 mx-auto bg-yellow-500/20 rounded-full flex items-center justify-center">
-					<svg class="w-10 h-10 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-					</svg>
-				</div>
-				<div>
-					<h3 class="text-2xl font-bold text-white mb-2">Already on the waitlist</h3>
-					<p class="text-gray-400">
-						The email <strong class="text-white">{email}</strong> is already registered.
-					</p>
-				</div>
-				<button
-					on:click={resetForm}
-					class="text-blue-400 hover:text-blue-300 transition-colors"
-				>
-					Try another email
+		<div
+			class="transition-all duration-500 absolute w-full"
+			style="
+				opacity: {currentStep === 'already-exists' ? '1' : '0'};
+				transform: {currentStep === 'already-exists' ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)'};
+				pointer-events: {currentStep === 'already-exists' ? 'auto' : 'none'}
+			"
+		>
+			<div class="text-center space-y-6">
+				<h3 class="text-3xl font-bold text-white">Already Registered</h3>
+				<p class="text-gray-400">The email <strong class="text-white">{email}</strong> is already on the list.</p>
+				<button on:click={resetForm} class="text-amber-400 hover:text-amber-300 font-medium">
+					Try different email
 				</button>
 			</div>
-		{/if}
+		</div>
 	</div>
 </div>
 
 <style>
-	@keyframes bounce-once {
-		0%, 100% { transform: translateY(0); }
-		50% { transform: translateY(-20px); }
+	@keyframes icon-pop {
+		0% {
+			transform: scale(0.5);
+			opacity: 0;
+		}
+		50% {
+			transform: scale(1.2);
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
 	}
-
-	.animate-bounce-once {
-		animation: bounce-once 0.6s ease-out;
+	.animate-icon-pop {
+		animation: icon-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 	}
 </style>

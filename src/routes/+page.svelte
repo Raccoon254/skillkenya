@@ -449,25 +449,20 @@
     </div>
 
     <!-- Newsletter Section -->
-    <div id="newsletter" class="container mx-auto bg-gray-900 px-4 mb-24 my-8 py-10">
-        <div class="max-w-xl mx-auto text-center">
-            <section aria-label="Newsletter">
-                <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>
-            </section>
-            <p class="text-gray-400 mb-8">
-                Be the first to know when we launch. Subscribe to our newsletter for early access and beta testing
-                opportunities.
-            </p>
-            <EmailForm/>
-        </div>
-    </div>
-
+<!--    <div id="newsletter" class="container mx-auto bg-gray-900 px-4 mb-24 my-8 py-10">-->
+<!--        <div class="max-w-xl mx-auto text-center">-->
+<!--            <section aria-label="Newsletter">-->
+<!--                <h2 class="text-3xl font-bold mb-6">Stay Updated</h2>-->
+<!--            </section>-->
+<!--            <p class="text-gray-400 mb-8">-->
+<!--                Be the first to know when we launch. Subscribe to our newsletter for early access and beta testing-->
+<!--                opportunities.-->
+<!--            </p>-->
+<!--            <EmailForm/>-->
+<!--        </div>-->
+<!--    </div>-->
     <div class="container mx-auto px-4 my-16">
         <div class="max-w-xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-6">Join the Waitlist</h2>
-            <p class="text-gray-400 mb-8">
-                Be among the first to experience SkillKenya when we launch!
-            </p>
             <WaitlistForm />
         </div>
     </div>
@@ -490,38 +485,84 @@
         </div>
     </section>
 
-    <section class="bg-gray-900 text-white py-16 relative">
+    <section class="bg-gray-900 text-white py-20 relative">
         <div class="container mx-auto bg-gray-900 px-4">
-            <div class="max-w-md mx-auto">
-                <h3 class="text-2xl font-bold text-center mb-8">Connect With Us</h3>
-                <div class="flex justify-center gap-8">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header -->
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">Connect With Us</h3>
+                    <p class="text-gray-400 text-lg">Join our growing community across social platforms</p>
+                </div>
+
+                <!-- Social Links Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
                     <!-- TikTok -->
                     <a href="https://www.tiktok.com/@skillkenya" target="_blank"
-                       class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
+                       class="group bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2"
                        aria-label="TikTok">
-                        <i class="fa-brands fa-tiktok text-2xl"></i>
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-full bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-all">
+                                <i class="fa-brands fa-tiktok text-3xl text-purple-400 group-hover:scale-110 transition-transform"></i>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-semibold text-white group-hover:text-purple-300 transition-colors">TikTok</div>
+                                <div class="text-xs text-gray-400">@skillkenya</div>
+                            </div>
+                        </div>
                     </a>
 
                     <!-- Instagram -->
                     <a href="https://www.instagram.com/raccoon.254/" target="_blank"
-                       class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
+                       class="group bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-pink-500/50 transition-all duration-300 hover:-translate-y-2"
                        aria-label="Instagram">
-                        <i class="fa-brands fa-instagram text-2xl"></i>
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-full bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-all">
+                                <i class="fa-brands fa-instagram text-3xl text-pink-400 group-hover:scale-110 transition-transform"></i>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-semibold text-white group-hover:text-pink-300 transition-colors">Instagram</div>
+                                <div class="text-xs text-gray-400">@raccoon.254</div>
+                            </div>
+                        </div>
                     </a>
 
-                    <!-- Twitter -->
+                    <!-- Twitter/X -->
                     <a href="https://x.com/skill_kenya" target="_blank"
-                       class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
+                       class="group bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2"
                        aria-label="Twitter">
-                        <i class="fa-brands fa-twitter text-2xl"></i>
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-all">
+                                <i class="fa-brands fa-x-twitter text-3xl text-blue-400 group-hover:scale-110 transition-transform"></i>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-semibold text-white group-hover:text-blue-300 transition-colors">Twitter</div>
+                                <div class="text-xs text-gray-400">@skill_kenya</div>
+                            </div>
+                        </div>
                     </a>
 
                     <!-- WhatsApp -->
                     <a href="https://chat.whatsapp.com/DF40YyhA1ZJ14wFjkpXq1K" target="_blank"
-                       class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"
+                       class="group bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300 hover:-translate-y-2"
                        aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-full bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-all">
+                                <i class="fa-brands fa-whatsapp text-3xl text-green-400 group-hover:scale-110 transition-transform"></i>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-semibold text-white group-hover:text-green-300 transition-colors">WhatsApp</div>
+                                <div class="text-xs text-gray-400">Join Group</div>
+                            </div>
+                        </div>
                     </a>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="text-center">
+                    <p class="text-gray-400">
+                        Follow us for updates, learning tips, and exclusive content!
+                        <span class="text-purple-400">🚀</span>
+                    </p>
                 </div>
             </div>
         </div>
