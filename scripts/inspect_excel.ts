@@ -1,4 +1,6 @@
+//@ts-ignore
 import XLSX from 'xlsx';
+//@ts-ignore
 import path from 'path';
 
 const { readFile, utils } = XLSX;
