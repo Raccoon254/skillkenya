@@ -138,7 +138,7 @@
 			<!-- Enhanced CTA Button with Icons -->
 			<button
 				on:click={() => scrollToWaitlist()}
-				class="group relative pl-6 p-3 bg-gradient-to-r from-blue-800 via-purple-900 to-blue-800 text-white rounded-full font-bold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105 flex items-center gap-3 mx-auto"
+				class="group relative pl-6 p-3 bg-gradient-to-r from-blue-800 via-purple-900 to-blue-800 text-white rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105 flex items-center gap-3 mx-auto"
 			>
 				<!-- Animated Background Overlay -->
 				<span
