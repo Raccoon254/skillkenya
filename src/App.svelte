@@ -301,7 +301,7 @@
 <section class="mt-2">
     <ComparisonSection/>
 </section>
-<main class="bg-gray-900 text-white">
+<main class="bg-gray-900 flex flex-col text-white">
     <!-- Skills Grid -->
     <section aria-label="Our Courses">
         <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
