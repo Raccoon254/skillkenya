@@ -6,6 +6,8 @@
     import ComparisonSection from '$components/ComparisonSection.svelte';
     import WaitlistForm from "$components/WaitlistForm.svelte";
     import HeroSection from "$components/HeroSection.svelte";
+    import SkillsGrid from "$components/SkillsGrid.svelte";
+
     import {
         Code,
         Megaphone,
@@ -29,58 +31,6 @@
         }
     }
 
-    // Course data
-    const skills = [
-        {
-            title: "Programming",
-            description: "Master web development, mobile apps & software engineering",
-            icon: "gvtjlyjf",
-            features: [
-                "Full-stack web development",
-                "Mobile app development",
-                "Software architecture",
-                "Cloud deployment"
-            ],
-            freeCourses: 2
-        },
-        {
-            title: "Graphic Design",
-            description: "Learn digital design, branding & visual communication",
-            icon: "jestaxpl",
-            features: [
-                "Brand identity design",
-                "UI/UX fundamentals",
-                "Digital illustration",
-                "Print & packaging"
-            ],
-            freeCourses: 1
-        },
-        {
-            title: "Digital Marketing",
-            description: "Excel in social media, SEO & content marketing",
-            icon: "jdgfsfzr",
-            features: [
-                "Social media strategy",
-                "Search engine optimization",
-                "Content marketing",
-                "Analytics & reporting"
-            ],
-            freeCourses: 2
-        },
-        {
-            title: "Animation",
-            description: "Create compelling visual effects & motion graphics",
-            icon: "oajcrtsi",
-            features: [
-                "2D animation fundamentals",
-                "Character animation",
-                "Motion graphics",
-                "Video effects"
-            ],
-            freeCourses: 1
-        }
-    ];
-
     // Tech stack data
     const techStack = [
         {name: "Svelte", icon: "devicon-svelte-plain", color: "text-orange-500"},
@@ -90,18 +40,6 @@
         {name: "Google Sheets API", icon: "devicon-googlecloud-plain", color: "text-green-400"},
         {name: "Node.js", icon: "devicon-nodejs-line", color: "text-green-400"},
     ];
-
-    // Beta testers data
-    const betaTestersInfo = {
-        total: 20,
-        perSkill: Math.floor(20 / skills.length),
-        benefits: [
-            "Early access to all course content",
-            "One-on-one mentorship sessions",
-            "Certificate of completion",
-            "Opportunity to join as a teaching assistant"
-        ]
-    };
 
     // Animation variables
     let observer;
@@ -164,10 +102,7 @@
 <section>
     <!-- Beta Program Announcement -->
     <div bind:this={featureSections[0]}>
-        <BetaProgram {betaTestersInfo} bind:this={featureSections[0]} />
-    </div>
-    <div bind:this={featureSections[0]}>
-        <BetaProgram {betaTestersInfo} bind:this={featureSections[0]} />
+        <BetaProgram bind:this={featureSections[0]} />
     </div>
 </section>
 
@@ -177,53 +112,9 @@
 
 <main class="bg-gray-900 text-white flex flex-col">
     <!-- Skills Grid -->
-    <section aria-label="Our Courses">
-        <h2 class="text-3xl font-bold mb-8 text-center">Our Courses</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
-            {#each skills as skill, i}
-                <div
-                        bind:this={skillCards[i]}
-                        class="backdrop-blur-[1px] rounded-xl p-6 border border-gray-700/50 cursor-pointer hover:border-blue-500/50 transition-all duration-500 opacity-0 translate-y-8 relative overflow-hidden group"
-                        style="transition-delay: {i * 150}ms;"
-                >
-                    <!-- Free course badge -->
-                    {#if skill.freeCourses > 0}
-                        <div class="absolute -right-20 -top-10 bg-green-500 w-40 h-20 rotate-45 transform group-hover:-right-[70px] group-hover:-top-8 transition-all duration-300">
-                                    <span class="absolute bottom-1 right-16 text-xs font-bold group-hover:scale-110 transition-all duration-300">
-                                        {skill.freeCourses}
-                                        Free
-                                    </span>
-                        </div>
-                    {/if}
-
-                    <lord-icon
-                            src="https://cdn.lordicon.com/{skill.icon}.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#8930e8"
-                            style="width:50px;height:50px">
-                    </lord-icon>
-                    <h3 class="text-xl font-bold mb-2">{skill.title}</h3>
-                    <p class="text-gray-400 mb-4">{skill.description}</p>
-
-                    <div class="mt-4 pt-4 border-t border-gray-700/50">
-                        <h4 class="text-sm font-semibold text-blue-400 mb-2">What you'll learn:</h4>
-                        <ul class="space-y-1">
-                            {#each skill.features as feature}
-                                <li class="text-sm text-gray-400 flex items-start">
-                                    <svg class="w-4 h-4 text-blue-500 mr-1 mt-0.5 flex-shrink-0" fill="none"
-                                         stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    {feature}
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-                </div>
-            {/each}
-        </div>
-    </section>
+   <div class="bg-gray-900 kentom">
+       <SkillsGrid />
+   </div>
 
     <!-- Free Courses Section -->
     <div bind:this={featureSections[1]}
@@ -478,7 +369,20 @@
 <!--            <EmailForm/>-->
 <!--        </div>-->
 <!--    </div>-->
-    <div class="container mx-auto px-4 my-16">
+    <div class="relative pt-28 bg-[#0B0F19] text-white overflow-hidden min-h-screen selection:bg-blue-500/30">
+
+            <div class="absolute inset-0 z-0 pointer-events-none">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-700/10 blur-[120px] rounded-full opacity-40 mix-blend-screen animate-pulse-slow"></div>
+
+                <div class="absolute top-[20%] right-0 w-[600px] h-[600px] bg-teal-900/10 blur-[100px] rounded-full opacity-30"></div>
+
+                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+                <svg class="absolute inset-0 w-full h-full opacity-[0.15]" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">            <pattern id="grid" width="4" height="4" patternUnits="userSpaceOnUse">
+                    <path d="M 4 0 L 0 0 0 4" fill="none" stroke="currentColor" stroke-width="0.05"/>
+                </pattern>
+                    <rect width="100" height="100" fill="url(#grid)" />
+                </svg>
+            </div>
         <div class="max-w-xl mx-auto text-center">
             <WaitlistForm />
         </div>

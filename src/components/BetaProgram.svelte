@@ -1,22 +1,22 @@
 <script>
-    import { fly, scale } from 'svelte/transition';
+    import { fly, scale, fade } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
     import { onMount } from 'svelte';
     import {
         Sparkles, Users, GraduationCap, Award,
         UserPlus, FileCheck, Heart, Calendar,
-        CheckCircle2, Zap
+        CheckCircle2, Zap, Star
     } from 'lucide-svelte';
 
     // Props
-    export let betaTestersInfo = {
-        total: 10,
+    let betaTestersInfo = {
+        total: 20,
         perSkill: 4,
         benefits: [
             { title: "Early Access", desc: "Full access to beta content before public launch.", icon: Zap },
             { title: "1-on-1 Mentorship", desc: "Direct guidance from industry experts.", icon: Users },
-            { title: "Certification", desc: "Official badge of completion for your CV.", icon: Award },
-            { title: "Teaching Role", desc: "Opportunity to become a paid TA.", icon: GraduationCap }
+            { title: "Certification", desc: "Official badge of completion for your CV.", icon: Star },
+            { title: "Teaching Role", desc: "We are working on opportunities for paid TAs.", icon: GraduationCap }
         ]
     };
 
@@ -24,10 +24,10 @@
 
     // Trigger animations on mount
     onMount(() => {
-        // Set a timeout fallback to ensure visibility
+        // Immediate fallback for testing - ensures content shows
         setTimeout(() => {
             visible = true;
-        }, 1000);
+        }, 100);
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -37,8 +37,8 @@
                 }
             });
         }, {
-            threshold: 0.1,  // Lower threshold for earlier triggering
-            rootMargin: '0px 0px -50px 0px'  // Trigger when element is 50px into viewport
+            threshold: 0.05,  // Very low threshold for early triggering
+            rootMargin: '0px 0px -20px 0px'  // Reduced margin
         });
 
         const section = document.querySelector('#beta-section');
@@ -46,8 +46,15 @@
             observer.observe(section);
         } else {
             // Fallback if section not found
-            setTimeout(() => visible = true, 500);
+            visible = true;
         }
+
+        // Additional safety fallback
+        setTimeout(() => {
+            if (!visible) {
+                visible = true;
+            }
+        }, 2000);
     });
 
     const steps = [
@@ -67,12 +74,12 @@
         <div class="text-center max-w-3xl mx-auto mb-20">
             {#if visible}
                 <div in:fly={{ y: 20, duration: 800 }} class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-sm font-semibold uppercase tracking-wider mb-6">
-                    <Sparkles class="w-4 h-4 text-purple-400 animate-pulse" />
+                    <Star class="w-4 h-4 text-purple-400 animate-pulse" />
                     <span>Beta Program Access</span>
                 </div>
 
                 <h2 in:fly={{ y: 20, duration: 800, delay: 100 }} class="text-4xl md:text-5xl font-bold text-white mb-6">
-                    Help Shape the <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Future</span>
+                    Help Shape <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">SkillKenya</span>
                 </h2>
 
                 <p in:fly={{ y: 20, duration: 800, delay: 200 }} class="text-lg text-gray-400 leading-relaxed">
@@ -84,19 +91,19 @@
 
         {#if visible}
             <div in:scale={{ duration: 600, delay: 300, start: 0.95, easing: quintOut }}
-                 class="grid grid-cols-1 md:grid-cols-3 gap-1 max-w-4xl mx-auto bg-gray-800/50 rounded-2xl p-1 border border-gray-700/50 mb-24 backdrop-blur-md">
+                 class="grid grid-cols-1 md:grid-cols-3 gap-1.5 max-w-4xl mx-auto bg-gray-800/50 rounded-2xl p-1 border border-gray-700/50 mb-24 backdrop-blur-md">
 
-                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-800/50 transition-colors">
+                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-950 cursor-pointer transition-colors">
                     <div class="text-4xl font-bold text-white mb-1 group-hover:scale-110 transition-transform duration-300">{betaTestersInfo.total}</div>
                     <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Total Spots</div>
                 </div>
 
-                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-800/50 transition-colors">
+                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-950 cursor-pointer transition-colors">
                     <div class="text-4xl font-bold text-purple-400 mb-1 group-hover:scale-110 transition-transform duration-300">100%</div>
                     <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Tuition Off</div>
                 </div>
 
-                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-800/50 transition-colors">
+                <div class="bg-[#0B0F19]/80 rounded-xl p-8 text-center group hover:bg-gray-950 cursor-pointer transition-colors">
                     <div class="text-4xl font-bold text-blue-400 mb-1 group-hover:scale-110 transition-transform duration-300">Lifetime</div>
                     <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">Access Granted</div>
                 </div>
@@ -105,9 +112,11 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
             {#each betaTestersInfo.benefits as item, i}
-                {#if visible}
-                    <div in:fly={{ y: 30, delay: 400 + (i * 100), duration: 800 }}
-                         class="group relative bg-gray-900/40 border border-gray-800 p-8 rounded-2xl hover:border-purple-500/30 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <div class="benefit-card h-full opacity-0 translate-y-8 transition-all duration-800 {visible ? 'animate-in' : ''}"
+                     style="transition-delay: {400 + (i * 100)}ms;"
+                     class:animate-in={visible}>
+
+                    <div class="group relative bg-gray-900/40 border border-gray-800 p-8 rounded-2xl hover:border-purple-500/30 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
 
                         <div class="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -120,15 +129,15 @@
                             {item.desc}
                         </p>
                     </div>
-                {/if}
+                </div>
             {/each}
         </div>
 
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-7xl mx-auto">
             <h3 class="text-2xl font-bold text-center text-white mb-12">Application Process</h3>
 
             <div class="relative">
-                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-800 -translate-y-1/2 z-0"></div>
+                <div in:fade={{ duration: 800, delay: 500 }} class="hidden md:block absolute top-1/4 left-0 w-full h-1 bg-gray-800 -translate-y-1/2 z-0"></div>
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {#each steps as step, i}
@@ -162,3 +171,14 @@
 
     </div>
 </section>
+
+<style>
+    .benefit-card.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .benefit-card {
+        transition: opacity 800ms ease-out, transform 800ms ease-out;
+    }
+</style>

@@ -120,7 +120,7 @@
 
             <div class="flex flex-col items-center gap-4 transform transition-all duration-700 delay-500 {visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}">
                 <div class="flex -space-x-4">
-                    <img class="w-12 h-12 rounded-full border-2 border-white object-cover grayscale hover:grayscale-0 transition-all z-10" src="/user.svg" alt="User" />
+                    <img class="w-12 h-12 rounded-full border-2 border-white object-cover grayscale hover:grayscale-0 transition-all z-10" src="/user.png" alt="User" />
                     <img class="w-12 h-12 rounded-full border-2 border-white object-cover grayscale hover:grayscale-0 transition-all z-20" src="/kentom.png" alt="User" />
                     <div class="w-12 h-12 rounded-full border-2 border-white bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-xs font-bold text-gray-400 z-30">
                         +231
@@ -178,8 +178,8 @@
                             </div>
                         </div>
 
-                        <div class="relative mx-auto md:mx-0">
-                            <div class="relative w-64 h-80 rounded-2xl overflow-hidden shadow-2xl border border-white/10 group-hover:scale-[1.02] transition-transform duration-500">
+                        <div class="w-full relative mx-auto md:mx-0">
+                            <div class="relative w-full md:w-64 h-96 md:h-80 rounded-2xl overflow-hidden shadow-2xl border border-white/10 group-hover:scale-[1.02] transition-transform duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-t from-[#0F1623] via-transparent to-transparent z-10 opacity-60"></div>
                                 <img src="/kentom.png" alt="Steve Tom" class="w-full h-full object-cover" />
 
