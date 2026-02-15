@@ -34,9 +34,10 @@
             const elements = document.querySelectorAll('.reveal-on-scroll');
             elements.forEach((el) => {
                 // Set initial state with inline styles to ensure visibility control
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(32px)';
-                el.style.transition = 'opacity 1000ms ease-out, transform 1000ms ease-out';
+                const element = el as HTMLElement;
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(32px)';
+                element.style.transition = 'opacity 1000ms ease-out, transform 1000ms ease-out';
 
                 observer.observe(el);
             });
