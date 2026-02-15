@@ -12,7 +12,10 @@
 		Users,
 		UserCheck,
 		Sparkles,
-		Calendar, Recycle, RotateCcw,
+		Calendar,
+		Recycle,
+		RotateCcw,
+		Crown
 	} from 'lucide-svelte'
 
 	let entries = []
@@ -23,6 +26,22 @@
 	let limit = 50
 	let total = 0
 	let filter = 'all' // 'all', 'verified', 'pending', 'og'
+
+	// Function to get the appropriate icon for each filter
+	function getFilterIcon(filterType) {
+		switch (filterType) {
+			case 'all':
+				return Users
+			case 'verified':
+				return CheckCircle
+			case 'pending':
+				return Clock
+			case 'og':
+				return Crown
+			default:
+				return Users
+		}
+	}
 
 	async function loadStats() {
 		try {
@@ -239,12 +258,16 @@
 		{#each ['all', 'verified', 'pending', 'og'] as f}
 			<button
 				on:click={() => (filter = f)}
-				class="px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize
+				class="px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize flex items-center gap-2
 				{filter === f
 					? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
 					: 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}"
 			>
-				{f}
+				<svelte:component
+					this={getFilterIcon(f)}
+					class="w-4 h-4 {f === 'og' ? 'text-yellow-400' : f === 'verified' ? 'text-green-400' : f === 'pending' ? 'text-orange-400' : ''}"
+				/>
+				{f === 'og' ? 'OG Users' : f}
 			</button>
 		{/each}
 	</div>
