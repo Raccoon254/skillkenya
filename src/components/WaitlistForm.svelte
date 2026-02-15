@@ -202,9 +202,9 @@
 	})
 </script>
 
-<div class="w-full max-w-md mx-auto relative min-h-[550px] mt-20 flex flex-col items-center p-4">
+<div class="w-full max-w-md max-h-[650px] mx-auto relative flex flex-col items-center p-4">
 	<!-- Circular Progress Indicator -->
-	<div class="relative w-32 h-32 mb-8 flex-shrink-0">
+	<div class="relative w-32 h-32 -mb-20 mt-20 flex-shrink-0">
 		<svg
 			class="w-full h-full transform -rotate-90 drop-shadow-2xl {loading
 				? 'animate-spin-slow'
@@ -272,7 +272,7 @@
 	</div>
 
 	<!-- Form Steps -->
-	<div class="relative w-full">
+	<div class="relative h-[550px] flex flex-col items-center justify-center w-full">
 		<!-- Email Step -->
 		<div
 			class="transition-all duration-500 absolute w-full"
@@ -532,14 +532,20 @@
 						The email <strong class="text-white">{email}</strong> is already on the list.
 					</p>
 				{/if}
-				<button
-					on:click={resetForm}
-					class="{isOG
+				<div class="flex justify-center items-center gap-2 md:gap-4">
+					<button
+							on:click={resetForm}
+							class="{isOG
 						? 'text-amber-400 hover:text-amber-300 border-amber-500/30'
 						: 'text-blue-400 hover:text-blue-300 border-blue-500/30'} border focus:ring-1 ring-offset-2 ring-offset-gray-800 font-medium px-6 py-3 rounded-xl transition-all"
-				>
-					Use different email
-				</button>
+					>
+						Change email
+					</button>
+					<!-- link to waitlist page -->
+					<a href="/waitlist" class="text-sm text-gray-500 hover:text-gray-300 px-6 py-3 border border-gray-700 rounded-xl transition-all">
+						Waitlist page
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>

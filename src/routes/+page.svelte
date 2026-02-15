@@ -331,7 +331,10 @@
 <!--            <EmailForm/>-->
 <!--        </div>-->
 <!--    </div>-->
-    <div id="waitlist-section" class="relative pt-28 bg-[#0B0F19] text-white overflow-hidden min-h-screen selection:bg-blue-500/30">
+    <div
+            id="waitlist-section"
+            class="relative py-44 bg-[#0B0F19] text-white overflow-hidden selection:bg-blue-500/30"
+    >
 
             <div class="absolute inset-0 z-0 pointer-events-none">
                 <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-700/10 blur-[120px] rounded-full opacity-40 mix-blend-screen animate-pulse-slow"></div>

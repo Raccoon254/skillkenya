@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte'
+	import {Crown} from "lucide-svelte";
 
 	export let speed = 1 // pixels per frame, approx
 	export let direction: 'left' | 'right' = 'left'
@@ -77,19 +78,22 @@
 	>
 		{#each displayUsers as user}
 			<div
-				class="inline-flex items-center gap-3 bg-gray-900 border border-gray-800 p-3 rounded-xl min-w-[200px] hover:border-blue-500/50 transition-colors"
+				class="inline-flex cursor-pointer hover:scale-105 transition-all duration-500 items-center gap-3 bg-gray-900 border border-gray-800 p-3 rounded-2xl min-w-[200px] hover:border-blue-500/50 overflow-hidden"
 			>
 				<img
 					src={user.avatar}
 					alt={user.name}
-					class="w-10 h-10 rounded-full bg-gray-800 object-cover"
+					class="w-10 h-10 aspect-square rounded-full bg-gray-800 object-cover"
+					loading="lazy"
 				/>
-				<div class="flex flex-col">
-					<span class="text-white font-medium text-sm">{user.name}</span>
+				<div class="flex flex-col max-w-[60%] overflow-hidden  pr-2 text-ellipsis text-nowrap">
+					<span class="text-white font-medium text-sm text-ellipsis text-nowrap">{user.name}</span>
 					<span class="text-gray-500 text-xs">@{user.handle}</span>
 				</div>
 				{#if user.isOG}
-					<span class="ml-auto text-amber-500">👑</span>
+					<span class="ml-auto text-amber-500">
+						<Crown />
+					</span>
 				{/if}
 			</div>
 		{/each}

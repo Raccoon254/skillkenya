@@ -139,7 +139,7 @@
             <div class="relative">
                 <div in:fade={{ duration: 800, delay: 500 }} class="hidden md:block absolute top-1/4 left-0 w-full h-1 bg-gray-800 -translate-y-1/2 z-0"></div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                     {#each steps as step, i}
                         {#if visible}
                             <div in:scale={{ delay: 600 + (i * 150), duration: 500, start: 0.8 }}
