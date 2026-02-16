@@ -1,12 +1,21 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { compileMJMLTemplate, sendEmail, sendEmailWithNotification, getBaseUrl, getCurrentYear } from './index';
 
-// Read MJML templates
-const TEMPLATES_DIR = join(process.cwd(), 'src/lib/server/email/templates');
+// Import MJML templates as strings at build time (Vite raw imports)
+import verifyCodeTemplate from './templates/verify-code.mjml?raw';
+import welcomeTemplate from './templates/welcome.mjml?raw';
+
+// Template registry
+const TEMPLATES: Record<string, string> = {
+	'verify-code': verifyCodeTemplate,
+	'welcome': welcomeTemplate
+};
 
 function getTemplate(name: string): string {
-	return readFileSync(join(TEMPLATES_DIR, `${name}.mjml`), 'utf-8');
+	const template = TEMPLATES[name];
+	if (!template) {
+		throw new Error(`Template "${name}" not found`);
+	}
+	return template;
 }
 
 /**
